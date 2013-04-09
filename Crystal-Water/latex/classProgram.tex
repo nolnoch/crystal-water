@@ -47,7 +47,31 @@ void \hyperlink{classProgram_a411a347acc65a576ab84bc464bd35b45}{display\-Log\-Sh
 \subsection{Detailed Description}
 \hyperlink{program_8hpp_source}{program.\-hpp}
 
-Created on\-: Apr 8, 2013 Last Update\-: Apr 8, 2013 Orig. Author\-: Wade Burch (\href{mailto:nolnoch@cs.utexas.edu}{\tt nolnoch@cs.\-utexas.\-edu}) Contributors\-: \mbox{[}none\mbox{]} 
+Created on\-: Apr 8, 2013 Last Update\-: Apr 8, 2013 Orig. Author\-: Wade Burch (\href{mailto:nolnoch@cs.utexas.edu}{\tt nolnoch@cs.\-utexas.\-edu}) Contributors\-: \mbox{[}none\mbox{]}
+
+This class was created to automate (and generally make easier) the use of G\-L\-S\-L programs through the G\-L\-E\-W extension libraries.
+
+Notes\-:
+
+You may call add\-Shader for every file you want to attach to each program, and all will be processed and used for that program's lifespan. Create multiple programs to separate your shaders for modular loading and use.
+
+The construction and usage of the program is managed in sequence-\/ protected stages. Error messages will be printed if functions are called out of order. The correct order is\-: \begin{DoxyVerb}  addShader()         // as many as you need
+  init()              // called once
+  [bindAttribute()]   // only if you wish, for VAO/VBOs
+  linkAndValidate()   // must be run before using program
+  addSampler()        // called after program is linked for safety
+  enable()            // to actually use
+  disable()           // when you're done
+\end{DoxyVerb}
+
+
+At the moment, the samplers may only be specified when calling set\-Texure() by remembering the order in which you added them with \hyperlink{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{add\-Sampler()}.
+
+This is a work in progress and will be continually improved as I use it.
+
+Feel free to share, expand, and modify as you see fit with attribution to the original author (me) and any who have added since.
+
+-\/\-Wade Burch 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classProgram_aaefaa0df08f3484476fc4d61e97acbdc}{\index{Program@{Program}!Program@{Program}}

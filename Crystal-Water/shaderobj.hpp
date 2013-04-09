@@ -5,6 +5,18 @@
  *   Last Update: Apr 8, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
+ *
+ *  This was created specifically for my Program class for easier use of
+ *  GLSL shaders with the GLEW extension libraries.
+ *
+ *  This class stores each shader file as a Shader object with the data
+ *  necessary to load, compile, attach, link, and use it in an automated
+ *  framework.
+ *
+ *  Feel free to share, expand, and modify as you see fit with attribution
+ *  to the original author (me) and any who have added since.
+ *
+ *  -Wade Burch
  */
 
 #ifndef SHADEROBJ_HPP_

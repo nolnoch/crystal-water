@@ -129,7 +129,22 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="program_8hpp_source.html">program.hpp</a></p>
-<p>Created on: Apr 8, 2013 Last Update: Apr 8, 2013 Orig. Author: Wade Burch (<a href="#" onclick="location.href='mai'+'lto:'+'nol'+'no'+'ch@'+'cs'+'.ut'+'ex'+'as.'+'ed'+'u'; return false;">nolno<span style="display: none;">.nosp@m.</span>ch@c<span style="display: none;">.nosp@m.</span>s.ute<span style="display: none;">.nosp@m.</span>xas.<span style="display: none;">.nosp@m.</span>edu</a>) Contributors: [none] </p>
+<p>Created on: Apr 8, 2013 Last Update: Apr 8, 2013 Orig. Author: Wade Burch (<a href="#" onclick="location.href='mai'+'lto:'+'nol'+'no'+'ch@'+'cs'+'.ut'+'ex'+'as.'+'ed'+'u'; return false;">nolno<span style="display: none;">.nosp@m.</span>ch@c<span style="display: none;">.nosp@m.</span>s.ute<span style="display: none;">.nosp@m.</span>xas.<span style="display: none;">.nosp@m.</span>edu</a>) Contributors: [none]</p>
+<p>This class was created to automate (and generally make easier) the use of GLSL programs through the GLEW extension libraries.</p>
+<p>Notes:</p>
+<p>You may call addShader for every file you want to attach to each program, and all will be processed and used for that program's lifespan. Create multiple programs to separate your shaders for modular loading and use.</p>
+<p>The construction and usage of the program is managed in sequence- protected stages. Error messages will be printed if functions are called out of order. The correct order is: </p>
+<pre class="fragment">  addShader()         // as many as you need
+  init()              // called once
+  [bindAttribute()]   // only if you wish, for VAO/VBOs
+  linkAndValidate()   // must be run before using program
+  addSampler()        // called after program is linked for safety
+  enable()            // to actually use
+  disable()           // when you're done
+</pre><p>At the moment, the samplers may only be specified when calling setTexure() by remembering the order in which you added them with <a class="el" href="classProgram.html#aa0fe912ec4d03063c3e15b383ae8c113">addSampler()</a>.</p>
+<p>This is a work in progress and will be continually improved as I use it.</p>
+<p>Feel free to share, expand, and modify as you see fit with attribution to the original author (me) and any who have added since.</p>
+<p>-Wade Burch </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aaefaa0df08f3484476fc4d61e97acbdc"></a>
 <div class="memitem">
@@ -581,7 +596,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 9 2013 01:05:32 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 9 2013 02:21:25 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

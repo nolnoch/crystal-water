@@ -5,39 +5,6 @@
  *   Last Update: Apr 8, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
- *
- *  This class was created to automate (and generally make easier) the use
- *  of GLSL programs through the GLEW extension libraries.
- *
- *  Notes:
- *
- *    You may call addShader for every file you want to attach to each
- *    program, and all will be processed and used for that program's
- *    lifespan.  Create multiple programs to separate your shaders for
- *    modular loading and use.
- *
- *    The construction and usage of the program is managed in sequence-
- *    protected stages. Error messages will be printed if functions are
- *    called out of order.  The correct order is:
- *
- *          addShader()         // as many as you need
- *          init()              // called once
- *          [bindAttribute()]   // only if you wish, for VAO/VBOs
- *          linkAndValidate()   // must be run before using program
- *          addSampler()        // called after program is linked for safety
- *          enable()            // to actually use
- *          disable()           // when you're done
- *
- *    At the moment, the samplers may only be specified when calling
- *    setTexure() by remembering the order in which you added them with
- *    addSampler().
- *
- *  This is a work in progress and will be continually improved as I use it.
- *
- *  Feel free to share, expand, and modify as you see fit with attribution
- *  to the original author (me) and any who have added since.
- *
- *  -Wade Burch
  */
 
 #include "./program.hpp"
