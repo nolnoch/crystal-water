@@ -1,10 +1,10 @@
-/*
+/**
  * shaderobj.hpp
  *
  *    Created on: Apr 8, 2013
  *   Last Update: Apr 8, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
- *  Contributors: <none>
+ *  Contributors: [none]
  */
 
 #ifndef SHADEROBJ_HPP_

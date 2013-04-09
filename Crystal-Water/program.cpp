@@ -1,27 +1,79 @@
-/*
+/**
  * program.cpp
  *
  *    Created on: Apr 8, 2013
  *   Last Update: Apr 8, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
- *  Contributors: <none>
+ *  Contributors: [none]
+ *
+ *  This class was created to automate (and generally make easier) the use
+ *  of GLSL programs through the GLEW extension libraries.
+ *
+ *  Notes:
+ *
+ *    You may call addShader for every file you want to attach to each
+ *    program, and all will be processed and used for that program's
+ *    lifespan.  Create multiple programs to separate your shaders for
+ *    modular loading and use.
+ *
+ *    The construction and usage of the program is managed in sequence-
+ *    protected stages. Error messages will be printed if functions are
+ *    called out of order.  The correct order is:
+ *
+ *          addShader()         // as many as you need
+ *          init()              // called once
+ *          [bindAttribute()]   // only if you wish, for VAO/VBOs
+ *          linkAndValidate()   // must be run before using program
+ *          addSampler()        // called after program is linked for safety
+ *          enable()            // to actually use
+ *          disable()           // when you're done
+ *
+ *    At the moment, the samplers may only be specified when calling
+ *    setTexure() by remembering the order in which you added them with
+ *    addSampler().
+ *
+ *  This is a work in progress and will be continually improved as I use it.
+ *
+ *  Feel free to share, expand, and modify as you see fit with attribution
+ *  to the original author (me) and any who have added since.
+ *
+ *  -Wade Burch
  */
 
 #include "./program.hpp"
 
 using namespace std;
 
+
+/**
+ * Default Constructor.
+ */
 Program::Program()
 : programId(0),
   samplers(0),
   stage(0) {
 }
 
+/**
+ * Default Destructor.
+ */
 Program::~Program() {
   if (samplers)
     delete samplers;
 }
 
+/**
+ * Associate a shader source file with the program as a Shader object.
+ * This will populate the Shader with its string-parsed source, but init()
+ * must still be called to compile and attach the shader to the program.
+ *
+ * This function will return 0 upon error and automatically remove the
+ * failed shader from the program's list of Shaders.
+ * @param fName - string representation of the shader filename
+ * @param type - GLEW-defined constant, one of: GL_VERTEX_SHADER,
+ *               GL_FRAGMENT_SHADER, or GL_GEOMETRY_SHADER
+ * @return 1 on success or 0 on error
+ */
 int Program::addShader(string fName, int type) {
   int validFile;
 
@@ -36,12 +88,18 @@ int Program::addShader(string fName, int type) {
   return validFile;
 }
 
+/**
+ * Shortcut for adding one shader.vert and one shader.frag.
+ */
 void Program::addDefaultShaders() {
   this->addShader("shader.vert", GL_VERTEX_SHADER);
   this->addShader("shader.frag", GL_FRAGMENT_SHADER);
   // this->addShader("shader.geom", GL_GEOMETRY_SHADER);
 }
 
+/**
+ * Generates a sampler uniform bind target for use in the GLSL shader code.
+ */
 void Program::addSampler() {
   GLuint sample;
 
@@ -53,6 +111,10 @@ void Program::addSampler() {
   this->samplers->push_back(sample);
 }
 
+/**
+ * Initializes the program. Then initializes, loads, compiles, and attaches
+ * all shaders associated with the Program object.
+ */
 void Program::init() {
   int numShaders = this->shaders.size();
 
@@ -86,6 +148,14 @@ void Program::init() {
   this->stage = 2;
 }
 
+/**
+ * Attribute binding (for use with Vertex Array/Buffer Objects) must happen
+ * after initialization of the program but is only recognized on the next
+ * linking. Linking may skip this step, but warnings will be given if done
+ * out of order.
+ * @param location - explicitly specify the integer binding target
+ * @param name - string representation of the GLSL attribute name
+ */
 void Program::bindAttribute(int location, string name) {
   if (stage < 2) {
     cout << "Invalid binding. Must init first." << endl;
@@ -101,6 +171,14 @@ void Program::bindAttribute(int location, string name) {
   this->stage = 3;
 }
 
+/**
+ * Completes the linking of the program with all attached shaders.
+ * Automatically validates the program and displays the info log if the
+ * info log is not empty.
+ *
+ * Note: Some cards print only errors while some print a success statement.
+ * @return GLEW_OK on success or an error code on failure.
+ */
 GLint Program::linkAndValidate() {
   if (stage < 2) {
     cout << "Invalid linking. Must init (and bind attributes) first." << endl;
@@ -114,13 +192,17 @@ GLint Program::linkAndValidate() {
   // Verify program compilation and linkage.
   glValidateProgram(this->programId);
   glGetProgramiv(this->programId, GL_VALIDATE_STATUS, &programValid);
-  displayLogProgram(this->programId);
+  displayLogProgram();
 
   this->stage = programValid ? 5 : 4;
 
   return programValid;
 }
 
+/**
+ * A sequence-protected wrapper for glUseProgram().  This completely preempts
+ * the OpenGL graphics pipeline for any shader functions implemented.
+ */
 void Program::enable() {
   if (stage < 5) {
     if (stage < 4)
@@ -134,10 +216,20 @@ void Program::enable() {
   glUseProgram(this->programId);
 }
 
+/**
+ * Set the current program to NULL and resume normal OpenGL (direct-mode)
+ * operation.
+ */
 void Program::disable() {
   glUseProgram(0);
 }
 
+/**
+ * A quick wrapper for single, non-referenced uniform values.
+ * @param type - GL_FLOAT or GL_INT
+ * @param name - string representation of the GLSL uniform name
+ * @param n - uniform value
+ */
 void Program::setUniform(int type, string name, float n) {
   GLint loc = glGetUniformLocation(this->programId, name.c_str());
 
@@ -148,6 +240,13 @@ void Program::setUniform(int type, string name, float n) {
   }
 }
 
+/**
+ * A quick wrapper for array or referenced uniform values.
+ * @param count - number of values in the array
+ * @param type - GL_FLOAT or GL_INT
+ * @param name - string representation of the GLSL uniform name
+ * @param n - pointer to the array of values
+ */
 void Program::setUniformv(int count, int type, string name, const float *n) {
   GLint loc = glGetUniformLocation(this->programId, name.c_str());
 
@@ -188,6 +287,12 @@ void Program::setUniformv(int count, int type, string name, const float *n) {
   }
 }
 
+/**
+ * A quick wrapper for passing matrices to GLSL uniforms.
+ * @param size - width of the square matrix
+ * @param name - string representation of the GLSL uniform name
+ * @param m - pointer to the first matrix value
+ */
 void Program::setUniformMatrix(int size, string name, float *m) {
   GLint loc = glGetUniformLocation(this->programId, name.c_str());
 
@@ -198,6 +303,14 @@ void Program::setUniformMatrix(int size, string name, float *m) {
   }
 }
 
+/**
+ * Single call to bind a sampler2D uniform to an already generated texture.
+ * @param samplerName - string representation of the GLSL sampler2D name
+ * @param texUnit - texture unit to be associated with this texture object
+ * @param texId - the ID assigned at the generation of the texture
+ * @param sampler - the index of the sampler in this Program object according
+ *                  to the order in which they were added by addSampler()
+ */
 void Program::setTexture(string samplerName, GLuint texUnit,
               GLuint texId, int sampler) {
   GLint loc = glGetUniformLocation(this->programId, samplerName.c_str());
@@ -209,17 +322,24 @@ void Program::setTexture(string samplerName, GLuint texUnit,
   glUniform1i(loc, texUnit);
 }
 
+/**
+ * Accessor function for the GLenum program ID.
+ * @return the program ID
+ */
 GLenum Program::getProgramId() {
   return this->programId;
 }
 
-void Program::displayLogProgram(GLenum program) {
+/**
+ * Displays the info log for this program.
+ */
+void Program::displayLogProgram() {
   GLsizei logLength;
-  glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+  glGetProgramiv(this->programId, GL_INFO_LOG_LENGTH, &logLength);
 
   GLsizei MAXLENGTH = 1 << 30;
   GLchar *logBuffer = new GLchar[MAXLENGTH];
-  glGetProgramInfoLog(program, MAXLENGTH, &logLength, logBuffer);
+  glGetProgramInfoLog(this->programId, MAXLENGTH, &logLength, logBuffer);
   if (strlen(logBuffer)) {
     cout << "************ Begin Program Log ************" << endl;
     cout << logBuffer << endl;
@@ -228,6 +348,10 @@ void Program::displayLogProgram(GLenum program) {
   delete[] logBuffer;
 }
 
+/**
+ * Displays the info log for the specified shader.
+ * @param shader - the shader to be evaluated
+ */
 void Program::displayLogShader(GLenum shader) {
   GLsizei logLength;
   glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);

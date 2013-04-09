@@ -1,16 +1,32 @@
-/*
+/**
  * shaderobj.cpp
  *
  *    Created on: Apr 8, 2013
  *   Last Update: Apr 8, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
- *  Contributors: <none>
+ *  Contributors: [none]
+ *
+ *  This was created specifically for my Program class for easier use of
+ *  GLSL shaders with the GLEW extension libraries.
+ *
+ *  This class stores each shader file as a Shader object with the data
+ *  necessary to load, compile, attach, link, and use it in an automated
+ *  framework.
+ *
+ *  Feel free to share, expand, and modify as you see fit with attribution
+ *  to the original author (me) and any who have added since.
+ *
+ *  -Wade Burch
  */
 
 #include "./shaderobj.hpp"
 
 using namespace std;
 
+
+/**
+ * Primary Constructor.
+ */
 Shader::Shader(string fName, int type)
 : fileName(fName),
   shaderId(0),
@@ -20,27 +36,56 @@ Shader::Shader(string fName, int type)
   this->fileToString();
 }
 
+/**
+ * Default Destructor.
+ */
+Shader::~Shader() {
+  // Not necessary (yet).
+}
+
+/**
+ * Assigns the ID given by shader init.
+ * @param idAssigned - the init-provided ID
+ */
 void Shader::setId(GLenum idAssigned) {
   shaderId = idAssigned;
 }
 
+/**
+ * Accessor function for the assigned ID.
+ * @return the init-provided ID
+ */
 GLenum Shader::id() {
   return this->shaderId;
 }
 
+/**
+ * Accessor function for the shader type.
+ * @return the shader type
+ */
 GLuint Shader::type() {
   return this->shaderType;
 }
 
+/**
+ * Accessor function for the shader source parsed into a string.
+ * @return the string representation of the shader source
+ */
 string& Shader::source() {
   return this->sourceString;
 }
 
+/**
+ * Used by Program object to check valid loading of the shader file.
+ * @return 1 if successful or 0 if invalid file
+ */
 int Shader::isValid() {
   return this->valid;
 }
 
-// Read shader sources from files.
+/**
+ * Converts the shader source file to a string for loading by the program.
+ */
 void Shader::fileToString() {
   fstream shaderFile(this->fileName.c_str(), ios::in);
 
@@ -50,9 +95,5 @@ void Shader::fileToString() {
     this->sourceString = string(buffer.str());
     this->valid = 1;
   }
-}
-
-Shader::~Shader() {
-  // TODO Auto-generated destructor stub
 }
 

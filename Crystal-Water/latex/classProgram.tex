@@ -1,0 +1,264 @@
+\hypertarget{classProgram}{\section{Program Class Reference}
+\label{classProgram}\index{Program@{Program}}
+}
+
+
+{\ttfamily \#include $<$program.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classProgram_aaefaa0df08f3484476fc4d61e97acbdc}{Program} ()
+\item 
+virtual \hyperlink{classProgram_a986aef1c50e1d338a3315a47ba6df549}{$\sim$\-Program} ()
+\item 
+int \hyperlink{classProgram_ade6fdcdf18bad44d602588eb2870baba}{add\-Shader} (std\-::string f\-Name, int type)
+\item 
+void \hyperlink{classProgram_a93a1c92516c590a6779438568ef729a5}{add\-Default\-Shaders} ()
+\item 
+void \hyperlink{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{add\-Sampler} ()
+\item 
+void \hyperlink{classProgram_a33d5912b81ccf4a0c089894513844580}{init} ()
+\item 
+void \hyperlink{classProgram_a047506f09edeb4f862f58599b232fd79}{bind\-Attribute} (int location, std\-::string name)
+\item 
+G\-Lint \hyperlink{classProgram_a457e11c867d335cdd815a657fa87e9b1}{link\-And\-Validate} ()
+\item 
+void \hyperlink{classProgram_ae435cb6813edc4ce2a8f91c99fb7a79b}{enable} ()
+\item 
+void \hyperlink{classProgram_ab9749de7ec9108233c5f632d9afaa0e9}{disable} ()
+\item 
+void \hyperlink{classProgram_ac342b7cadffa671c9a0164997a0141fb}{set\-Uniform} (int type, std\-::string name, float n)
+\item 
+void \hyperlink{classProgram_ad09d665e9a38943e9087243aab3d7162}{set\-Uniformv} (int count, int type, std\-::string name, const float $\ast$n)
+\item 
+void \hyperlink{classProgram_a28a7ee31d22c01c65e559699ef07f8ec}{set\-Uniform\-Matrix} (int size, std\-::string name, float $\ast$m)
+\item 
+void \hyperlink{classProgram_a1d5b0c22dfb26649a5cca8c879eaecc5}{set\-Texture} (std\-::string sampler\-Name, G\-Luint tex\-Unit, G\-Luint tex\-Id, int sampler)
+\item 
+G\-Lenum \hyperlink{classProgram_a092f9c234261a3e0e05766b0bb92fcb8}{get\-Program\-Id} ()
+\item 
+void \hyperlink{classProgram_a76c829244760f9ddbee5da25b296dcb3}{display\-Log\-Program} ()
+\item 
+void \hyperlink{classProgram_a411a347acc65a576ab84bc464bd35b45}{display\-Log\-Shader} (G\-Lenum shader)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{program_8hpp_source}{program.\-hpp}
+
+Created on\-: Apr 8, 2013 Last Update\-: Apr 8, 2013 Orig. Author\-: Wade Burch (\href{mailto:nolnoch@cs.utexas.edu}{\tt nolnoch@cs.\-utexas.\-edu}) Contributors\-: \mbox{[}none\mbox{]} 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classProgram_aaefaa0df08f3484476fc4d61e97acbdc}{\index{Program@{Program}!Program@{Program}}
+\index{Program@{Program}!Program@{Program}}
+\subsubsection[{Program}]{\setlength{\rightskip}{0pt plus 5cm}Program\-::\-Program (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_aaefaa0df08f3484476fc4d61e97acbdc}
+Default Constructor. \hypertarget{classProgram_a986aef1c50e1d338a3315a47ba6df549}{\index{Program@{Program}!$\sim$\-Program@{$\sim$\-Program}}
+\index{$\sim$\-Program@{$\sim$\-Program}!Program@{Program}}
+\subsubsection[{$\sim$\-Program}]{\setlength{\rightskip}{0pt plus 5cm}Program\-::$\sim$\-Program (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classProgram_a986aef1c50e1d338a3315a47ba6df549}
+Default Destructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classProgram_a93a1c92516c590a6779438568ef729a5}{\index{Program@{Program}!add\-Default\-Shaders@{add\-Default\-Shaders}}
+\index{add\-Default\-Shaders@{add\-Default\-Shaders}!Program@{Program}}
+\subsubsection[{add\-Default\-Shaders}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::add\-Default\-Shaders (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a93a1c92516c590a6779438568ef729a5}
+Shortcut for adding one shader.\-vert and one shader.\-frag. \hypertarget{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{\index{Program@{Program}!add\-Sampler@{add\-Sampler}}
+\index{add\-Sampler@{add\-Sampler}!Program@{Program}}
+\subsubsection[{add\-Sampler}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::add\-Sampler (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}
+Generates a sampler uniform bind target for use in the G\-L\-S\-L shader code. \hypertarget{classProgram_ade6fdcdf18bad44d602588eb2870baba}{\index{Program@{Program}!add\-Shader@{add\-Shader}}
+\index{add\-Shader@{add\-Shader}!Program@{Program}}
+\subsubsection[{add\-Shader}]{\setlength{\rightskip}{0pt plus 5cm}int Program\-::add\-Shader (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{f\-Name, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)}}\label{classProgram_ade6fdcdf18bad44d602588eb2870baba}
+Associate a shader source file with the program as a \hyperlink{classShader}{Shader} object. This will populate the \hyperlink{classShader}{Shader} with its string-\/parsed source, but \hyperlink{classProgram_a33d5912b81ccf4a0c089894513844580}{init()} must still be called to compile and attach the shader to the program.
+
+This function will return 0 upon error and automatically remove the failed shader from the program's list of Shaders. 
+\begin{DoxyParams}{Parameters}
+{\em f\-Name} & -\/ string representation of the shader filename \\
+\hline
+{\em type} & -\/ G\-L\-E\-W-\/defined constant, one of\-: G\-L\-\_\-\-V\-E\-R\-T\-E\-X\-\_\-\-S\-H\-A\-D\-E\-R, G\-L\-\_\-\-F\-R\-A\-G\-M\-E\-N\-T\-\_\-\-S\-H\-A\-D\-E\-R, or G\-L\-\_\-\-G\-E\-O\-M\-E\-T\-R\-Y\-\_\-\-S\-H\-A\-D\-E\-R \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 on success or 0 on error 
+\end{DoxyReturn}
+\hypertarget{classProgram_a047506f09edeb4f862f58599b232fd79}{\index{Program@{Program}!bind\-Attribute@{bind\-Attribute}}
+\index{bind\-Attribute@{bind\-Attribute}!Program@{Program}}
+\subsubsection[{bind\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::bind\-Attribute (
+\begin{DoxyParamCaption}
+\item[{int}]{location, }
+\item[{std\-::string}]{name}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a047506f09edeb4f862f58599b232fd79}
+Attribute binding (for use with Vertex Array/\-Buffer Objects) must happen after initialization of the program but is only recognized on the next linking. Linking may skip this step, but warnings will be given if done out of order. 
+\begin{DoxyParams}{Parameters}
+{\em location} & -\/ explicitly specify the integer binding target \\
+\hline
+{\em name} & -\/ string representation of the G\-L\-S\-L attribute name \\
+\hline
+\end{DoxyParams}
+\hypertarget{classProgram_ab9749de7ec9108233c5f632d9afaa0e9}{\index{Program@{Program}!disable@{disable}}
+\index{disable@{disable}!Program@{Program}}
+\subsubsection[{disable}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::disable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_ab9749de7ec9108233c5f632d9afaa0e9}
+Set the current program to N\-U\-L\-L and resume normal Open\-G\-L (direct-\/mode) operation. \hypertarget{classProgram_a76c829244760f9ddbee5da25b296dcb3}{\index{Program@{Program}!display\-Log\-Program@{display\-Log\-Program}}
+\index{display\-Log\-Program@{display\-Log\-Program}!Program@{Program}}
+\subsubsection[{display\-Log\-Program}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::display\-Log\-Program (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a76c829244760f9ddbee5da25b296dcb3}
+Displays the info log for this program. \hypertarget{classProgram_a411a347acc65a576ab84bc464bd35b45}{\index{Program@{Program}!display\-Log\-Shader@{display\-Log\-Shader}}
+\index{display\-Log\-Shader@{display\-Log\-Shader}!Program@{Program}}
+\subsubsection[{display\-Log\-Shader}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::display\-Log\-Shader (
+\begin{DoxyParamCaption}
+\item[{G\-Lenum}]{shader}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a411a347acc65a576ab84bc464bd35b45}
+Displays the info log for the specified shader. 
+\begin{DoxyParams}{Parameters}
+{\em shader} & -\/ the shader to be evaluated \\
+\hline
+\end{DoxyParams}
+\hypertarget{classProgram_ae435cb6813edc4ce2a8f91c99fb7a79b}{\index{Program@{Program}!enable@{enable}}
+\index{enable@{enable}!Program@{Program}}
+\subsubsection[{enable}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::enable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_ae435cb6813edc4ce2a8f91c99fb7a79b}
+A sequence-\/protected wrapper for gl\-Use\-Program(). This completely preempts the Open\-G\-L graphics pipeline for any shader functions implemented. \hypertarget{classProgram_a092f9c234261a3e0e05766b0bb92fcb8}{\index{Program@{Program}!get\-Program\-Id@{get\-Program\-Id}}
+\index{get\-Program\-Id@{get\-Program\-Id}!Program@{Program}}
+\subsubsection[{get\-Program\-Id}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lenum Program\-::get\-Program\-Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a092f9c234261a3e0e05766b0bb92fcb8}
+Accessor function for the G\-Lenum program I\-D. \begin{DoxyReturn}{Returns}
+the program I\-D 
+\end{DoxyReturn}
+\hypertarget{classProgram_a33d5912b81ccf4a0c089894513844580}{\index{Program@{Program}!init@{init}}
+\index{init@{init}!Program@{Program}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a33d5912b81ccf4a0c089894513844580}
+Initializes the program. Then initializes, loads, compiles, and attaches all shaders associated with the \hyperlink{classProgram}{Program} object. \hypertarget{classProgram_a457e11c867d335cdd815a657fa87e9b1}{\index{Program@{Program}!link\-And\-Validate@{link\-And\-Validate}}
+\index{link\-And\-Validate@{link\-And\-Validate}!Program@{Program}}
+\subsubsection[{link\-And\-Validate}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lint Program\-::link\-And\-Validate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a457e11c867d335cdd815a657fa87e9b1}
+Completes the linking of the program with all attached shaders. Automatically validates the program and displays the info log if the info log is not empty.
+
+Note\-: Some cards print only errors while some print a success statement. \begin{DoxyReturn}{Returns}
+G\-L\-E\-W\-\_\-\-O\-K on success or an error code on failure. 
+\end{DoxyReturn}
+\hypertarget{classProgram_a1d5b0c22dfb26649a5cca8c879eaecc5}{\index{Program@{Program}!set\-Texture@{set\-Texture}}
+\index{set\-Texture@{set\-Texture}!Program@{Program}}
+\subsubsection[{set\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::set\-Texture (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{sampler\-Name, }
+\item[{G\-Luint}]{tex\-Unit, }
+\item[{G\-Luint}]{tex\-Id, }
+\item[{int}]{sampler}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a1d5b0c22dfb26649a5cca8c879eaecc5}
+Single call to bind a sampler2\-D uniform to an already generated texture. 
+\begin{DoxyParams}{Parameters}
+{\em sampler\-Name} & -\/ string representation of the G\-L\-S\-L sampler2\-D name \\
+\hline
+{\em tex\-Unit} & -\/ texture unit to be associated with this texture object \\
+\hline
+{\em tex\-Id} & -\/ the I\-D assigned at the generation of the texture \\
+\hline
+{\em sampler} & -\/ the index of the sampler in this \hyperlink{classProgram}{Program} object according to the order in which they were added by \hyperlink{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{add\-Sampler()} \\
+\hline
+\end{DoxyParams}
+\hypertarget{classProgram_ac342b7cadffa671c9a0164997a0141fb}{\index{Program@{Program}!set\-Uniform@{set\-Uniform}}
+\index{set\-Uniform@{set\-Uniform}!Program@{Program}}
+\subsubsection[{set\-Uniform}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::set\-Uniform (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{std\-::string}]{name, }
+\item[{float}]{n}
+\end{DoxyParamCaption}
+)}}\label{classProgram_ac342b7cadffa671c9a0164997a0141fb}
+A quick wrapper for single, non-\/referenced uniform values. 
+\begin{DoxyParams}{Parameters}
+{\em type} & -\/ G\-L\-\_\-\-F\-L\-O\-A\-T or G\-L\-\_\-\-I\-N\-T \\
+\hline
+{\em name} & -\/ string representation of the G\-L\-S\-L uniform name \\
+\hline
+{\em n} & -\/ uniform value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classProgram_a28a7ee31d22c01c65e559699ef07f8ec}{\index{Program@{Program}!set\-Uniform\-Matrix@{set\-Uniform\-Matrix}}
+\index{set\-Uniform\-Matrix@{set\-Uniform\-Matrix}!Program@{Program}}
+\subsubsection[{set\-Uniform\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::set\-Uniform\-Matrix (
+\begin{DoxyParamCaption}
+\item[{int}]{size, }
+\item[{std\-::string}]{name, }
+\item[{float $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{classProgram_a28a7ee31d22c01c65e559699ef07f8ec}
+A quick wrapper for passing matrices to G\-L\-S\-L uniforms. 
+\begin{DoxyParams}{Parameters}
+{\em size} & -\/ width of the square matrix \\
+\hline
+{\em name} & -\/ string representation of the G\-L\-S\-L uniform name \\
+\hline
+{\em m} & -\/ pointer to the first matrix value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classProgram_ad09d665e9a38943e9087243aab3d7162}{\index{Program@{Program}!set\-Uniformv@{set\-Uniformv}}
+\index{set\-Uniformv@{set\-Uniformv}!Program@{Program}}
+\subsubsection[{set\-Uniformv}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::set\-Uniformv (
+\begin{DoxyParamCaption}
+\item[{int}]{count, }
+\item[{int}]{type, }
+\item[{std\-::string}]{name, }
+\item[{const float $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{classProgram_ad09d665e9a38943e9087243aab3d7162}
+A quick wrapper for array or referenced uniform values. 
+\begin{DoxyParams}{Parameters}
+{\em count} & -\/ number of values in the array \\
+\hline
+{\em type} & -\/ G\-L\-\_\-\-F\-L\-O\-A\-T or G\-L\-\_\-\-I\-N\-T \\
+\hline
+{\em name} & -\/ string representation of the G\-L\-S\-L uniform name \\
+\hline
+{\em n} & -\/ pointer to the array of values \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+program.\-hpp\item 
+program.\-cpp\end{DoxyCompactItemize}

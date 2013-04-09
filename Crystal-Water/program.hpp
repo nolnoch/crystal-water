@@ -1,10 +1,10 @@
-/*
+/**
  * program.hpp
  *
  *    Created on: Apr 8, 2013
  *   Last Update: Apr 8, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
- *  Contributors: <none>
+ *  Contributors: [none]
  */
 
 #ifndef PROGRAM_HPP_
@@ -39,11 +39,12 @@ class Program {
   void setUniform(int type, std::string name, float n);
   void setUniformv(int count, int type, std::string name, const float *n);
   void setUniformMatrix(int size, std::string name, float *m);
-  void setTexture(std::string name, GLuint texUnit, GLuint texId, int sampler);
+  void setTexture(std::string samplerName, GLuint texUnit, GLuint texId,
+      int sampler);
 
   GLenum getProgramId();
 
-  void displayLogProgram(GLenum program);
+  void displayLogProgram();
   void displayLogShader(GLenum shader);
 
  private:

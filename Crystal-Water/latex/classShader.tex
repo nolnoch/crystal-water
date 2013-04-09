@@ -1,0 +1,108 @@
+\hypertarget{classShader}{\section{Shader Class Reference}
+\label{classShader}\index{Shader@{Shader}}
+}
+
+
+{\ttfamily \#include $<$shaderobj.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classShader_a181d263cfc064acf22530f7118ba03a4}{Shader} (std\-::string f\-Name, int \hyperlink{classShader_ac4746e902a91f52548c588f3adb42f1a}{type})
+\item 
+virtual \hyperlink{classShader_aff01df87e8a102f270b5b135a295e59d}{$\sim$\-Shader} ()
+\item 
+void \hyperlink{classShader_a1dca74f97ac0d0d0da0367c9cfd7534d}{set\-Id} (G\-Lenum id\-Assigned)
+\item 
+G\-Lenum \hyperlink{classShader_ac0b61429aabf6baf4a58bae99c7d758d}{id} ()
+\item 
+G\-Luint \hyperlink{classShader_ac4746e902a91f52548c588f3adb42f1a}{type} ()
+\item 
+std\-::string \& \hyperlink{classShader_a50c4a4e3b42f80d7242091b307a52989}{source} ()
+\item 
+int \hyperlink{classShader_afdb38a3cb7674c7319fe0f4912e9f781}{is\-Valid} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{shaderobj_8hpp_source}{shaderobj.\-hpp}
+
+Created on\-: Apr 8, 2013 Last Update\-: Apr 8, 2013 Orig. Author\-: Wade Burch (\href{mailto:nolnoch@cs.utexas.edu}{\tt nolnoch@cs.\-utexas.\-edu}) Contributors\-: \mbox{[}none\mbox{]} 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classShader_a181d263cfc064acf22530f7118ba03a4}{\index{Shader@{Shader}!Shader@{Shader}}
+\index{Shader@{Shader}!Shader@{Shader}}
+\subsubsection[{Shader}]{\setlength{\rightskip}{0pt plus 5cm}Shader\-::\-Shader (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{f\-Name, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)}}\label{classShader_a181d263cfc064acf22530f7118ba03a4}
+Primary Constructor. \hypertarget{classShader_aff01df87e8a102f270b5b135a295e59d}{\index{Shader@{Shader}!$\sim$\-Shader@{$\sim$\-Shader}}
+\index{$\sim$\-Shader@{$\sim$\-Shader}!Shader@{Shader}}
+\subsubsection[{$\sim$\-Shader}]{\setlength{\rightskip}{0pt plus 5cm}Shader\-::$\sim$\-Shader (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classShader_aff01df87e8a102f270b5b135a295e59d}
+Default Destructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classShader_ac0b61429aabf6baf4a58bae99c7d758d}{\index{Shader@{Shader}!id@{id}}
+\index{id@{id}!Shader@{Shader}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lenum Shader\-::id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classShader_ac0b61429aabf6baf4a58bae99c7d758d}
+Accessor function for the assigned I\-D. \begin{DoxyReturn}{Returns}
+the init-\/provided I\-D 
+\end{DoxyReturn}
+\hypertarget{classShader_afdb38a3cb7674c7319fe0f4912e9f781}{\index{Shader@{Shader}!is\-Valid@{is\-Valid}}
+\index{is\-Valid@{is\-Valid}!Shader@{Shader}}
+\subsubsection[{is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}int Shader\-::is\-Valid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classShader_afdb38a3cb7674c7319fe0f4912e9f781}
+Used by \hyperlink{classProgram}{Program} object to check valid loading of the shader file. \begin{DoxyReturn}{Returns}
+1 if successful or 0 if invalid file 
+\end{DoxyReturn}
+\hypertarget{classShader_a1dca74f97ac0d0d0da0367c9cfd7534d}{\index{Shader@{Shader}!set\-Id@{set\-Id}}
+\index{set\-Id@{set\-Id}!Shader@{Shader}}
+\subsubsection[{set\-Id}]{\setlength{\rightskip}{0pt plus 5cm}void Shader\-::set\-Id (
+\begin{DoxyParamCaption}
+\item[{G\-Lenum}]{id\-Assigned}
+\end{DoxyParamCaption}
+)}}\label{classShader_a1dca74f97ac0d0d0da0367c9cfd7534d}
+Assigns the I\-D given by shader init. 
+\begin{DoxyParams}{Parameters}
+{\em id\-Assigned} & -\/ the init-\/provided I\-D \\
+\hline
+\end{DoxyParams}
+\hypertarget{classShader_a50c4a4e3b42f80d7242091b307a52989}{\index{Shader@{Shader}!source@{source}}
+\index{source@{source}!Shader@{Shader}}
+\subsubsection[{source}]{\setlength{\rightskip}{0pt plus 5cm}string \& Shader\-::source (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classShader_a50c4a4e3b42f80d7242091b307a52989}
+Accessor function for the shader source parsed into a string. \begin{DoxyReturn}{Returns}
+the string representation of the shader source 
+\end{DoxyReturn}
+\hypertarget{classShader_ac4746e902a91f52548c588f3adb42f1a}{\index{Shader@{Shader}!type@{type}}
+\index{type@{type}!Shader@{Shader}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}G\-Luint Shader\-::type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classShader_ac4746e902a91f52548c588f3adb42f1a}
+Accessor function for the shader type. \begin{DoxyReturn}{Returns}
+the shader type 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+shaderobj.\-hpp\item 
+shaderobj.\-cpp\end{DoxyCompactItemize}
