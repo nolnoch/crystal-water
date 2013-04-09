@@ -1,4 +1,4 @@
-/*
+/**
  * quaternion.cpp
  *
  *    Created on: Mar 8, 2013
@@ -95,11 +95,11 @@ Quaternion::Quaternion(float yaw, float pitch, float roll, int deg_rad)
 
 /**
  * Create quaternion from Euler angles - yaw (Z), pitch (Y), and roll (X).
- * Three terms given by a Vec3f array.
- * @param v3Angles - Vec3f of Z, Y, and X rotation values
+ * Three terms given by a glm::vec3 array.
+ * @param v3Angles - glm::vec3 of Z, Y, and X rotation values
  * @param deg_rad - constant flag specifying degrees [DEG] or radians [RAD]
  */
-Quaternion::Quaternion(Vec3f v3Angles, int deg_rad)
+Quaternion::Quaternion(glm::vec3 v3Angles, int deg_rad)
 : W(0), X(0), Y(0), Z(0), dirty(1) {
   if (deg_rad) {
     v3Angles[0] *= (PI / 180.0f);
@@ -126,17 +126,17 @@ Quaternion::Quaternion(float theta, vector<float> axis, int deg_rad)
 
 /**
  * Create quaternion from an angle and axis of rotation.
- * Axis given by a Vec3f float array of 3 terms.
+ * Axis given by a glm::vec3 float array of 3 terms.
  * @param theta - angle of rotation
  * @param axis - axis of rotation
  * @param deg_rad - constant flag specifying degrees [DEG] or radians [RAD]
  */
-Quaternion::Quaternion(float theta, Vec3f axis, int deg_rad)
+Quaternion::Quaternion(float theta, glm::vec3 axis, int deg_rad)
 : W(0), X(0), Y(0), Z(0), dirty(1) {
   if (deg_rad) {
     theta *= (PI / 180.0f);
   }
-  this->initQAngleAxis(theta, axis.x);
+  this->initQAngleAxis(theta, &axis[0]);
 }
 
 /**
@@ -532,14 +532,14 @@ vector<float> Quaternion::rotate(float v[3]) {
 }
 
 /**
- * Perform a quaternion rotation on the passed Vec3f object. Vec3f is
+ * Perform a quaternion rotation on the passed glm::vec3 object. glm::vec3 is
  * just a wrapper for a float (*)[3], which we cover explicitly above.
- * @param v - Vec3f form of the 3-value vector or vertex to be rotated
- * @return a copy of the rotated Vec3f
+ * @param v - glm::vec3 form of the 3-value vector or vertex to be rotated
+ * @return a copy of the rotated glm::vec3
  */
-Vec3f Quaternion::rotate(Vec3f v) {
-  vector<float> vResult = rotateVector(v.x);
-  return Vec3f::makeVec(vResult[0], vResult[1], vResult[2]);
+glm::vec3 Quaternion::rotate(glm::vec3 v) {
+  vector<float> vResult = rotateVector(&v[0]);
+  return glm::vec3(vResult[0], vResult[1], vResult[2]);
 }
 
 /**
