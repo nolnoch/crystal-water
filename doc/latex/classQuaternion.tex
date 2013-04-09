@@ -8,14 +8,13 @@
 \item 
 \hyperlink{classQuaternion_a84c0cdc8392ec36aeb2679450a62210c}{Quaternion} (const \hyperlink{classQuaternion}{Quaternion} \&b)
 \item 
-\hypertarget{classQuaternion_a88824d18585e04056ad9fc37a8776df4}{{\bfseries Quaternion} (vec3 m, int deg\-\_\-rad)}\label{classQuaternion_a88824d18585e04056ad9fc37a8776df4}
-
+\hyperlink{classQuaternion_a21e79c69edf08f4a22d634cbff8aa457}{Quaternion} (glm\-::vec3 m, int deg\-\_\-rad)
 \item 
 \hyperlink{classQuaternion_ab13d6ced50c96438115b30cb91fc7d6c}{Quaternion} (float w, float x, float y, float z)
 \item 
 \hyperlink{classQuaternion_afe6d67aea9571b86269759a5dcbbd5b1}{Quaternion} (float theta, vector$<$ float $>$ axis, int deg\-\_\-rad)
 \item 
-\hyperlink{classQuaternion_a461289c049488237fe600ac93d7d18e2}{Quaternion} (float theta, Vec3f axis, int deg\-\_\-rad)
+\hyperlink{classQuaternion_a9e5ad1650f41df892911653e6e4fc05c}{Quaternion} (float theta, glm\-::vec3 axis, int deg\-\_\-rad)
 \item 
 \hyperlink{classQuaternion_a951d6f03907e0fd81f87a821aa65eed1}{Quaternion} (float theta, float axis\mbox{[}3\mbox{]}, int deg\-\_\-rad)
 \item 
@@ -33,7 +32,7 @@ vector$<$ float $>$ \hyperlink{classQuaternion_aff3eac8f2ff148c399fa39e16594ce1f
 \item 
 vector$<$ float $>$ \hyperlink{classQuaternion_a341d532ec38393c75673d1b3a3ec9e2f}{rotate} (float v\mbox{[}3\mbox{]})
 \item 
-Vec3f \hyperlink{classQuaternion_a780954aaa6a274f980f1af7f016d4570}{rotate} (Vec3f v)
+glm\-::vec3 \hyperlink{classQuaternion_a96d763a210463981dc621b0bf8a84259}{rotate} (glm\-::vec3 v)
 \item 
 void \hyperlink{classQuaternion_aa3bbfe668e104769f47344dc6e63eb5b}{to\-String} ()
 \item 
@@ -68,7 +67,22 @@ Default constructor. Initializes to the zero quaternion. \hypertarget{classQuate
 \item[{const {\bf Quaternion} \&}]{b}
 \end{DoxyParamCaption}
 )}}\label{classQuaternion_a84c0cdc8392ec36aeb2679450a62210c}
-Copy constructor. \hypertarget{classQuaternion_ab13d6ced50c96438115b30cb91fc7d6c}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+Copy constructor. \hypertarget{classQuaternion_a21e79c69edf08f4a22d634cbff8aa457}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}Quaternion\-::\-Quaternion (
+\begin{DoxyParamCaption}
+\item[{glm\-::vec3}]{v3\-Angles, }
+\item[{int}]{deg\-\_\-rad}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{classQuaternion_a21e79c69edf08f4a22d634cbff8aa457}
+Create quaternion from Euler angles -\/ yaw (Z), pitch (Y), and roll (X). Three terms given by a glm\-::vec3 array. 
+\begin{DoxyParams}{Parameters}
+{\em v3\-Angles} & -\/ glm\-::vec3 of Z, Y, and X rotation values \\
+\hline
+{\em deg\-\_\-rad} & -\/ constant flag specifying degrees \mbox{[}D\-E\-G\mbox{]} or radians \mbox{[}R\-A\-D\mbox{]} \\
+\hline
+\end{DoxyParams}
+\hypertarget{classQuaternion_ab13d6ced50c96438115b30cb91fc7d6c}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
 \index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
 \subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}Quaternion\-::\-Quaternion (
 \begin{DoxyParamCaption}
@@ -107,16 +121,16 @@ Create quaternion from an angle and axis of rotation. Axis given by a vector$<$f
 {\em deg\-\_\-rad} & -\/ constant flag specifying degrees \mbox{[}D\-E\-G\mbox{]} or radians \mbox{[}R\-A\-D\mbox{]} \\
 \hline
 \end{DoxyParams}
-\hypertarget{classQuaternion_a461289c049488237fe600ac93d7d18e2}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\hypertarget{classQuaternion_a9e5ad1650f41df892911653e6e4fc05c}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
 \index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
 \subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}Quaternion\-::\-Quaternion (
 \begin{DoxyParamCaption}
 \item[{float}]{theta, }
-\item[{Vec3f}]{axis, }
+\item[{glm\-::vec3}]{axis, }
 \item[{int}]{deg\-\_\-rad}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{classQuaternion_a461289c049488237fe600ac93d7d18e2}
-Create quaternion from an angle and axis of rotation. Axis given by a Vec3f float array of 3 terms. 
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{classQuaternion_a9e5ad1650f41df892911653e6e4fc05c}
+Create quaternion from an angle and axis of rotation. Axis given by a glm\-::vec3 float array of 3 terms. 
 \begin{DoxyParams}{Parameters}
 {\em theta} & -\/ angle of rotation \\
 \hline
@@ -332,20 +346,20 @@ Perform a quaternion rotation on the passed vector object. Since it's a primitiv
 \begin{DoxyReturn}{Returns}
 a copy of the rotated vector as an S\-T\-L vector 
 \end{DoxyReturn}
-\hypertarget{classQuaternion_a780954aaa6a274f980f1af7f016d4570}{\index{Quaternion@{Quaternion}!rotate@{rotate}}
+\hypertarget{classQuaternion_a96d763a210463981dc621b0bf8a84259}{\index{Quaternion@{Quaternion}!rotate@{rotate}}
 \index{rotate@{rotate}!Quaternion@{Quaternion}}
-\subsubsection[{rotate}]{\setlength{\rightskip}{0pt plus 5cm}Vec3f Quaternion\-::rotate (
+\subsubsection[{rotate}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec3 Quaternion\-::rotate (
 \begin{DoxyParamCaption}
-\item[{Vec3f}]{v}
+\item[{glm\-::vec3}]{v}
 \end{DoxyParamCaption}
-)}}\label{classQuaternion_a780954aaa6a274f980f1af7f016d4570}
-Perform a quaternion rotation on the passed Vec3f object. Vec3f is just a wrapper for a float ($\ast$)\mbox{[}3\mbox{]}, which we cover explicitly above. 
+)}}\label{classQuaternion_a96d763a210463981dc621b0bf8a84259}
+Perform a quaternion rotation on the passed glm\-::vec3 object. glm\-::vec3 is just a wrapper for a float ($\ast$)\mbox{[}3\mbox{]}, which we cover explicitly above. 
 \begin{DoxyParams}{Parameters}
-{\em v} & -\/ Vec3f form of the 3-\/value vector or vertex to be rotated \\
+{\em v} & -\/ glm\-::vec3 form of the 3-\/value vector or vertex to be rotated \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-a copy of the rotated Vec3f 
+a copy of the rotated glm\-::vec3 
 \end{DoxyReturn}
 \hypertarget{classQuaternion_aa3bbfe668e104769f47344dc6e63eb5b}{\index{Quaternion@{Quaternion}!to\-String@{to\-String}}
 \index{to\-String@{to\-String}!Quaternion@{Quaternion}}
