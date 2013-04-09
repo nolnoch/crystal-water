@@ -40,9 +40,12 @@ const GLint WIN_HEIGHT = 600;
 
 // View and Transformation
 GLfloat fovy, aspect, zNear, zFar;
-glm::mat4 mModel, mProj, mRot;
+glm::vec3 vEye, vCenter, vUp;
+glm::mat4 mModel, mProj, mRot, mTrans, mLook;
+Quaternion qTotalRotation;
 
 // Input
+glm::vec3 zoomAnchor;
 
 
 
@@ -51,12 +54,14 @@ glm::mat4 mModel, mProj, mRot;
  */
 
 void Display();
-void DrawSomething();
+void Render();
+void CollapseMatrices();
 void MouseClick(int button, int state, int x, int y);
 void MouseMotion(int x, int y);
 void MouseWheel(int wheel, int direction, int x, int y);
 void Keyboard(unsigned char key, int x, int y);
 void Idle();
+void SetAnchor(float x, float y);
 void BufferInit();
 void ShaderInit();
 void OpenGLInit();
@@ -69,7 +74,9 @@ void OpenGLInit();
 void Display() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-  DrawSomething();
+  CollapseMatrices();
+
+  Render();
 
   glFlush();
   glutSwapBuffers();
@@ -80,16 +87,22 @@ void Display() {
  * Rendering
  */
 
-void DrawSomething() {
+void Render() {
   progShader.enable();
 
-  progShader.setUniformMatrix(4, "rotationMatrix", glm::value_ptr(mRot));
   progShader.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progShader.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
 
   // Render here.
 
   progShader.disable();
+}
+
+void CollapseMatrices() {
+  mLook = glm::lookAt(vEye, vCenter, vUp);
+  mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
+
+  mModel = mLook * mTrans * mRot;
 }
 
 
@@ -105,16 +118,57 @@ void MouseMotion(int x, int y) {
 
 }
 
+/**
+ * Zoom to/from cursor on mouse-wheel scroll.
+ */
 void MouseWheel(int wheel, int direction, int x, int y) {
+  float step = 0.1f;
 
+  SetAnchor(x, y);
+
+  // Gradually move lookAt center to anchor for any zoom.
+  glm::vec3 startCenter = vCenter;
+  vCenter = (step * zoomAnchor) + ((1.0f - step) * startCenter);
+
+  // Gradually scale lookAt eye distance with respect to center.
+  glm::vec3 eyeDistance = vEye;
+  eyeDistance *= direction > 0 ? 1.0f + step : 1.0f - step;
+  vEye = vCenter + eyeDistance;
+
+  glutPostRedisplay();
 }
 
 void Keyboard(unsigned char key, int x, int y) {
-
+  switch (key) {
+    case 'q':
+    case 27:
+      exit(0);
+      break;
+    default:
+      break;
+  }
 }
 
 void Idle() {
+  // Needed?
 
+  glutPostRedisplay();
+}
+
+void SetAnchor(float x, float y) {
+  float wX, wY, wZ;
+
+  // Read the depth buffer for pixel at (x, y).
+  wX = x;
+  wY = WIN_HEIGHT - y;
+  glReadPixels(wX, wY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &wZ);
+
+  // Construct Viewport and Window coord vectors.
+  glm::vec4 vView(0, 0, WIN_WIDTH, WIN_HEIGHT);
+  glm::vec3 vWin(wX, wY, wZ);
+
+  // Unproject to get our zoom anchor point.
+  zoomAnchor = glm::unProject(vWin, mModel, mProj, vView);
 }
 
 
@@ -165,10 +219,16 @@ void OpenGLInit() {
   zNear = 1.0f;
   zFar = 800.0f;
 
+  vEye = glm::vec3(0.0f, 0.0f, 10.0f);
+  vCenter = glm::vec3(0.0f, 0.0f, 0.0f);
+  vUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
   // Matrices
   mProj = glm::perspective(fovy, aspect, zNear, zFar);
+  mLook = glm::lookAt(vEye, vCenter, vUp);
   mModel = glm::mat4(1.0);
   mRot = glm::mat4(1.0);
+  mTrans = glm::mat4(1.0);
 }
 
 int main(int argc, char* argv[]) {
