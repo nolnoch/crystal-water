@@ -86,7 +86,7 @@
  *  see fit, giving credit where credit is due.
  */
 
-#include "./quaternion.h"
+#include "./quaternion.hpp"
 #include <assert.h>
 #include <iostream>
 #include <iomanip>
@@ -97,8 +97,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
-
-#include "./vec.h"
 
 const float PI = 3.1415926f;
 

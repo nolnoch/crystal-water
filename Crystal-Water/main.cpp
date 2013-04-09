@@ -9,12 +9,14 @@
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <glm/glm.hpp>
 #include <cstdlib>
 #include <cmath>
 #include <cstring>
 #include <iostream>
 
-#include "./quaternion.h"
+#include "./program.hpp"
+#include "./quaternion.hpp"
 
 
 /*********************************
@@ -22,7 +24,7 @@
  */
 
 // Shader Program
-
+Program progShader;
 
 // Lighting
 
@@ -87,7 +89,9 @@ void BufferInit() {
 }
 
 void ShaderInit() {
-
+  progShader.addDefaultShaders();
+  progShader.init();
+  progShader.linkAndValidate();
 }
 
 void OpenGLInit() {

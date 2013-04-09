@@ -1,5 +1,5 @@
 /*
- * quaternion.h
+ * quaternion.hpp
  *
  *    Created on: Mar 8, 2013
  *   Last Update: Mar 17, 2013
@@ -7,11 +7,11 @@
  *  Contributors: <none>
  */
 
-#ifndef QUATERNION_H_
-#define QUATERNION_H_
+#ifndef QUATERNION_HPP_
+#define QUATERNION_HPP_
 
 #include <vector>
-#include "./vec.h"
+#include <glm/glm.hpp>
 
 enum { EULER = 2, EXPLICIT = 4, ANGLE_AXIS = 8, MATRIX = 16 };
 enum { DEG = 1, RAD = 0 };
@@ -45,7 +45,7 @@ class Quaternion {
   // Constructors
   Quaternion();
   Quaternion(const Quaternion &b);
-  explicit Quaternion(Vec3f m, int deg_rad);
+  explicit Quaternion(vec3 m, int deg_rad);
   explicit Quaternion(float w, float x, float y, float z);
   explicit Quaternion(float theta, vector<float> axis, int deg_rad);
   explicit Quaternion(float theta, Vec3f axis, int deg_rad);
