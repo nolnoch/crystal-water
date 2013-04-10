@@ -46,9 +46,7 @@
 #include <GL/glew.h>
 #include <cstdlib>
 #include <cstring>
-#include <fstream>
 #include <iostream>
-#include <sstream>
 #include <vector>
 
 #include "./shaderobj.hpp"

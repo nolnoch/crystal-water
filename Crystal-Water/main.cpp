@@ -2,78 +2,12 @@
  * main.cpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 8, 2013
+ *   Last Update: Apr 10, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
- *  Contributors: <none>
+ *  Contributors: [none]
  */
 
-#include <GL/glew.h>
-#include <GL/freeglut.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <cstdlib>
-#include <cmath>
-#include <cstring>
-#include <iostream>
-
-#include "./program.hpp"
-#include "./quaternion.hpp"
-
-
-/*********************************
- * Global Constants and Variables
- */
-
-// Shader Program
-Program progShader;
-
-// Lighting
-glm::vec4 light_ambient(0.1f, 0.1f, 0.1f, 1.0f);
-glm::vec4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
-glm::vec4 light_specular(1.0f, 1.0f, 1.0f, 1.0f);
-glm::vec4 light_position(40, 40, 40, 1.0f);
-
-// Material
-glm::vec3 material_ambient(0.1f, 0.2f, 0.3f);
-glm::vec3 material_diffuse(0.2f, 0.3f, 0.5f);
-glm::vec3 material_specular(0.3f, 0.6f, 0.8f);
-GLfloat material_shininess = 70;
-
-// Window
-const GLint WIN_WIDTH = 800;
-const GLint WIN_HEIGHT = 600;
-
-// View and Transformation
-GLfloat fovy, aspect, zNear, zFar;
-glm::vec3 vEye, vCenter, vUp;
-glm::mat4 mModel, mProj, mRot, mTrans, mLook;
-Quaternion qTotalRotation;
-
-// Input
-glm::vec3 zoomAnchor;
-glm::vec3 orbitAnchor, orbitDest;
-bool stateOrbiting;
-
-
-
-/*********************************
- * Function Stubs
- */
-
-void Display();
-void Render();
-void CollapseMatrices();
-void MouseClick(int button, int state, int x, int y);
-void MouseMotion(int x, int y);
-void MouseWheel(int wheel, int direction, int x, int y);
-void Keyboard(unsigned char key, int x, int y);
-void Idle();
-void SetAnchor(float x, float y);
-GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec);
-void BufferInit();
-void ShaderInit();
-void OpenGLInit();
+#include "./helper.hpp"
 
 
 /*********************************
@@ -82,10 +16,12 @@ void OpenGLInit();
 
 void Display() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
   CollapseMatrices();
 
-  Render();
+  progShader.enable();
+  PushUniforms();
+  PushVertices();
+  progShader.disable();
 
   glFlush();
   glutSwapBuffers();
@@ -96,42 +32,26 @@ void Display() {
  * Rendering
  */
 
-void Render() {
-  progShader.enable();
-
+void PushUniforms() {
   // Load matrices.
   progShader.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progShader.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
 
   // Load the (static) location/properties of the light.
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightPos",
-      glm::value_ptr(light_position));
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightAmb",
-      glm::value_ptr(light_ambient));
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightDiff",
-      glm::value_ptr(light_diffuse));
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightSpec",
-      glm::value_ptr(light_specular));
+  progShader.setUniformv(3, GL_FLOAT, "light0.lightPos", glm::value_ptr(light_position));
+  progShader.setUniformv(3, GL_FLOAT, "light0.lightAmb", glm::value_ptr(light_ambient));
+  progShader.setUniformv(3, GL_FLOAT, "light0.lightDiff", glm::value_ptr(light_diffuse));
+  progShader.setUniformv(3, GL_FLOAT, "light0.lightSpec", glm::value_ptr(light_specular));
 
   // Load material properties.
-  progShader.setUniformv(3, GL_FLOAT, "mat.matAmb",
-      glm::value_ptr(material_ambient));
-  progShader.setUniformv(3, GL_FLOAT, "mat.matDiff",
-      glm::value_ptr(material_diffuse));
-  progShader.setUniformv(3, GL_FLOAT, "mat.matSpec",
-      glm::value_ptr(material_specular));
-  progShader.setUniform(GL_FLOAT, "mat.matShiny", material_shininess);
-
-  glutSolidCube(15.0);
-
-  progShader.disable();
+  progShader.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(material_ambient));
+  progShader.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(material_diffuse));
+  progShader.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(material_specular));
+  progShader.setUniform(    GL_FLOAT, "mat.matShiny", material_shininess);
 }
 
-void CollapseMatrices() {
-  mLook = glm::lookAt(vEye, vCenter, vUp);
-  mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
-
-  mModel = mLook * mTrans * mRot;
+void PushVertices() {
+  glutSolidCube(15.0);
 }
 
 
@@ -164,7 +84,8 @@ void MouseMotion(int x, int y) {
 
     // Vertical Slide
     if (orbitAnchor.y != orbitDest.y) {
-      GLfloat slideDist = (vEye.z / 500.0f) * (orbitDest.y - orbitAnchor.y);
+      float slideFactor = vEye.z / WIN_WIDTH;
+      GLfloat slideDist = slideFactor * (orbitDest.y - orbitAnchor.y);
       mTrans = glm::translate(mTrans, glm::vec3(0.0, slideDist, 0.0));
     }
 
@@ -174,7 +95,6 @@ void MouseMotion(int x, int y) {
       glm::vec3 orbitAxis = glm::vec3(0.0, signAxis, 0.0);
       GLfloat orbitAngle = FindRotationAngle(orbitDest, orbitAnchor);
       Quaternion qOrbitRot = Quaternion(orbitAngle, orbitAxis, RAD);
-
       qTotalRotation = qOrbitRot * qTotalRotation;
     }
   }
@@ -219,24 +139,6 @@ void Idle() {
   // Needed?
 
   glutPostRedisplay();
-}
-
-GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
-  GLfloat angle, zA, zB, xA, xB, dotProd;
-  GLfloat width = WIN_WIDTH / 2.0f;
-
-  xA = ((startVec.x - width) / width);
-  xB = ((endVec.x - width) / width);
-
-  zA = glm::sqrt(1.0f - (xA * xA));
-  zB = glm::sqrt(1.0f - (xB * xB));
-
-  glm::vec3 vA(xA, 0.0, zA);
-  glm::vec3 vB(xB, 0.0, zB);
-
-  dotProd = glm::dot(glm::normalize(vA), glm::normalize(vB));
-
-  return glm::acos(dotProd) * (vEye.z / 30.0f);
 }
 
 void SetAnchor(float x, float y) {

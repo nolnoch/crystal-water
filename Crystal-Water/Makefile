@@ -12,7 +12,7 @@ LIBDIR =
 # Libraries that use native graphics hardware --
 # appropriate for Linux machines in Taylor basement
 #LIBS = -lglut -lGLU -lGL -lpthread -lm
-LIBS = -lGLEW -lglut -lGLU -lGL -lm -ljpeg
+LIBS = -lGLEW -lglut -lGLU -lm -ljpeg
 
 ###########################################################
 # Options if compiling on Mac
@@ -32,7 +32,7 @@ endif
 crystal: main.o quaternion.o shaderobj.o program.o
 	${CC} ${CFLAGS} $(INCLUDE) -o crystal main.o quaternion.o shaderobj.o program.o ${LIBDIR} ${LIBS}
 
-main.o: main.cpp program.hpp shaderobj.hpp quaternion.hpp
+main.o: main.cpp program.hpp shaderobj.hpp quaternion.hpp helper.hpp
 	${CC} ${CFLAGS} -c -o main.o $(INCLUDE) main.cpp
 	
 quaternion.o: quaternion.cpp quaternion.hpp

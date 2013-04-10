@@ -23,7 +23,7 @@
 #define SHADEROBJ_HPP_
 
 #include <GL/glew.h>
-#include <cstring>
+#include <string>
 #include <fstream>
 #include <sstream>
 
