@@ -89,52 +89,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &lt;GL/glew.h&gt;</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &lt;cstring&gt;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#include &quot;./shaderobj.hpp&quot;</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#include &quot;./shaderobj.hpp&quot;</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="code" href="classProgram.html">   57</a></span>&#160;<span class="keyword">class </span><a class="code" href="classProgram.html">Program</a> {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <a class="code" href="classProgram.html#aaefaa0df08f3484476fc4d61e97acbdc">Program</a>();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classProgram.html#a986aef1c50e1d338a3315a47ba6df549">~Program</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordtype">int</span> <a class="code" href="classProgram.html#ade6fdcdf18bad44d602588eb2870baba">addShader</a>(std::string fName, <span class="keywordtype">int</span> type);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a93a1c92516c590a6779438568ef729a5">addDefaultShaders</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#aa0fe912ec4d03063c3e15b383ae8c113">addSampler</a>();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a33d5912b81ccf4a0c089894513844580">init</a>();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a047506f09edeb4f862f58599b232fd79">bindAttribute</a>(<span class="keywordtype">int</span> location, std::string name);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  GLint <a class="code" href="classProgram.html#a457e11c867d335cdd815a657fa87e9b1">linkAndValidate</a>();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ae435cb6813edc4ce2a8f91c99fb7a79b">enable</a>();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ab9749de7ec9108233c5f632d9afaa0e9">disable</a>();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ac342b7cadffa671c9a0164997a0141fb">setUniform</a>(<span class="keywordtype">int</span> type, std::string name, <span class="keywordtype">float</span> n);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ad09d665e9a38943e9087243aab3d7162">setUniformv</a>(<span class="keywordtype">int</span> count, <span class="keywordtype">int</span> type, std::string name, <span class="keyword">const</span> <span class="keywordtype">float</span> *n);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a28a7ee31d22c01c65e559699ef07f8ec">setUniformMatrix</a>(<span class="keywordtype">int</span> size, std::string name, <span class="keywordtype">float</span> *m);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a1d5b0c22dfb26649a5cca8c879eaecc5">setTexture</a>(std::string samplerName, GLuint texUnit, GLuint texId,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordtype">int</span> sampler);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="classProgram.html">   55</a></span>&#160;<span class="keyword">class </span><a class="code" href="classProgram.html">Program</a> {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <a class="code" href="classProgram.html#aaefaa0df08f3484476fc4d61e97acbdc">Program</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classProgram.html#a986aef1c50e1d338a3315a47ba6df549">~Program</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordtype">int</span> <a class="code" href="classProgram.html#ade6fdcdf18bad44d602588eb2870baba">addShader</a>(std::string fName, <span class="keywordtype">int</span> type);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a93a1c92516c590a6779438568ef729a5">addDefaultShaders</a>();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#aa0fe912ec4d03063c3e15b383ae8c113">addSampler</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a33d5912b81ccf4a0c089894513844580">init</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a047506f09edeb4f862f58599b232fd79">bindAttribute</a>(<span class="keywordtype">int</span> location, std::string name);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  GLint <a class="code" href="classProgram.html#a457e11c867d335cdd815a657fa87e9b1">linkAndValidate</a>();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ae435cb6813edc4ce2a8f91c99fb7a79b">enable</a>();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ab9749de7ec9108233c5f632d9afaa0e9">disable</a>();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ac342b7cadffa671c9a0164997a0141fb">setUniform</a>(<span class="keywordtype">int</span> type, std::string name, <span class="keywordtype">float</span> n);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#ad09d665e9a38943e9087243aab3d7162">setUniformv</a>(<span class="keywordtype">int</span> count, <span class="keywordtype">int</span> type, std::string name, <span class="keyword">const</span> <span class="keywordtype">float</span> *n);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a28a7ee31d22c01c65e559699ef07f8ec">setUniformMatrix</a>(<span class="keywordtype">int</span> size, std::string name, <span class="keywordtype">float</span> *m);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a1d5b0c22dfb26649a5cca8c879eaecc5">setTexture</a>(std::string samplerName, GLuint texUnit, GLuint texId,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keywordtype">int</span> sampler);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  GLenum <a class="code" href="classProgram.html#a092f9c234261a3e0e05766b0bb92fcb8">getProgramId</a>();</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  GLenum <a class="code" href="classProgram.html#a092f9c234261a3e0e05766b0bb92fcb8">getProgramId</a>();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a76c829244760f9ddbee5da25b296dcb3">displayLogProgram</a>();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a411a347acc65a576ab84bc464bd35b45">displayLogShader</a>(GLenum shader);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  GLenum programId;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  std::vector&lt;Shader&gt; shaders;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  std::vector&lt;GLuint&gt; *samplers;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordtype">int</span> stage;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* PROGRAM_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a76c829244760f9ddbee5da25b296dcb3">displayLogProgram</a>();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classProgram.html#a411a347acc65a576ab84bc464bd35b45">displayLogShader</a>(GLenum shader);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  GLenum programId;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  std::vector&lt;Shader&gt; shaders;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  std::vector&lt;GLuint&gt; *samplers;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordtype">int</span> stage;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* PROGRAM_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 9 2013 12:19:32 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 10 2013 17:19:48 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
