@@ -2,7 +2,7 @@
  * quaternion.cpp
  *
  *    Created on: Mar 8, 2013
- *   Last Update: Mar 17, 2013
+ *   Last Update: Apr 9, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: <none>
  */
@@ -163,7 +163,7 @@ Quaternion::Quaternion(float theta, float axis[3], int deg_rad)
  * ANGLE_AXIS - Angle-Axis [Theta, X, Y, Z]
  * MATRIX     - Rotation Matrix vector<float>[16]
  * @param m - float[] of size 3, 4, or 16
- * @param construction - constant flag to determine how the values are used:
+ * @param construct - constant flag to determine how the values are used:
  *                       EULER, EXPLICIT, ANGLE_AXIS, or MATRIX
  * @param deg_rad - constant flag specifying degrees [DEG] or radians [RAD]
  */

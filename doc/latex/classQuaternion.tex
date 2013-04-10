@@ -1,6 +1,10 @@
 \hypertarget{classQuaternion}{\section{Quaternion Class Reference}
 \label{classQuaternion}\index{Quaternion@{Quaternion}}
 }
+
+
+{\ttfamily \#include $<$quaternion.\-hpp$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -20,7 +24,7 @@
 \item 
 \hyperlink{classQuaternion_af2d1bdc0d28bb9630259514d34a89b13}{Quaternion} (float yaw, float pitch, float roll, int deg\-\_\-rad)
 \item 
-\hyperlink{classQuaternion_a5caa2f853088db9a9ae4920afb907461}{Quaternion} (float $\ast$m, int con, int deg\-\_\-rad)
+\hyperlink{classQuaternion_a41f8e0ddc6e7f3fc93a55083e4674bae}{Quaternion} (float $\ast$m, int construct, int deg\-\_\-rad)
 \item 
 \hyperlink{classQuaternion_a458226b80dece68afe44fcd5cc460ae0}{Quaternion} (vector$<$ float $>$ m, int con, int deg\-\_\-rad)
 \item 
@@ -51,6 +55,9 @@ void \hyperlink{classQuaternion_a5be74768bcc366ea59a9c6adffdcdd4e}{zero} ()
 \hyperlink{classQuaternion}{Quaternion} \& \hyperlink{classQuaternion_acb888d289a05c63403790685c10dde1a}{operator$\ast$=} (const \hyperlink{classQuaternion}{Quaternion} \&b)
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+\hyperlink{classQuaternion}{Quaternion} class. 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classQuaternion_abcc01358aada56ea5f0db4da18aaf77d}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
@@ -178,7 +185,7 @@ Create quaternion from Euler angles -\/ yaw (Z), pitch (Y), and roll (X). Three 
 {\em deg\-\_\-rad} & -\/ constant flag specifying degrees \mbox{[}D\-E\-G\mbox{]} or radians \mbox{[}R\-A\-D\mbox{]} \\
 \hline
 \end{DoxyParams}
-\hypertarget{classQuaternion_a5caa2f853088db9a9ae4920afb907461}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\hypertarget{classQuaternion_a41f8e0ddc6e7f3fc93a55083e4674bae}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
 \index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
 \subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}Quaternion\-::\-Quaternion (
 \begin{DoxyParamCaption}
@@ -186,12 +193,12 @@ Create quaternion from Euler angles -\/ yaw (Z), pitch (Y), and roll (X). Three 
 \item[{int}]{construct, }
 \item[{int}]{deg\-\_\-rad}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{classQuaternion_a5caa2f853088db9a9ae4920afb907461}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{classQuaternion_a41f8e0ddc6e7f3fc93a55083e4674bae}
 Takes an array in the form of a float\mbox{[}\mbox{]}. Depending on the flag given, create from\-: E\-U\-L\-E\-R -\/ Euler Angles \mbox{[}Z, Y, X\mbox{]} E\-X\-P\-L\-I\-C\-I\-T -\/ Explicit \mbox{[}W, X, Y, Z\mbox{]} A\-N\-G\-L\-E\-\_\-\-A\-X\-I\-S -\/ Angle-\/\-Axis \mbox{[}Theta, X, Y, Z\mbox{]} M\-A\-T\-R\-I\-X -\/ Rotation Matrix vector$<$float$>$\mbox{[}16\mbox{]} 
 \begin{DoxyParams}{Parameters}
 {\em m} & -\/ float\mbox{[}\mbox{]} of size 3, 4, or 16 \\
 \hline
-{\em construction} & -\/ constant flag to determine how the values are used\-: E\-U\-L\-E\-R, E\-X\-P\-L\-I\-C\-I\-T, A\-N\-G\-L\-E\-\_\-\-A\-X\-I\-S, or M\-A\-T\-R\-I\-X \\
+{\em construct} & -\/ constant flag to determine how the values are used\-: E\-U\-L\-E\-R, E\-X\-P\-L\-I\-C\-I\-T, A\-N\-G\-L\-E\-\_\-\-A\-X\-I\-S, or M\-A\-T\-R\-I\-X \\
 \hline
 {\em deg\-\_\-rad} & -\/ constant flag specifying degrees \mbox{[}D\-E\-G\mbox{]} or radians \mbox{[}R\-A\-D\mbox{]} \\
 \hline

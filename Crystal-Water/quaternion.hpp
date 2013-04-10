@@ -2,7 +2,7 @@
  * quaternion.hpp
  *
  *    Created on: Mar 8, 2013
- *   Last Update: Apr 9, 2013
+ *   Last Update: Apr 10, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: <none>
  *
@@ -97,6 +97,9 @@ enum { DEG = 1, RAD = 0 };
 
 using namespace std;
 
+/**
+ * Quaternion class.
+ */
 class Quaternion {
  private:
   // Data
@@ -130,7 +133,7 @@ class Quaternion {
   explicit Quaternion(float theta, glm::vec3 axis, int deg_rad);
   explicit Quaternion(float theta, float axis[3], int deg_rad);
   explicit Quaternion(float yaw, float pitch, float roll, int deg_rad);
-  explicit Quaternion(float *m, int con, int deg_rad);
+  explicit Quaternion(float *m, int construct, int deg_rad);
   explicit Quaternion(vector<float> m, int con, int deg_rad);
 
   // Destructor
