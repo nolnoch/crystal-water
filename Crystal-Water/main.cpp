@@ -36,7 +36,7 @@ glm::vec4 light_position(40, 40, 40, 1.0f);
 
 // Material
 glm::vec3 material_ambient(0.1f, 0.2f, 0.3f);
-glm::vec3 material_diffuse(0.2f, 0.5f, 0.6f);
+glm::vec3 material_diffuse(0.2f, 0.3f, 0.5f);
 glm::vec3 material_specular(0.3f, 0.6f, 0.8f);
 GLfloat material_shininess = 70;
 
@@ -122,7 +122,7 @@ void Render() {
       glm::value_ptr(material_specular));
   progShader.setUniform(GL_FLOAT, "mat.matShiny", material_shininess);
 
-  glutSolidCube(20.0);
+  glutSolidCube(15.0);
 
   progShader.disable();
 }
@@ -148,6 +148,8 @@ void MouseClick(int button, int state, int x, int y) {
       orbitAnchor = glm::normalize(glm::vec3(x, WIN_HEIGHT - y, vEye.z));
       orbitDest = glm::normalize(glm::vec3(x, WIN_HEIGHT - y, vEye.z));
       stateOrbiting = true;
+    } else {
+      stateOrbiting = false;
     }
   }
 }
@@ -166,6 +168,8 @@ void MouseMotion(int x, int y) {
     GLfloat orbitAngle = FindRotationAngle(orbitAnchor, orbitDest);
     Quaternion qOrbitRot = Quaternion(orbitAngle, orbitAxis, RAD);
 
+    qOrbitRot.toString();
+
     qTotalRotation = qOrbitRot * qTotalRotation;
     mTrans = glm::translate(mTrans, glm::vec3(0.0, slideDist, 0.0));
   }
@@ -178,6 +182,8 @@ void MouseMotion(int x, int y) {
  */
 void MouseWheel(int wheel, int direction, int x, int y) {
   float step = 0.1f;
+
+  cout << "Wheel signal received." << endl;
 
   SetAnchor(x, y);
 
@@ -216,13 +222,20 @@ GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
   xA = startVec.x - (WIN_WIDTH / 2.0f);
   xB = endVec.x - (WIN_WIDTH / 2.0f);
 
-  zA = glm::sqrt(vEye.z * vEye.z - xA * xA);
-  zB = glm::sqrt(vEye.z * vEye.z - xB * xB);
+  cout << xA << ", " << xB << ", " << vEye.z << endl;
+
+  zA = glm::sqrt((vEye.z * vEye.z) - (xA * xA));
+  zB = glm::sqrt((vEye.z * vEye.z) - (xB * xB));
 
   glm::vec3 vA(xA, 0.0, zA);
   glm::vec3 vB(xB, 0.0, zB);
 
+  cout << vA.x << ", " << vA.z << endl;
+  cout << vB.x << ", " << vB.z << endl;
+
   dotProd = glm::dot(glm::normalize(vA), glm::normalize(vB));
+
+  cout << dotProd << endl;
 
   return glm::acos(dotProd);
 }
@@ -285,13 +298,14 @@ void OpenGLInit() {
   glEnable(GL_NORMALIZE);
   glEnable(GL_RESCALE_NORMAL);
 
-  //Variables
+  // Projection
   fovy = 40.0f;
   aspect = WIN_WIDTH / static_cast<float>(WIN_HEIGHT);
   zNear = 1.0f;
   zFar = 800.0f;
 
-  vEye = glm::vec3(0.0f, 0.0f, 10.0f);
+  // Camera
+  vEye = glm::vec3(0.0f, 5.0f, 50.0f);
   vCenter = glm::vec3(0.0f, 0.0f, 0.0f);
   vUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
