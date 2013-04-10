@@ -8,6 +8,7 @@
  */
 
 #include "./quaternion.hpp"
+#include <glm/gtc/type_ptr.hpp>
 #include <assert.h>
 #include <iostream>
 #include <iomanip>
@@ -136,7 +137,7 @@ Quaternion::Quaternion(float theta, glm::vec3 axis, int deg_rad)
   if (deg_rad) {
     theta *= (PI / 180.0f);
   }
-  this->initQAngleAxis(theta, &axis[0]);
+  this->initQAngleAxis(theta, glm::value_ptr(axis));
 }
 
 /**
