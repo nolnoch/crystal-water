@@ -145,8 +145,8 @@ void CollapseMatrices() {
 void MouseClick(int button, int state, int x, int y) {
   if (button == GLUT_LEFT_BUTTON) {
     if (state == GLUT_DOWN) {
-      orbitAnchor = glm::normalize(glm::vec3(x, WIN_HEIGHT - y, vEye.z));
-      orbitDest = glm::normalize(glm::vec3(x, WIN_HEIGHT - y, vEye.z));
+      orbitAnchor = glm::vec3(x, WIN_HEIGHT - y, vEye.z);
+      orbitDest = glm::vec3(x, WIN_HEIGHT - y, vEye.z);
       stateOrbiting = true;
     } else {
       stateOrbiting = false;
@@ -160,18 +160,23 @@ void MouseClick(int button, int state, int x, int y) {
 void MouseMotion(int x, int y) {
   if (stateOrbiting) {
     orbitAnchor = orbitDest;
-    orbitDest = glm::normalize(glm::vec3(x, WIN_HEIGHT - y, vEye.z));
+    orbitDest = glm::vec3(x, WIN_HEIGHT - y, vEye.z);
 
-    GLfloat slideDist = orbitDest.y - orbitAnchor.y;
+    // Vertical Slide
+    if (orbitAnchor.y != orbitDest.y) {
+      GLfloat slideDist = (vEye.z / 500.0f) * (orbitDest.y - orbitAnchor.y);
+      mTrans = glm::translate(mTrans, glm::vec3(0.0, slideDist, 0.0));
+    }
 
-    glm::vec3 orbitAxis = glm::vec3(0.0, 1.0, 0.0);
-    GLfloat orbitAngle = FindRotationAngle(orbitAnchor, orbitDest);
-    Quaternion qOrbitRot = Quaternion(orbitAngle, orbitAxis, RAD);
+    // Horizontal Orbit
+    if (orbitAnchor.x != orbitDest.x) {
+      float signAxis = orbitAnchor.x < orbitDest.x ? 1.0f : -1.0f;
+      glm::vec3 orbitAxis = glm::vec3(0.0, signAxis, 0.0);
+      GLfloat orbitAngle = FindRotationAngle(orbitDest, orbitAnchor);
+      Quaternion qOrbitRot = Quaternion(orbitAngle, orbitAxis, RAD);
 
-    qOrbitRot.toString();
-
-    qTotalRotation = qOrbitRot * qTotalRotation;
-    mTrans = glm::translate(mTrans, glm::vec3(0.0, slideDist, 0.0));
+      qTotalRotation = qOrbitRot * qTotalRotation;
+    }
   }
 
   glutPostRedisplay();
@@ -218,26 +223,20 @@ void Idle() {
 
 GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
   GLfloat angle, zA, zB, xA, xB, dotProd;
+  GLfloat width = WIN_WIDTH / 2.0f;
 
-  xA = startVec.x - (WIN_WIDTH / 2.0f);
-  xB = endVec.x - (WIN_WIDTH / 2.0f);
+  xA = ((startVec.x - width) / width);
+  xB = ((endVec.x - width) / width);
 
-  cout << xA << ", " << xB << ", " << vEye.z << endl;
-
-  zA = glm::sqrt((vEye.z * vEye.z) - (xA * xA));
-  zB = glm::sqrt((vEye.z * vEye.z) - (xB * xB));
+  zA = glm::sqrt(1.0f - (xA * xA));
+  zB = glm::sqrt(1.0f - (xB * xB));
 
   glm::vec3 vA(xA, 0.0, zA);
   glm::vec3 vB(xB, 0.0, zB);
 
-  cout << vA.x << ", " << vA.z << endl;
-  cout << vB.x << ", " << vB.z << endl;
-
   dotProd = glm::dot(glm::normalize(vA), glm::normalize(vB));
 
-  cout << dotProd << endl;
-
-  return glm::acos(dotProd);
+  return glm::acos(dotProd) * (vEye.z / 30.0f);
 }
 
 void SetAnchor(float x, float y) {
@@ -248,7 +247,6 @@ void SetAnchor(float x, float y) {
   wY = WIN_HEIGHT - y;
   glReadPixels(wX, wY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &wZ);
 
-  // Construct Viewport and Window coord vectors.
   glm::vec4 vView(0, 0, WIN_WIDTH, WIN_HEIGHT);
   glm::vec3 vWin(wX, wY, wZ);
 
@@ -332,7 +330,7 @@ int main(int argc, char* argv[]) {
   glutMotionFunc(MouseMotion);
   glutMouseWheelFunc(MouseWheel);
   glutKeyboardFunc(Keyboard);
-  glutIdleFunc(Idle);
+  glutIdleFunc(NULL);
 
   // Initialize GLEW
   glewExperimental = true;
