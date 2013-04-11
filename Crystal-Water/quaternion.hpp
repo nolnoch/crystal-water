@@ -95,6 +95,8 @@
 enum { EULER = 2, EXPLICIT = 4, ANGLE_AXIS = 8, MATRIX = 16 };
 enum { DEG = 1, RAD = 0 };
 
+const float PI = 3.1415926f;
+
 using namespace std;
 
 /**

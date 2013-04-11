@@ -71,7 +71,16 @@ void MouseClick(int button, int state, int x, int y) {
     } else {
       stateOrbiting = false;
     }
+  } else if (button == GLUT_RIGHT_BUTTON) {
+    // Right click action?
+
+  } else if (button == 3 || button == 4) {
+    float step = 1.0f;
+
+    vEye.z += (button == 4) ? step : -step;
   }
+
+  glutPostRedisplay();
 }
 
 /**
@@ -106,26 +115,17 @@ void MouseMotion(int x, int y) {
  * Zoom to/from cursor on mouse-wheel scroll.
  */
 void MouseWheel(int wheel, int direction, int x, int y) {
-  float step = 0.1f;
-
   cout << "Wheel signal received." << endl;
 
-  SetAnchor(x, y);
-
-  // Gradually move lookAt center to anchor for any zoom.
-  glm::vec3 startCenter = vCenter;
-  vCenter = (step * zoomAnchor) + ((1.0f - step) * startCenter);
-
-  // Gradually scale lookAt eye distance with respect to center.
-  glm::vec3 eyeDistance = vEye;
-  eyeDistance *= direction > 0 ? 1.0f + step : 1.0f - step;
-  vEye = vCenter + eyeDistance;
-
-  glutPostRedisplay();
+  // This function, although registered, is not being called.
 }
 
 void Keyboard(unsigned char key, int x, int y) {
   switch (key) {
+    case 'r':
+      CameraInit();
+      MatrixInit();
+      break;
     case 'q':
     case 27:
       exit(0);
@@ -141,21 +141,6 @@ void Idle() {
   glutPostRedisplay();
 }
 
-void SetAnchor(float x, float y) {
-  float wX, wY, wZ;
-
-  // Read the depth buffer for pixel at (x, y).
-  wX = x;
-  wY = WIN_HEIGHT - y;
-  glReadPixels(wX, wY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &wZ);
-
-  glm::vec4 vView(0, 0, WIN_WIDTH, WIN_HEIGHT);
-  glm::vec3 vWin(wX, wY, wZ);
-
-  // Unproject to get our zoom anchor point.
-  zoomAnchor = glm::unProject(vWin, mModel, mProj, vView);
-}
-
 
 /*********************************
  * Init Functions
@@ -166,57 +151,34 @@ void BufferInit() {
 }
 
 void ShaderInit() {
-  // Add Shaders
   progShader.addDefaultShaders();
-
-  // Init Program object
   progShader.init();
-
-  // Bind Attributes
   // progShader.bindAttribute(0, "someAttribute");
-
-  // Link and Validate program
   progShader.linkAndValidate();
-
-  // Generate Sampler2D uniform binding target
   // progShader.addSampler();
 }
 
 void OpenGLInit() {
-  // Depth Testing
   glEnable(GL_DEPTH_TEST);
   glDepthMask(GL_TRUE);
   glDepthFunc(GL_LEQUAL);
 
-  // Blending
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  // Clear Color
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-  // Scale Normalization
   glEnable(GL_NORMALIZE);
   glEnable(GL_RESCALE_NORMAL);
 
-  // Projection
+  // View/Projection
   fovy = 40.0f;
   aspect = WIN_WIDTH / static_cast<float>(WIN_HEIGHT);
   zNear = 1.0f;
   zFar = 800.0f;
 
-  // Camera
-  vEye = glm::vec3(0.0f, 5.0f, 50.0f);
-  vCenter = glm::vec3(0.0f, 0.0f, 0.0f);
-  vUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
   stateOrbiting = false;
 
-  // Matrices
-  mProj = glm::perspective(fovy, aspect, zNear, zFar);
-  mLook = glm::lookAt(vEye, vCenter, vUp);
-  mModel = glm::mat4(1.0);
-  mRot = glm::mat4(1.0);
-  mTrans = glm::mat4(1.0);
+  CameraInit();
+  MatrixInit();
 }
 
 int main(int argc, char* argv[]) {
@@ -241,13 +203,8 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  // Initialize OpenGL state
   OpenGLInit();
-
-  // Initialize GLSL program
   ShaderInit();
-
-  // Initialize buffer/array objects
   BufferInit();
 
   glutMainLoop();

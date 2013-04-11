@@ -33,7 +33,7 @@ Program progShader;
 glm::vec4 light_ambient(0.1f, 0.1f, 0.1f, 1.0f);
 glm::vec4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
 glm::vec4 light_specular(1.0f, 1.0f, 1.0f, 1.0f);
-glm::vec4 light_position(40, 40, 40, 1.0f);
+glm::vec4 light_position(40.0f, 5.0f, 20.0f, 1.0f);
 
 // Material
 glm::vec3 material_ambient(0.1f, 0.2f, 0.3f);
@@ -70,7 +70,6 @@ void MouseMotion(int x, int y);
 void MouseWheel(int wheel, int direction, int x, int y);
 void Keyboard(unsigned char key, int x, int y);
 void Idle();
-void SetAnchor(float x, float y);
 void BufferInit();
 void ShaderInit();
 void OpenGLInit();
@@ -80,12 +79,19 @@ void OpenGLInit();
  * Helper Functions
  */
 
+void CollapseMatrices() {
+  mLook = glm::lookAt(vEye, vCenter, vUp);
+  mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
+
+  mModel = mLook * mTrans * mRot;
+}
+
 GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
   GLfloat angle, zA, zB, xA, xB, dotProd;
   GLfloat width = WIN_WIDTH / 2.0f;
 
-  xA = ((startVec.x - width) / width);
-  xB = ((endVec.x - width) / width);
+  xA = glm::sin(((startVec.x - width) / width) * PI / 2);
+  xB = glm::sin(((endVec.x - width) / width) * PI / 2);
 
   zA = glm::sqrt(1.0f - (xA * xA));
   zB = glm::sqrt(1.0f - (xB * xB));
@@ -98,11 +104,32 @@ GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
   return glm::acos(dotProd) * (vEye.z / 42.0f);
 }
 
-void CollapseMatrices() {
-  mLook = glm::lookAt(vEye, vCenter, vUp);
-  mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
+void SetAnchor(float x, float y) {
+  float wX, wY, wZ;
 
-  mModel = mLook * mTrans * mRot;
+  wX = x;
+  wY = WIN_HEIGHT - y;
+  glReadPixels(wX, wY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &wZ);
+
+  glm::vec4 vView(0, 0, WIN_WIDTH, WIN_HEIGHT);
+  glm::vec3 vWin(wX, wY, wZ);
+  zoomAnchor = glm::unProject(vWin, mModel, mProj, vView);
+
+  cout << zoomAnchor.x << ", " << zoomAnchor.y << ", " << zoomAnchor.z << endl;
+}
+
+void CameraInit() {
+  vEye = glm::vec3(0.0f, 5.0f, 50.0f);
+  vCenter = glm::vec3(0.0f, 0.0f, 0.0f);
+  vUp = glm::vec3(0.0f, 1.0f, 0.0f);
+}
+
+void MatrixInit() {
+  mProj = glm::perspective(fovy, aspect, zNear, zFar);
+  mLook = glm::lookAt(vEye, vCenter, vUp);
+  mModel = glm::mat4(1.0);
+  mRot = glm::mat4(1.0);
+  mTrans = glm::mat4(1.0);
 }
 
 

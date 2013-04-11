@@ -20,8 +20,6 @@
 #include <cstdlib>
 #include <cmath>
 
-const float PI = 3.1415926f;
-
 const float N_TOLERANCE = 1.0001f;          // Normalization tolerance
 const float T_TOLERANCE = 0.0001f;          // Trace tolerance
 
