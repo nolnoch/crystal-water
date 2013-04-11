@@ -41,8 +41,9 @@ GLuint vboID;
 vector<GLuint *> iboIDs;
 
 // Objects
-Mesh mesh;
+Mesh meshSky;
 vector<GLuint> texIds;
+bool useSkyBox;
 
 // Lighting
 glm::vec4 light_ambient(0.1f, 0.1f, 0.1f, 1.0f);

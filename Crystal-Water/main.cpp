@@ -18,10 +18,12 @@ void Display() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   CollapseMatrices();
 
-//  progSky.enable();
-//  PushUniformsCube();
-//  PushVerticesCube();
-//  progSky.disable();
+  if (useSkyBox) {
+    progSky.enable();
+    PushUniformsCube();
+    PushVerticesCube();
+    progSky.disable();
+  }
 
   progCube.enable();
   PushUniformsCube();
@@ -38,14 +40,6 @@ void Display() {
  */
 
 void PushUniformsSky() {
-  vector<int>& iboSizes = mesh.iboSizes();
-  int nIBOs = mesh.numIBOs();
-
-  glBindBuffer(GL_ARRAY_BUFFER, vboID);
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
-  glEnableVertexAttribArray(2);
-
   // Load matrices.
   progSky.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progSky.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
@@ -64,6 +58,17 @@ void PushUniformsSky() {
 
   glEnable(GL_TEXTURE_2D);
   progSky.setTexture("tex", 0, texIds[0], 0);
+}
+
+void PushVerticesSky() {
+  vector<int>& iboSizes = meshSky.iboSizes();
+  int nIBOs = meshSky.numIBOs();
+
+  glBindBuffer(GL_ARRAY_BUFFER, vboID);
+  glEnableVertexAttribArray(0);
+  glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
+
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *(iboIDs[0]));
   glDrawElements(GL_TRIANGLES, iboSizes[0], GL_UNSIGNED_INT, OFFSET_PTR(0));
 
@@ -72,10 +77,6 @@ void PushUniformsSky() {
   glDisableVertexAttribArray(2);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-void PushVerticesSky() {
-  glutSolidCube(15.0);
 }
 
 void PushUniformsCube() {
@@ -193,8 +194,8 @@ void Idle() {
  */
 
 void BufferInit() {
-  std::vector<VBOVertex>& vboArray = mesh.getVBOVertexArray();
-  std::vector<vector<GLuint> >& iboArrays = mesh.getIBOIndexArrays();
+  std::vector<VBOVertex>& vboArray = meshSky.getVBOVertexArray();
+  std::vector<vector<GLuint> >& iboArrays = meshSky.getIBOIndexArrays();
   int nVBO = vboArray.size();
   int nIBOs = iboArrays.size();
 
@@ -217,20 +218,22 @@ void BufferInit() {
         &iboArrays[i][0], GL_STATIC_DRAW);
   }
   // Data should now be in GPU memory (server-side), so free heap memory.
-  mesh.freeArrays();
+  meshSky.freeArrays();
 }
 
 void ShaderInit() {
-//  progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
-//  progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
-//  progSky.init();
-//  progSky.bindAttribute(0, "vertexLocation");
-//  progSky.bindAttribute(1, "vertexNormal");
-//  progSky.bindAttribute(2, "vertexTexCoord");
-//  progSky.linkAndValidate();
-//  progSky.addSampler();
-//
-//  texIds.push_back(LoadTexture("../tex/skybox1.jpg", 0));
+  if (useSkyBox) {
+    progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
+    progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
+    progSky.init();
+    progSky.bindAttribute(0, "vertexLocation");
+    progSky.bindAttribute(1, "vertexNormal");
+    progSky.bindAttribute(2, "vertexTexCoord");
+    progSky.linkAndValidate();
+    progSky.addSampler();
+
+    texIds.push_back(LoadTexture("../tex/skybox1.jpg", 0));
+  }
 
   progCube.addShader("shader.vert1", GL_VERTEX_SHADER);
   progCube.addShader("shader.frag1", GL_FRAGMENT_SHADER);
@@ -283,15 +286,17 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-//  ParseObj("mesh.obj", mesh);
-//  mesh.compute_normals();
-//  for (int i = 0; i < mesh.num_materials(); ++i)
-//      Material& material = mesh.material(i);
-//  mesh.loadVBOArrays();
+  if (argc > 1 && (useSkyBox = (string(argv[1]) == "-s"))) {
+    ParseObj("skybox.obj", meshSky);
+    meshSky.compute_normals();
+    for (int i = 0; i < meshSky.num_materials(); ++i)
+      Material& material = meshSky.material(i);
+    meshSky.loadVBOArrays();
+    BufferInit();
+  }
 
   OpenGLInit();
   ShaderInit();
-//  BufferInit();
 
   glutMainLoop();
 
