@@ -29,8 +29,8 @@ endif
 # Uncomment the following line if you are using Mesa
 #LIBS = -lglut -lMesaGLU -lMesaGL -lm
 
-crystal: main.o quaternion.o shaderobj.o program.o
-	${CC} ${CFLAGS} $(INCLUDE) -o crystal main.o quaternion.o shaderobj.o program.o ${LIBDIR} ${LIBS}
+crystal: main.o quaternion.o shaderobj.o program.o io.o mesh.o material.o
+	${CC} ${CFLAGS} $(INCLUDE) -o crystal main.o quaternion.o shaderobj.o program.o io.o mesh.o material.o ${LIBDIR} ${LIBS}
 
 main.o: main.cpp program.hpp shaderobj.hpp quaternion.hpp helper.hpp
 	${CC} ${CFLAGS} -c -o main.o $(INCLUDE) main.cpp
@@ -43,6 +43,15 @@ shaderobj.o: shaderobj.cpp shaderobj.hpp
 	
 program.o: program.cpp program.hpp
 	${CC} ${CFLAGS} -c -o program.o $(INCLUDE) program.cpp
+	
+io.o: io.cpp io.h mesh.h
+	${CC} ${CFLAGS} -c -o io.o $(INCLUDE) io.cpp
+
+mesh.o: mesh.cpp mesh.h
+	${CC} ${CFLAGS} -c -o mesh.o $(INCLUDE) mesh.cpp
+	
+material.o: material.cpp material.h
+	${CC} ${CFLAGS} -c -o material.o $(INCLUDE) material.cpp
 
 clean:
 	rm -f crystal *.o

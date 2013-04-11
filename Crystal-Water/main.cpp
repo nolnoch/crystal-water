@@ -38,6 +38,14 @@ void Display() {
  */
 
 void PushUniformsSky() {
+  vector<int>& iboSizes = mesh.iboSizes();
+  int nIBOs = mesh.numIBOs();
+
+  glBindBuffer(GL_ARRAY_BUFFER, vboID);
+  glEnableVertexAttribArray(0);
+  glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
+
   // Load matrices.
   progSky.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progSky.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
@@ -53,6 +61,17 @@ void PushUniformsSky() {
   progSky.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(material_diffuse));
   progSky.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(material_specular));
   progSky.setUniform(    GL_FLOAT, "mat.matShiny", material_shininess);
+
+  glEnable(GL_TEXTURE_2D);
+  progSky.setTexture("tex", 0, texIds[0], 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *(iboIDs[0]));
+  glDrawElements(GL_TRIANGLES, iboSizes[0], GL_UNSIGNED_INT, OFFSET_PTR(0));
+
+  glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void PushVerticesSky() {
@@ -174,7 +193,31 @@ void Idle() {
  */
 
 void BufferInit() {
-  // Fill when we have data to send to buffer.
+  std::vector<VBOVertex>& vboArray = mesh.getVBOVertexArray();
+  std::vector<vector<GLuint> >& iboArrays = mesh.getIBOIndexArrays();
+  int nVBO = vboArray.size();
+  int nIBOs = iboArrays.size();
+
+  // Vertex Buffer Object
+  glGenBuffers(1, &vboID);
+  glBindBuffer(GL_ARRAY_BUFFER, vboID);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(VBOVertex)*nVBO, NULL, GL_STATIC_DRAW);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VBOVertex)*nVBO, &vboArray[0]);
+
+  glNormalPointer(GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(0));
+  glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(12));
+  glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(20));
+
+  // Index Buffer Objects
+  for (int i = 0; i < nIBOs; i++) {
+    iboIDs.push_back(new GLuint);
+    glGenBuffers(1, iboIDs[i]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *(iboIDs[i]));
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, iboArrays[i].size() * sizeof(GLuint),
+        &iboArrays[i][0], GL_STATIC_DRAW);
+  }
+  // Data should now be in GPU memory (server-side), so free heap memory.
+  mesh.freeArrays();
 }
 
 void ShaderInit() {
@@ -187,7 +230,7 @@ void ShaderInit() {
 //  progSky.linkAndValidate();
 //  progSky.addSampler();
 //
-//  LoadTexture("../tex/skybox1.jpg", 0);
+//  texIds.push_back(LoadTexture("../tex/skybox1.jpg", 0));
 
   progCube.addShader("shader.vert1", GL_VERTEX_SHADER);
   progCube.addShader("shader.frag1", GL_FRAGMENT_SHADER);
@@ -240,9 +283,15 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
+//  ParseObj("mesh.obj", mesh);
+//  mesh.compute_normals();
+//  for (int i = 0; i < mesh.num_materials(); ++i)
+//      Material& material = mesh.material(i);
+//  mesh.loadVBOArrays();
+
   OpenGLInit();
   ShaderInit();
-  BufferInit();
+//  BufferInit();
 
   glutMainLoop();
 

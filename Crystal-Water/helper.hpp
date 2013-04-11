@@ -22,6 +22,11 @@
 
 #include "./program.hpp"
 #include "./quaternion.hpp"
+#include "./io.h"
+
+
+#define NULL_PTR        reinterpret_cast<char *>(NULL)
+#define OFFSET_PTR(n)   (reinterpret_cast<GLvoid *>(NULL_PTR + (n)))
 
 
 /*********************************
@@ -30,6 +35,14 @@
 
 // Shader Program
 Program progSky, progCube;
+
+// Vertex Buffers
+GLuint vboID;
+vector<GLuint *> iboIDs;
+
+// Objects
+Mesh mesh;
+vector<GLuint> texIds;
 
 // Lighting
 glm::vec4 light_ambient(0.1f, 0.1f, 0.1f, 1.0f);
@@ -41,7 +54,7 @@ glm::vec4 light_position(40.0f, 5.0f, 20.0f, 1.0f);
 glm::vec3 material_ambient(0.1f, 0.2f, 0.3f);
 glm::vec3 material_diffuse(0.2f, 0.3f, 0.5f);
 glm::vec3 material_specular(0.3f, 0.6f, 0.8f);
-GLfloat material_shininess = 70;
+GLfloat material_shininess = 100;
 
 // Window
 const GLint WIN_WIDTH = 800;
