@@ -12,7 +12,7 @@ LIBDIR =
 # Libraries that use native graphics hardware --
 # appropriate for Linux machines in Taylor basement
 #LIBS = -lglut -lGLU -lGL -lpthread -lm
-LIBS = -lGLEW -lglut -lGLU -lm -ljpeg
+LIBS = -lGLEW -lglut -lGLU -lm -lSOIL
 
 ###########################################################
 # Options if compiling on Mac

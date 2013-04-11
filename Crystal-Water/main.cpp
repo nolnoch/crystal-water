@@ -18,10 +18,15 @@ void Display() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   CollapseMatrices();
 
-  progShader.enable();
-  PushUniforms();
-  PushVertices();
-  progShader.disable();
+//  progSky.enable();
+//  PushUniformsCube();
+//  PushVerticesCube();
+//  progSky.disable();
+
+  progCube.enable();
+  PushUniformsCube();
+  PushVerticesCube();
+  progCube.disable();
 
   glFlush();
   glutSwapBuffers();
@@ -32,25 +37,47 @@ void Display() {
  * Rendering
  */
 
-void PushUniforms() {
+void PushUniformsSky() {
   // Load matrices.
-  progShader.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
-  progShader.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
+  progSky.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
+  progSky.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
 
   // Load the (static) location/properties of the light.
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightPos", glm::value_ptr(light_position));
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightAmb", glm::value_ptr(light_ambient));
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightDiff", glm::value_ptr(light_diffuse));
-  progShader.setUniformv(3, GL_FLOAT, "light0.lightSpec", glm::value_ptr(light_specular));
+  progSky.setUniformv(3, GL_FLOAT, "light0.lightPos", glm::value_ptr(light_position));
+  progSky.setUniformv(3, GL_FLOAT, "light0.lightAmb", glm::value_ptr(light_ambient));
+  progSky.setUniformv(3, GL_FLOAT, "light0.lightDiff", glm::value_ptr(light_diffuse));
+  progSky.setUniformv(3, GL_FLOAT, "light0.lightSpec", glm::value_ptr(light_specular));
 
   // Load material properties.
-  progShader.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(material_ambient));
-  progShader.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(material_diffuse));
-  progShader.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(material_specular));
-  progShader.setUniform(    GL_FLOAT, "mat.matShiny", material_shininess);
+  progSky.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(material_ambient));
+  progSky.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(material_diffuse));
+  progSky.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(material_specular));
+  progSky.setUniform(    GL_FLOAT, "mat.matShiny", material_shininess);
 }
 
-void PushVertices() {
+void PushVerticesSky() {
+  glutSolidCube(15.0);
+}
+
+void PushUniformsCube() {
+  // Load matrices.
+  progCube.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
+  progCube.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
+
+  // Load the (static) location/properties of the light.
+  progCube.setUniformv(3, GL_FLOAT, "light0.lightPos", glm::value_ptr(light_position));
+  progCube.setUniformv(3, GL_FLOAT, "light0.lightAmb", glm::value_ptr(light_ambient));
+  progCube.setUniformv(3, GL_FLOAT, "light0.lightDiff", glm::value_ptr(light_diffuse));
+  progCube.setUniformv(3, GL_FLOAT, "light0.lightSpec", glm::value_ptr(light_specular));
+
+  // Load material properties.
+  progCube.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(material_ambient));
+  progCube.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(material_diffuse));
+  progCube.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(material_specular));
+  progCube.setUniform(    GL_FLOAT, "mat.matShiny", material_shininess);
+}
+
+void PushVerticesCube() {
   glutSolidCube(15.0);
 }
 
@@ -151,11 +178,21 @@ void BufferInit() {
 }
 
 void ShaderInit() {
-  progShader.addDefaultShaders();
-  progShader.init();
-  // progShader.bindAttribute(0, "someAttribute");
-  progShader.linkAndValidate();
-  // progShader.addSampler();
+//  progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
+//  progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
+//  progSky.init();
+//  progSky.bindAttribute(0, "vertexLocation");
+//  progSky.bindAttribute(1, "vertexNormal");
+//  progSky.bindAttribute(2, "vertexTexCoord");
+//  progSky.linkAndValidate();
+//  progSky.addSampler();
+//
+//  LoadTexture("../tex/skybox1.jpg", 0);
+
+  progCube.addShader("shader.vert1", GL_VERTEX_SHADER);
+  progCube.addShader("shader.frag1", GL_FRAGMENT_SHADER);
+  progCube.init();
+  progCube.linkAndValidate();
 }
 
 void OpenGLInit() {

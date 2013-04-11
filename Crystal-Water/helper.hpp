@@ -18,6 +18,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <SOIL/SOIL.h>
+
 #include "./program.hpp"
 #include "./quaternion.hpp"
 
@@ -27,7 +29,7 @@
  */
 
 // Shader Program
-Program progShader;
+Program progSky, progCube;
 
 // Lighting
 glm::vec4 light_ambient(0.1f, 0.1f, 0.1f, 1.0f);
@@ -63,8 +65,10 @@ bool stateOrbiting;
  */
 
 void Display();
-void PushUniforms();
-void PushVertices();
+void PushUniformsCube();
+void PushVerticesCube();
+void PushUniformsSky();
+void PushVerticesSky();
 void MouseClick(int button, int state, int x, int y);
 void MouseMotion(int x, int y);
 void MouseWheel(int wheel, int direction, int x, int y);
@@ -84,6 +88,16 @@ void CollapseMatrices() {
   mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
 
   mModel = mLook * mTrans * mRot;
+}
+
+GLuint LoadTexture(string filename, int texUnit) {
+  glEnable(GL_TEXTURE_2D);
+  glActiveTexture(GL_TEXTURE0 + texUnit);
+
+  return SOIL_load_OGL_texture(filename.c_str(),
+                               SOIL_LOAD_AUTO,
+                               SOIL_CREATE_NEW_ID,
+                               SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
 }
 
 GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
