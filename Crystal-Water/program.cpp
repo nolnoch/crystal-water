@@ -2,7 +2,7 @@
  * program.cpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 8, 2013
+ *   Last Update: Apr 11, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -280,6 +280,11 @@ void Program::setUniformMatrix(int size, string name, float *m) {
  */
 void Program::setTexture(string samplerName, GLuint texUnit,
               GLuint texId, int sampler) {
+  if ((*this->samplers).empty()) {
+    cout << "Cannot set texture: No samplers added to program." << endl;
+    return;
+  }
+
   GLint loc = glGetUniformLocation(this->programId, samplerName.c_str());
 
   glActiveTexture(GL_TEXTURE0 + texUnit);

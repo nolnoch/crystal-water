@@ -49,7 +49,7 @@ bool useSkyBox;
 glm::vec4 light_ambient(0.1f, 0.1f, 0.1f, 1.0f);
 glm::vec4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
 glm::vec4 light_specular(1.0f, 1.0f, 1.0f, 1.0f);
-glm::vec4 light_position(40.0f, 5.0f, 20.0f, 1.0f);
+glm::vec4 light_position(70.0f, 5.0f, 50.0f, 1.0f);
 
 // Material
 glm::vec3 material_ambient(0.1f, 0.2f, 0.3f);
@@ -79,9 +79,9 @@ bool stateOrbiting;
  */
 
 void Display();
-void PushUniformsCube();
+void PushStaticUniformsCube();
 void PushVerticesCube();
-void PushUniformsSky();
+void PushStaticUniformsSky();
 void PushVerticesSky();
 void MouseClick(int button, int state, int x, int y);
 void MouseMotion(int x, int y);
@@ -105,13 +105,21 @@ void CollapseMatrices() {
 }
 
 GLuint LoadTexture(string filename, int texUnit) {
+  GLuint id;
+
   glEnable(GL_TEXTURE_2D);
   glActiveTexture(GL_TEXTURE0 + texUnit);
 
-  return SOIL_load_OGL_texture(filename.c_str(),
-                               SOIL_LOAD_AUTO,
-                               SOIL_CREATE_NEW_ID,
-                               SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+  id = SOIL_load_OGL_texture(filename.c_str(),
+                             SOIL_LOAD_AUTO,
+                             SOIL_CREATE_NEW_ID,
+                             SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+
+  glBindTexture(GL_TEXTURE_2D, id);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+  return id;
 }
 
 GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
@@ -129,7 +137,7 @@ GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
 
   dotProd = glm::dot(glm::normalize(vA), glm::normalize(vB));
 
-  return glm::acos(dotProd) * (vEye.z / 42.0f);
+  return glm::acos(dotProd) * 1.20f;
 }
 
 void SetAnchor(float x, float y) {

@@ -20,13 +20,13 @@ void Display() {
 
   if (useSkyBox) {
     progSky.enable();
-    PushUniformsCube();
-    PushVerticesCube();
+    PushStaticUniformsSky();
+    PushVerticesSky();
     progSky.disable();
   }
 
   progCube.enable();
-  PushUniformsCube();
+  PushStaticUniformsCube();
   PushVerticesCube();
   progCube.disable();
 
@@ -39,7 +39,7 @@ void Display() {
  * Rendering
  */
 
-void PushUniformsSky() {
+void PushStaticUniformsSky() {
   // Load matrices.
   progSky.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progSky.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
@@ -49,18 +49,10 @@ void PushUniformsSky() {
   progSky.setUniformv(3, GL_FLOAT, "light0.lightAmb", glm::value_ptr(light_ambient));
   progSky.setUniformv(3, GL_FLOAT, "light0.lightDiff", glm::value_ptr(light_diffuse));
   progSky.setUniformv(3, GL_FLOAT, "light0.lightSpec", glm::value_ptr(light_specular));
-
-  // Load material properties.
-  progSky.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(material_ambient));
-  progSky.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(material_diffuse));
-  progSky.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(material_specular));
-  progSky.setUniform(    GL_FLOAT, "mat.matShiny", material_shininess);
-
-  glEnable(GL_TEXTURE_2D);
-  progSky.setTexture("tex", 0, texIds[0], 0);
 }
 
 void PushVerticesSky() {
+  bool useMaterials = (meshSky.getUsedMaterials().size() != 0);
   vector<int>& iboSizes = meshSky.iboSizes();
   int nIBOs = meshSky.numIBOs();
 
@@ -68,9 +60,28 @@ void PushVerticesSky() {
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(0));
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(12));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(20));
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *(iboIDs[0]));
-  glDrawElements(GL_TRIANGLES, iboSizes[0], GL_UNSIGNED_INT, OFFSET_PTR(0));
+  // Load materials specific to each IBO and render those elements.
+  for (int i = 0; i < nIBOs; i++) {
+    if (useMaterials) {
+      int mat = meshSky.getUsedMaterials()[i];
+      Material& mCurrent = meshSky.getMaterials()[mat];
+
+      progSky.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(mCurrent.ambient()));
+      progSky.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(mCurrent.diffuse()));
+      progSky.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(mCurrent.specular()));
+      progSky.setUniform(GL_FLOAT, "mat.matShiny",  mCurrent.specular_coeff());
+
+      glEnable(GL_TEXTURE_2D);
+      progSky.setTexture("tex", 0, texIds[0], 0);
+    }
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *(iboIDs[i]));
+    glDrawElements(GL_TRIANGLES, iboSizes[i], GL_UNSIGNED_INT, OFFSET_PTR(0));
+  }
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
@@ -79,7 +90,7 @@ void PushVerticesSky() {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void PushUniformsCube() {
+void PushStaticUniformsCube() {
   // Load matrices.
   progCube.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progCube.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
@@ -122,7 +133,7 @@ void MouseClick(int button, int state, int x, int y) {
     // Right click action?
 
   } else if (button == 3 || button == 4) {
-    float step = 1.0f;
+    float step = vEye.z / 15.0f;
 
     vEye.z += (button == 4) ? step : -step;
   }
@@ -172,6 +183,7 @@ void Keyboard(unsigned char key, int x, int y) {
     case 'r':
       CameraInit();
       MatrixInit();
+      glutPostRedisplay();
       break;
     case 'q':
     case 27:
@@ -222,17 +234,24 @@ void BufferInit() {
 }
 
 void ShaderInit() {
+  GLint texLoad;
+  string t0 = "../tex/skybox1.jpg";
+
   if (useSkyBox) {
     progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
     progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
     progSky.init();
-    progSky.bindAttribute(0, "vertexLocation");
-    progSky.bindAttribute(1, "vertexNormal");
-    progSky.bindAttribute(2, "vertexTexCoord");
+    progSky.bindAttribute(0, "vertexNormal");
+    progSky.bindAttribute(1, "vertexTexCoord");
+    progSky.bindAttribute(2, "vertexLocation");
     progSky.linkAndValidate();
     progSky.addSampler();
 
-    texIds.push_back(LoadTexture("../tex/skybox1.jpg", 0));
+    texIds.push_back(texLoad = LoadTexture(t0, 0));
+    if (!texLoad) {
+      cout << "SOIL: Error loading texture from " << t0 << endl;
+      exit(-1);
+    }
   }
 
   progCube.addShader("shader.vert1", GL_VERTEX_SHADER);
