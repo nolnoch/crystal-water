@@ -1,0 +1,149 @@
+\hypertarget{classMesh}{\section{Mesh Class Reference}
+\label{classMesh}\index{Mesh@{Mesh}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMesh_a057b3461e646a8a022f9989b3014194e}{Add\-Vertex} (const glm\-::vec3 \&v)
+\item 
+void \hyperlink{classMesh_aa8b8eead3d37411bd91a24417b300148}{Add\-Vertex} (const glm\-::vec4 \&v)
+\item 
+void \hyperlink{classMesh_a0737fe043d4c8f9d5b83ca0ea89a1cfc}{Add\-Texture\-Vertex} (const glm\-::vec3 \&v)
+\item 
+void \hyperlink{classMesh_aba5bf035eafa537adeae5f3bc0804ff4}{Add\-Normal\-Vertex} (const glm\-::vec3 \&v)
+\item 
+void \hyperlink{classMesh_a67fae480eb46255053a3dd08d44522da}{Add\-Polygon} (const std\-::vector$<$ int $>$ \&p, const std\-::vector$<$ int $>$ \&pt)
+\item 
+\hypertarget{classMesh_aa196429f3e87ecd53e8770ba979222f4}{void {\bfseries render} ()}\label{classMesh_aa196429f3e87ecd53e8770ba979222f4}
+
+\item 
+void \hyperlink{classMesh_ae22e2d895293ab336df9d118d02548a3}{load\-V\-B\-O\-Arrays} ()
+\item 
+\hypertarget{classMesh_a7851ef56844e42b5943fe3e44c88416f}{void {\bfseries free\-Arrays} ()}\label{classMesh_a7851ef56844e42b5943fe3e44c88416f}
+
+\item 
+\hypertarget{classMesh_a9207d439941d5d12f30d2d2ace000093}{int {\bfseries vbo\-Size} ()}\label{classMesh_a9207d439941d5d12f30d2d2ace000093}
+
+\item 
+\hypertarget{classMesh_a5334ea5e7835eae71f8fc7ba5c431818}{int {\bfseries num\-I\-B\-Os} ()}\label{classMesh_a5334ea5e7835eae71f8fc7ba5c431818}
+
+\item 
+\hypertarget{classMesh_a29874e1f0dc026ea0501cbabddb6990e}{std\-::vector$<$ int $>$ \& {\bfseries ibo\-Sizes} ()}\label{classMesh_a29874e1f0dc026ea0501cbabddb6990e}
+
+\item 
+\hypertarget{classMesh_abbfb42b55e8cfaf340d344af708f435e}{std\-::vector$<$ \hyperlink{structVBOVertex}{V\-B\-O\-Vertex} $>$ \& {\bfseries get\-V\-B\-O\-Vertex\-Array} ()}\label{classMesh_abbfb42b55e8cfaf340d344af708f435e}
+
+\item 
+\hypertarget{classMesh_ac6a5c0633ed0acfdc76659bce170b53e}{std\-::vector$<$ vector$<$ G\-Luint $>$ $>$ \& {\bfseries get\-I\-B\-O\-Index\-Arrays} ()}\label{classMesh_ac6a5c0633ed0acfdc76659bce170b53e}
+
+\item 
+\hypertarget{classMesh_a63bea725717d1eed08a5b36fae1edc3f}{std\-::vector$<$ int $>$ \& {\bfseries get\-Used\-Materials} ()}\label{classMesh_a63bea725717d1eed08a5b36fae1edc3f}
+
+\item 
+\hypertarget{classMesh_aef73d7d063129475d060d26d309e6432}{std\-::vector$<$ \hyperlink{classMaterial}{Material} $>$ \& {\bfseries get\-Materials} ()}\label{classMesh_aef73d7d063129475d060d26d309e6432}
+
+\item 
+\hypertarget{classMesh_a7a961353b6282350124d154fb6954d98}{void {\bfseries new\-\_\-material} (int material\-\_\-idx, const std\-::string \&name)}\label{classMesh_a7a961353b6282350124d154fb6954d98}
+
+\item 
+\hypertarget{classMesh_a824f5eb1ae2410e8ca0aa5545d1fc8a7}{void {\bfseries set\-\_\-cur\-\_\-material} (const string \&name)}\label{classMesh_a824f5eb1ae2410e8ca0aa5545d1fc8a7}
+
+\item 
+\hypertarget{classMesh_a50427b613dfc9d2bbfad3606cdebb793}{void {\bfseries set\-\_\-cur\-\_\-material} (int cur\-\_\-mtl)}\label{classMesh_a50427b613dfc9d2bbfad3606cdebb793}
+
+\item 
+\hypertarget{classMesh_a067a5fa985f9cd9a04e4c1fa5a6da8d9}{void {\bfseries set\-\_\-ambient} (int material\-\_\-idx, const glm\-::vec3 \&ambient)}\label{classMesh_a067a5fa985f9cd9a04e4c1fa5a6da8d9}
+
+\item 
+\hypertarget{classMesh_af76944b10f0964e2aa5092eda8c00675}{void {\bfseries set\-\_\-diffuse} (int material\-\_\-idx, const glm\-::vec3 \&diffuse)}\label{classMesh_af76944b10f0964e2aa5092eda8c00675}
+
+\item 
+\hypertarget{classMesh_af0ff9ddf30edddf1f563ca9d92555b47}{void {\bfseries set\-\_\-specular} (int material\-\_\-idx, const glm\-::vec3 \&specular)}\label{classMesh_af0ff9ddf30edddf1f563ca9d92555b47}
+
+\item 
+\hypertarget{classMesh_a470c8fb2872fc583645ef0bfa44747ee}{void {\bfseries set\-\_\-specular\-\_\-coeff} (int material\-\_\-idx, const float \&coeff)}\label{classMesh_a470c8fb2872fc583645ef0bfa44747ee}
+
+\item 
+int \hyperlink{classMesh_a4c2ab09440340626a29be1d7902a7758}{polygon2material} (int polygon\-\_\-idx) const 
+\item 
+\hypertarget{classMesh_aa23b95044b1637d63c7398a2fdcd6eb2}{const \hyperlink{classMaterial}{Material} \& {\bfseries material} (int i) const }\label{classMesh_aa23b95044b1637d63c7398a2fdcd6eb2}
+
+\item 
+\hypertarget{classMesh_a0d508965e0a0cb8f3b197f4bce580d71}{\hyperlink{classMaterial}{Material} \& {\bfseries material} (int i)}\label{classMesh_a0d508965e0a0cb8f3b197f4bce580d71}
+
+\item 
+\hypertarget{classMesh_aa7ec7c54c2193d3570319e533c2b4bd6}{int {\bfseries num\-\_\-materials} () const }\label{classMesh_aa7ec7c54c2193d3570319e533c2b4bd6}
+
+\item 
+void \hyperlink{classMesh_a4e9bedfc415b7135c9587f63535fcb6d}{compute\-\_\-normals} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classMesh_aba5bf035eafa537adeae5f3bc0804ff4}{\index{Mesh@{Mesh}!Add\-Normal\-Vertex@{Add\-Normal\-Vertex}}
+\index{Add\-Normal\-Vertex@{Add\-Normal\-Vertex}!Mesh@{Mesh}}
+\subsubsection[{Add\-Normal\-Vertex}]{\setlength{\rightskip}{0pt plus 5cm}void Mesh\-::\-Add\-Normal\-Vertex (
+\begin{DoxyParamCaption}
+\item[{const glm\-::vec3 \&}]{v}
+\end{DoxyParamCaption}
+)}}\label{classMesh_aba5bf035eafa537adeae5f3bc0804ff4}
+This {\bfseries may} be called by the obj parser (forward compatible). \hypertarget{classMesh_a67fae480eb46255053a3dd08d44522da}{\index{Mesh@{Mesh}!Add\-Polygon@{Add\-Polygon}}
+\index{Add\-Polygon@{Add\-Polygon}!Mesh@{Mesh}}
+\subsubsection[{Add\-Polygon}]{\setlength{\rightskip}{0pt plus 5cm}void Mesh\-::\-Add\-Polygon (
+\begin{DoxyParamCaption}
+\item[{const std\-::vector$<$ int $>$ \&}]{p, }
+\item[{const std\-::vector$<$ int $>$ \&}]{pt}
+\end{DoxyParamCaption}
+)}}\label{classMesh_a67fae480eb46255053a3dd08d44522da}
+p is the list of indices of vertices for this polygon. For example, if p = \{0, 1, 2\} then the polygon is a triangle with the zeroth, first and second vertices added using Add\-Vertex.
+
+pt is the list of texture indices for this polygon, similar to the actual vertices described above. \hypertarget{classMesh_a0737fe043d4c8f9d5b83ca0ea89a1cfc}{\index{Mesh@{Mesh}!Add\-Texture\-Vertex@{Add\-Texture\-Vertex}}
+\index{Add\-Texture\-Vertex@{Add\-Texture\-Vertex}!Mesh@{Mesh}}
+\subsubsection[{Add\-Texture\-Vertex}]{\setlength{\rightskip}{0pt plus 5cm}void Mesh\-::\-Add\-Texture\-Vertex (
+\begin{DoxyParamCaption}
+\item[{const glm\-::vec3 \&}]{v}
+\end{DoxyParamCaption}
+)}}\label{classMesh_a0737fe043d4c8f9d5b83ca0ea89a1cfc}
+This will be called by the obj parser. \hypertarget{classMesh_a057b3461e646a8a022f9989b3014194e}{\index{Mesh@{Mesh}!Add\-Vertex@{Add\-Vertex}}
+\index{Add\-Vertex@{Add\-Vertex}!Mesh@{Mesh}}
+\subsubsection[{Add\-Vertex}]{\setlength{\rightskip}{0pt plus 5cm}void Mesh\-::\-Add\-Vertex (
+\begin{DoxyParamCaption}
+\item[{const glm\-::vec3 \&}]{v}
+\end{DoxyParamCaption}
+)}}\label{classMesh_a057b3461e646a8a022f9989b3014194e}
+This will be called by the obj parser. \hypertarget{classMesh_aa8b8eead3d37411bd91a24417b300148}{\index{Mesh@{Mesh}!Add\-Vertex@{Add\-Vertex}}
+\index{Add\-Vertex@{Add\-Vertex}!Mesh@{Mesh}}
+\subsubsection[{Add\-Vertex}]{\setlength{\rightskip}{0pt plus 5cm}void Mesh\-::\-Add\-Vertex (
+\begin{DoxyParamCaption}
+\item[{const glm\-::vec4 \&}]{v}
+\end{DoxyParamCaption}
+)}}\label{classMesh_aa8b8eead3d37411bd91a24417b300148}
+This {\bfseries may} be called by the obj parser. We can support vertex weighting for \char`\"{}trimming curves\char`\"{} at a later date. Until then, shorten the glm\-::vec4 to a glm\-::vec3, and deal with it normally. \hypertarget{classMesh_a4e9bedfc415b7135c9587f63535fcb6d}{\index{Mesh@{Mesh}!compute\-\_\-normals@{compute\-\_\-normals}}
+\index{compute\-\_\-normals@{compute\-\_\-normals}!Mesh@{Mesh}}
+\subsubsection[{compute\-\_\-normals}]{\setlength{\rightskip}{0pt plus 5cm}void Mesh\-::compute\-\_\-normals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMesh_a4e9bedfc415b7135c9587f63535fcb6d}
+Computes the normals for each vertex. Whether the normals are loaded from the obj file or generated here, this function must be called before the \hyperlink{classMesh}{Mesh} may be rendered (safety). \hypertarget{classMesh_ae22e2d895293ab336df9d118d02548a3}{\index{Mesh@{Mesh}!load\-V\-B\-O\-Arrays@{load\-V\-B\-O\-Arrays}}
+\index{load\-V\-B\-O\-Arrays@{load\-V\-B\-O\-Arrays}!Mesh@{Mesh}}
+\subsubsection[{load\-V\-B\-O\-Arrays}]{\setlength{\rightskip}{0pt plus 5cm}void Mesh\-::load\-V\-B\-O\-Arrays (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMesh_ae22e2d895293ab336df9d118d02548a3}
+Set up the Mesh-\/wide V\-B\-O array and an I\-B\-O array for each material. \hypertarget{classMesh_a4c2ab09440340626a29be1d7902a7758}{\index{Mesh@{Mesh}!polygon2material@{polygon2material}}
+\index{polygon2material@{polygon2material}!Mesh@{Mesh}}
+\subsubsection[{polygon2material}]{\setlength{\rightskip}{0pt plus 5cm}int Mesh\-::polygon2material (
+\begin{DoxyParamCaption}
+\item[{int}]{polygon\-\_\-idx}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classMesh_a4c2ab09440340626a29be1d7902a7758}
+You don't need to modify this function, but it will be useful in your Display() function.
+
+Given a polygon index, returns the index of the material that should be used for that polygon. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+mesh.\-h\item 
+mesh.\-cpp\end{DoxyCompactItemize}

@@ -26,7 +26,6 @@ void main() {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-    vec4 texture;
 
     vec3 L = normalize(light0.lightPos - v);
     vec3 R = normalize(reflect(-L, N));

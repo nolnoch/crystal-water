@@ -2,7 +2,7 @@
  * main.cpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 10, 2013
+ *   Last Update: Apr 12, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -235,7 +235,7 @@ void BufferInit() {
 
 void ShaderInit() {
   GLint texLoad;
-  string t0 = "../tex/skybox1.jpg";
+  string t0 = "../tex/skybox2.jpg";
 
   if (useSkyBox) {
     progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
