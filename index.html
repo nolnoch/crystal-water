@@ -57,19 +57,24 @@ particle system-based water feature.</p>
                     based with a vertical slide. Zoom uses mousewheel in spite
                     of Freeglut fail in recognizing the mousewheel funcion.</em><br>
 </li>
-</ul><p><strong>Stage 2</strong> (current) : Ray trace the floating cube to give it a crystal appearance.  </p>
+</ul><p><strong>Stage 2</strong> (skipped) : Ray trace the cube to give it a crystal appearance using GLSL.  </p>
 
 <ul>
 <li>Challenge : <em>Ray-plane intersections should be done on the GPU, but after
                     calculating the destination vertex, how do we get the assoc.
-                    tex coord from the VBO?  Shaders do not provide access to a
+                    tex coord from the VBO?  Shaders do not provide access to an
                     Vertex Buffer element from within another.</em><br>
 </li>
-<li>Solution : <em>Send a Uniform Buffer with vertex/texCoord pairings to the
+<li>Solution : <del>Send a Uniform Buffer with vertex/texCoord pairings to the
                     shaders for real-time lookup.  Unfortunately, this increases
-                    set-up time and is not scalable to larger systems or scenes.</em><br>
+                    set-up time and is not scalable to larger systems or scenes.</del><br>
 </li>
-</ul><p><strong>Stage 3</strong> (planned) : Integrate OpenCL 1.2 to handle ray tracing in GPU kernels.  </p>
+<li>Problem : <em>While the Uniform BUffer solution is demonstrably possible
+                    for small systems, it is hacky, complicated, and extremely
+                    ugly.  And it will never port to anything greater.  Gave up
+                    on doing this with GLSL.</em>
+</li>
+</ul><p><strong>Stage 3</strong> (current) : Integrate OpenCL 1.2 to handle ray tracing in GPU kernels.  </p>
 
 <ul>
 <li>Challenge : <em>How can we use the more ideal OpenCL API to solve our GLSL
@@ -91,8 +96,7 @@ particle system-based water feature.</p>
 <li>OpenCL 1.2**</li>
 <li>Freeglut Extended features</li>
 <li>Modern libraries</li>
-<li>Vertex Buffers and Element Arrays</li>
-<li>Uniform Buffers**</li>
+<li>Vertex/Uniform Buffers and Element Arrays</li>
 <li>Lighting models</li>
 <li>Mesh loading</li>
 <li>Arcball-like control</li>
