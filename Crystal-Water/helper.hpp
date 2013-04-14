@@ -13,12 +13,15 @@
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+// #include <CL/cl.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <SOIL/SOIL.h>
+// #include <assimp/Importer.hpp>
+// #include <assimp/scene.h>
 
 #include "./program.hpp"
 #include "./quaternion.hpp"
@@ -37,7 +40,7 @@
 Program progSky, progCube;
 
 // Vertex Buffers
-GLuint vboID;
+GLuint vboID, uboID;
 vector<GLuint *> iboIDs;
 
 // Objects

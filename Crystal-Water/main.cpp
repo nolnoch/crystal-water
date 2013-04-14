@@ -40,15 +40,17 @@ void Display() {
  */
 
 void PushStaticUniformsSky() {
+  GLuint locLight0;
+  GLuint blockBindingLight0 = 1;
+
   // Load matrices.
   progSky.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progSky.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
 
-  // Load the (static) location/properties of the light.
-  progSky.setUniformv(3, GL_FLOAT, "light0.lightPos", glm::value_ptr(light_position));
-  progSky.setUniformv(3, GL_FLOAT, "light0.lightAmb", glm::value_ptr(light_ambient));
-  progSky.setUniformv(3, GL_FLOAT, "light0.lightDiff", glm::value_ptr(light_diffuse));
-  progSky.setUniformv(3, GL_FLOAT, "light0.lightSpec", glm::value_ptr(light_specular));
+  // Bind the (static) location/properties of the light.
+  locLight0 = glGetUniformBlockIndex(progSky.getProgramId(), "Light0");
+  glUniformBlockBinding(progSky.getProgramId(), locLight0, blockBindingLight0);
+  glBindBufferBase(GL_UNIFORM_BUFFER, blockBindingLight0, uboID);
 }
 
 void PushVerticesSky() {
@@ -91,15 +93,17 @@ void PushVerticesSky() {
 }
 
 void PushStaticUniformsCube() {
+  GLuint locLight0;
+  GLuint blockBindingLight0 = 1;
+
   // Load matrices.
   progCube.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
   progCube.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
 
-  // Load the (static) location/properties of the light.
-  progCube.setUniformv(3, GL_FLOAT, "light0.lightPos", glm::value_ptr(light_position));
-  progCube.setUniformv(3, GL_FLOAT, "light0.lightAmb", glm::value_ptr(light_ambient));
-  progCube.setUniformv(3, GL_FLOAT, "light0.lightDiff", glm::value_ptr(light_diffuse));
-  progCube.setUniformv(3, GL_FLOAT, "light0.lightSpec", glm::value_ptr(light_specular));
+  // Bind the (static) location/properties of the light.
+  locLight0 = glGetUniformBlockIndex(progCube.getProgramId(), "Light");
+  glUniformBlockBinding(progCube.getProgramId(), locLight0, blockBindingLight0);
+  glBindBufferBase(GL_UNIFORM_BUFFER, blockBindingLight0, uboID);
 
   // Load material properties.
   progCube.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(material_ambient));
@@ -210,6 +214,7 @@ void BufferInit() {
   std::vector<vector<GLuint> >& iboArrays = meshSky.getIBOIndexArrays();
   int nVBO = vboArray.size();
   int nIBOs = iboArrays.size();
+  GLfloat align = 0.0f;
 
   // Vertex Buffer Object
   glGenBuffers(1, &vboID);
@@ -220,6 +225,17 @@ void BufferInit() {
   glNormalPointer(GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(0));
   glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(12));
   glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(20));
+
+  // Uniform Buffer Object (shared uniforms, e.g. lights)
+  GLfloat uLight0[16] = { light_position.x, light_position.y, light_position.z, align,
+                          light_ambient.x, light_ambient.y, light_ambient.z, align,
+                          light_diffuse.x, light_diffuse.y, light_diffuse.z, align,
+                          light_specular.x, light_specular.y, light_specular.z, align
+                        };
+  glGenBuffers(1, &uboID);
+  glBindBuffer(GL_UNIFORM_BUFFER, uboID);
+  glBufferData(GL_UNIFORM_BUFFER, sizeof(uLight0), NULL, GL_STATIC_DRAW);
+  glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(uLight0), uLight0);
 
   // Index Buffer Objects
   for (int i = 0; i < nIBOs; i++) {
