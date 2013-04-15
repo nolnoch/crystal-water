@@ -7,6 +7,8 @@ By completion, this project will ideally render a crystal cube or sphere
 suspended in a textured skybox and surrounded by or interacting with a
 particle system-based water feature.
 
+**Working branch**: opencl
+
 ___
 
 **Required libraries**: GLEW, Freeglut, GLM, SOIL
@@ -19,23 +21,23 @@ ___
  - Solution : *GLM math library, SOIL image library, and AssImp model
                         are ideal for this and future projects. Rotation is disc-
                         based with a vertical slide. Zoom uses mousewheel in spite
-                        of Freeglut fail in recognizing the mousewheel funcion.*  
+                        of Freeglut's fail in recognizing the mousewheel funcion.*  
 
 **Stage 2** (skipped) : Ray trace the cube to give it a crystal appearance using GLSL.  
  - Challenge : *Ray-plane intersections should be done on the GPU, but after
                         calculating the destination vertex, how do we get the assoc.
-                        tex coord from the VBO?  Shaders do not provide access to an
+                        tex coord from the VBO?  Shaders do not provide access to a
                         Vertex Buffer element from within another.*  
  - Solution : ~~Send a Uniform Buffer with vertex/texCoord pairings to the
                         shaders for real-time lookup.  Unfortunately, this increases
                         set-up time and is not scalable to larger systems or scenes.~~  
- - Problem : *While the Uniform BUffer solution is demonstrably possible
+ - Problem : *While the Uniform Buffer solution is demonstrably possible
                         for small systems, it is hacky, complicated, and extremely
                         ugly.  And it will never port to anything greater.  Gave up
                         on doing this with GLSL.*
 
   
-**Stage 3** (current) : Integrate OpenCL 1.2 to handle ray tracing in GPU kernels.  
+**Stage 3** (current) : Integrate OpenCL 1.2 to handle ray tracing in GPU kernels. [branched]  
  - Challenge : *How can we use the more ideal OpenCL API to solve our GLSL
                         problems?  How can we accomplish this within the context of
                         an OpenGL application?*  
@@ -50,7 +52,7 @@ ___
 This project is an exploration of modern OpenGL concepts including:
   - GLSL 4.20
   - OpenGL 4.20
-  - OpenCL 1.2**
+  - OpenCL 1.2
   - Freeglut Extended features
   - Modern libraries
   - Vertex/Uniform Buffers and Element Arrays
