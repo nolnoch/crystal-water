@@ -13,7 +13,8 @@
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-// #include <CL/cl.hpp>
+#include <GL/glx.h>
+#include <CL/cl.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,6 +39,13 @@
 
 // Shader Program
 Program progSky, progCube;
+
+// OpenCL
+cl_platform_id platformId;
+cl_device_id deviceId;
+cl_context clContext;
+cl_mem clVBObuffer;
+cl_command_queue clQueue;
 
 // Vertex Buffers
 GLuint vboID, uboID;
@@ -81,7 +89,7 @@ bool stateOrbiting;
  * Function Stubs
  */
 
-void Display();
+void CrystalDisplay();
 void PushStaticUniformsCube();
 void PushVerticesCube();
 void PushStaticUniformsSky();
@@ -169,6 +177,52 @@ void MatrixInit() {
   mModel = glm::mat4(1.0);
   mRot = glm::mat4(1.0);
   mTrans = glm::mat4(1.0);
+}
+
+int ProcessErrorCL(cl_int errorCode) {
+  cout << "OpenCL initialization failed: ";
+
+  switch (errorCode) {
+    case CL_INVALID_PLATFORM:
+      cout << "Invalid platform specified." << endl;
+      break;
+    case CL_INVALID_VALUE:
+      cout << "Invalid value in function call." << endl;
+      break;
+    case CL_INVALID_DEVICE:
+      cout << "Invalid or unassociated device." << endl;
+      break;
+    case CL_INVALID_CONTEXT:
+      cout << "Invalid context specified." << endl;
+      break;
+    case CL_INVALID_MEM_OBJECT:
+      cout << "Invalid CL memory objects." << endl;
+      break;
+    case CL_INVALID_GL_OBJECT:
+      cout << "Invalid GL objects." << endl;
+      break;
+    case CL_INVALID_COMMAND_QUEUE:
+      cout << "Invalid command queue." << endl;
+      break;
+    case CL_INVALID_EVENT_WAIT_LIST:
+      cout << "Invalid events or event list syntax." << endl;
+      break;
+    case CL_INVALID_QUEUE_PROPERTIES:
+      cout << "Valid properties not supported." << endl;
+      break;
+    case CL_DEVICE_NOT_AVAILABLE:
+      cout << "Valid device not available." << endl;
+      break;
+    case CL_OUT_OF_HOST_MEMORY:
+      cout << "Unable to allocate necessary resources." << endl;
+      break;
+    default:
+      cout << "Unknown error." << endl;
+      break;
+  }
+
+  cout << "Aborting program..." << endl;
+  return -1;
 }
 
 

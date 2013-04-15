@@ -14,16 +14,14 @@
  * Display
  */
 
-void Display() {
+void CrystalDisplay() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   CollapseMatrices();
 
-  if (useSkyBox) {
-    progSky.enable();
-    PushStaticUniformsSky();
-    PushVerticesSky();
-    progSky.disable();
-  }
+  progSky.enable();
+  PushStaticUniformsSky();
+  PushVerticesSky();
+  progSky.disable();
 
   progCube.enable();
   PushStaticUniformsCube();
@@ -199,7 +197,7 @@ void Keyboard(unsigned char key, int x, int y) {
 }
 
 void Idle() {
-  // Needed?
+  // Currently not registered. Needed?
 
   glutPostRedisplay();
 }
@@ -215,12 +213,12 @@ void BufferInit() {
   int nVBO = vboArray.size();
   int nIBOs = iboArrays.size();
   GLfloat align = 0.0f;
+  cl_int errorCode;
 
   // Vertex Buffer Object
   glGenBuffers(1, &vboID);
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
   glBufferData(GL_ARRAY_BUFFER, sizeof(VBOVertex)*nVBO, NULL, GL_STATIC_DRAW);
-  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VBOVertex)*nVBO, &vboArray[0]);
 
   glNormalPointer(GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(0));
   glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(12));
@@ -247,27 +245,38 @@ void BufferInit() {
   }
   // Data should now be in GPU memory (server-side), so free heap memory.
   meshSky.freeArrays();
+
+  // Redirect these buffers to OpenCL
+  clVBObuffer = clCreateFromGLBuffer(clContext, CL_MEM_READ_WRITE, vboID, &errorCode);
+  if (errorCode != CL_SUCCESS) {
+    exit(ProcessErrorCL(errorCode));
+  }
+  clQueue = clCreateCommandQueue(clContext, deviceId, 0, &errorCode);
+  if (errorCode != CL_SUCCESS) {
+    exit(ProcessErrorCL(errorCode));
+  }
+  clEnqueueAcquireGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
+
+  // TODO Specify CL program to execute on kernel and release object.
 }
 
 void ShaderInit() {
   GLint texLoad;
   string t0 = "../tex/skybox2.jpg";
 
-  if (useSkyBox) {
-    progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
-    progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
-    progSky.init();
-    progSky.bindAttribute(0, "vertexNormal");
-    progSky.bindAttribute(1, "vertexTexCoord");
-    progSky.bindAttribute(2, "vertexLocation");
-    progSky.linkAndValidate();
-    progSky.addSampler();
+  progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
+  progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
+  progSky.init();
+  progSky.bindAttribute(0, "vertexNormal");
+  progSky.bindAttribute(1, "vertexTexCoord");
+  progSky.bindAttribute(2, "vertexLocation");
+  progSky.linkAndValidate();
+  progSky.addSampler();
 
-    texIds.push_back(texLoad = LoadTexture(t0, 0));
-    if (!texLoad) {
-      cout << "SOIL: Error loading texture from " << t0 << endl;
-      exit(-1);
-    }
+  texIds.push_back(texLoad = LoadTexture(t0, 0));
+  if (!texLoad) {
+    cout << "SOIL: Error loading texture from " << t0 << endl;
+    exit(-1);
   }
 
   progCube.addShader("shader.vert1", GL_VERTEX_SHADER);
@@ -302,12 +311,12 @@ void OpenGLInit() {
 int main(int argc, char* argv[]) {
   // Initialize freeglut
   glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_DEPTH | GLUT_RGBA | GLUT_DOUBLE | GLUT_MULTISAMPLE);
+  glutInitDisplayMode(GLUT_DEPTH | GLUT_RGBA | GLUT_DOUBLE);
   glutInitWindowSize(WIN_WIDTH, WIN_HEIGHT);
   glutInitWindowPosition(50, 50);
 
   glutCreateWindow("Crystal-Water");
-  glutDisplayFunc(Display);
+  glutDisplayFunc(CrystalDisplay);
   glutMouseFunc(MouseClick);
   glutMotionFunc(MouseMotion);
   glutMouseWheelFunc(MouseWheel);
@@ -321,17 +330,30 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  if (argc > 1 && (useSkyBox = (string(argv[1]) == "-s"))) {
-    ParseObj("skybox.obj", meshSky);
-    meshSky.compute_normals();
-    for (int i = 0; i < meshSky.num_materials(); ++i)
-      Material& material = meshSky.material(i);
-    meshSky.loadVBOArrays();
-    BufferInit();
+  // Initialize OpenCL
+  clGetPlatformIDs(1, &platformId, NULL);
+  clGetDeviceIDs(platformId, CL_DEVICE_TYPE_GPU, 1, &deviceId, NULL);
+  cl_context_properties properties[] = {
+      CL_GL_CONTEXT_KHR, (cl_context_properties) glXGetCurrentContext(),
+      CL_GLX_DISPLAY_KHR, (cl_context_properties) glXGetCurrentDisplay(),
+      CL_CONTEXT_PLATFORM, (cl_context_properties) platformId, 0
+  };
+  cl_int contextError;
+  clContext = clCreateContext(properties, 1, &deviceId, NULL, NULL, &contextError);
+  if (contextError != CL_SUCCESS) {
+    return ProcessErrorCL(contextError);
   }
+
+  // Load Skybox
+  ParseObj("skybox.obj", meshSky);
+  meshSky.compute_normals();
+  for (int i = 0; i < meshSky.num_materials(); ++i)
+    Material& material = meshSky.material(i);
+  meshSky.loadVBOArrays();
 
   OpenGLInit();
   ShaderInit();
+  BufferInit();
 
   glutMainLoop();
 

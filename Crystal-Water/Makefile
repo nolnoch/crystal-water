@@ -5,14 +5,14 @@ CC = g++
 CFLAGS = 
 CFLAGS = -ggdb -g
 #CFLAGS = -g
-INCLUDE = -I/opt/AMDAPP/include
+INCLUDE =
 #INCLUDE = -I/lusr/X11/include -I/lusr/include
 LIBDIR =
 #LIBDIR = -L/lusr/X11/lib -L/lusr/lib
 # Libraries that use native graphics hardware --
 # appropriate for Linux machines in Taylor basement
 #LIBS = -lglut -lGLU -lGL -lpthread -lm
-LIBS = -lGLEW -lGL -lglut -lSOIL
+LIBS = -lGLEW -lGL -lglut -lSOIL -lOpenCL
 
 ###########################################################
 # Options if compiling on Mac
