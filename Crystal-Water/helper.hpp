@@ -41,11 +41,13 @@
 Program progSky, progCube;
 
 // OpenCL
-cl_platform_id platformId;
-cl_device_id deviceId;
+cl_platform_id clPlatformId;
+cl_device_id clDeviceId;
 cl_context clContext;
 cl_mem clVBObuffer;
 cl_command_queue clQueue;
+cl_kernel clKernel;
+cl_long clGlobalSize;
 
 // Vertex Buffers
 GLuint vboID, uboID;
@@ -99,6 +101,7 @@ void MouseMotion(int x, int y);
 void MouseWheel(int wheel, int direction, int x, int y);
 void Keyboard(unsigned char key, int x, int y);
 void Idle();
+void OpenCLInit();
 void BufferInit();
 void ShaderInit();
 void OpenGLInit();

@@ -18,11 +18,24 @@ void CrystalDisplay() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   CollapseMatrices();
 
+  glFinish();
+  clEnqueueAcquireGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
+  clEnqueueNDRangeKernel(clQueue, clKernel, 1, NULL, &clGlobalSize, NULL, 0, 0, 0);
+  clEnqueueReleaseGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
+  clFinish(clQueue);
+
   progSky.enable();
   PushStaticUniformsSky();
   PushVerticesSky();
   progSky.disable();
 
+  /* TODO
+   * This will be folded into the mesh so that its vertices are in the VBO.
+   *
+   * We need a simple heuristic to separate cube from skybox, but we ought
+   * to design something flexible for future projects (not relying on all
+   * skyboxes to be 256x256 centered on origin).
+   */
   progCube.enable();
   PushStaticUniformsCube();
   PushVerticesCube();
@@ -207,13 +220,28 @@ void Idle() {
  * Init Functions
  */
 
+void OpenCLInit() {
+  cl_int errorCode;
+
+  // Redirect Vertex Buffer to OpenCL
+  clVBObuffer = clCreateFromGLBuffer(clContext, CL_MEM_READ_WRITE, vboID, &errorCode);
+  if (errorCode != CL_SUCCESS) {
+    exit(ProcessErrorCL(errorCode));
+  }
+  clQueue = clCreateCommandQueue(clContext, clDeviceId, 0, &errorCode);
+  if (errorCode != CL_SUCCESS) {
+    exit(ProcessErrorCL(errorCode));
+  }
+
+  // TODO Specify CL program to execute on kernel and release object.
+}
+
 void BufferInit() {
   std::vector<VBOVertex>& vboArray = meshSky.getVBOVertexArray();
   std::vector<vector<GLuint> >& iboArrays = meshSky.getIBOIndexArrays();
   int nVBO = vboArray.size();
   int nIBOs = iboArrays.size();
   GLfloat align = 0.0f;
-  cl_int errorCode;
 
   // Vertex Buffer Object
   glGenBuffers(1, &vboID);
@@ -224,7 +252,7 @@ void BufferInit() {
   glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(12));
   glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(20));
 
-  // Uniform Buffer Object (shared uniforms, e.g. lights)
+  // Uniform Buffer Object
   GLfloat uLight0[16] = { light_position.x, light_position.y, light_position.z, align,
                           light_ambient.x, light_ambient.y, light_ambient.z, align,
                           light_diffuse.x, light_diffuse.y, light_diffuse.z, align,
@@ -244,20 +272,8 @@ void BufferInit() {
         &iboArrays[i][0], GL_STATIC_DRAW);
   }
   // Data should now be in GPU memory (server-side), so free heap memory.
+  // TODO This data was not assigned to any buffer yet.
   meshSky.freeArrays();
-
-  // Redirect these buffers to OpenCL
-  clVBObuffer = clCreateFromGLBuffer(clContext, CL_MEM_READ_WRITE, vboID, &errorCode);
-  if (errorCode != CL_SUCCESS) {
-    exit(ProcessErrorCL(errorCode));
-  }
-  clQueue = clCreateCommandQueue(clContext, deviceId, 0, &errorCode);
-  if (errorCode != CL_SUCCESS) {
-    exit(ProcessErrorCL(errorCode));
-  }
-  clEnqueueAcquireGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
-
-  // TODO Specify CL program to execute on kernel and release object.
 }
 
 void ShaderInit() {
@@ -331,20 +347,20 @@ int main(int argc, char* argv[]) {
   }
 
   // Initialize OpenCL
-  clGetPlatformIDs(1, &platformId, NULL);
-  clGetDeviceIDs(platformId, CL_DEVICE_TYPE_GPU, 1, &deviceId, NULL);
+  clGetPlatformIDs(1, &clPlatformId, NULL);
+  clGetDeviceIDs(clPlatformId, CL_DEVICE_TYPE_GPU, 1, &clDeviceId, NULL);
   cl_context_properties properties[] = {
       CL_GL_CONTEXT_KHR, (cl_context_properties) glXGetCurrentContext(),
       CL_GLX_DISPLAY_KHR, (cl_context_properties) glXGetCurrentDisplay(),
-      CL_CONTEXT_PLATFORM, (cl_context_properties) platformId, 0
+      CL_CONTEXT_PLATFORM, (cl_context_properties) clPlatformId, 0
   };
   cl_int contextError;
-  clContext = clCreateContext(properties, 1, &deviceId, NULL, NULL, &contextError);
+  clContext = clCreateContext(properties, 1, &clDeviceId, NULL, NULL, &contextError);
   if (contextError != CL_SUCCESS) {
     return ProcessErrorCL(contextError);
   }
 
-  // Load Skybox
+  // Load skybox mesh
   ParseObj("skybox.obj", meshSky);
   meshSky.compute_normals();
   for (int i = 0; i < meshSky.num_materials(); ++i)
@@ -354,6 +370,7 @@ int main(int argc, char* argv[]) {
   OpenGLInit();
   ShaderInit();
   BufferInit();
+  OpenCLInit();
 
   glutMainLoop();
 
