@@ -2,7 +2,7 @@
  * main.cpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 12, 2013
+ *   Last Update: Apr 16, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -18,28 +18,23 @@ void CrystalDisplay() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   CollapseMatrices();
 
-  glFinish();
-  clEnqueueAcquireGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
-  clEnqueueNDRangeKernel(clQueue, clKernel, 1, NULL, &clGlobalSize, NULL, 0, 0, 0);
-  clEnqueueReleaseGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
-  clFinish(clQueue);
+  // OpenCL program
+//  glFinish();
+//  clEnqueueAcquireGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
+//  clEnqueueNDRangeKernel(clQueue, clKernel, 1, NULL, &clGlobalSize, NULL, 0, 0, 0);
+//  clEnqueueReleaseGLObjects(clQueue, 1, &clVBObuffer, 0, NULL, NULL);
+//  clFinish(clQueue);
 
+  // OpenGL program
   progSky.enable();
-  PushStaticUniformsSky();
-  PushVerticesSky();
+  RenderMesh();
   progSky.disable();
 
   /* TODO
-   * This will be folded into the mesh so that its vertices are in the VBO.
-   *
    * We need a simple heuristic to separate cube from skybox, but we ought
    * to design something flexible for future projects (not relying on all
    * skyboxes to be 256x256 centered on origin).
    */
-  progCube.enable();
-  PushStaticUniformsCube();
-  PushVerticesCube();
-  progCube.disable();
 
   glFlush();
   glutSwapBuffers();
@@ -50,7 +45,11 @@ void CrystalDisplay() {
  * Rendering
  */
 
-void PushStaticUniformsSky() {
+
+void RenderMesh() {
+  vector<TexInfo>& texIds = mesh.getTextures();
+  vector<int>& iboSizes = mesh.iboSizes();
+  int nIBOs = mesh.numIBOs();
   GLuint locLight0;
   GLuint blockBindingLight0 = 1;
 
@@ -62,34 +61,27 @@ void PushStaticUniformsSky() {
   locLight0 = glGetUniformBlockIndex(progSky.getProgramId(), "Light0");
   glUniformBlockBinding(progSky.getProgramId(), locLight0, blockBindingLight0);
   glBindBufferBase(GL_UNIFORM_BUFFER, blockBindingLight0, uboID);
-}
 
-void PushVerticesSky() {
-  bool useMaterials = (meshSky.getUsedMaterials().size() != 0);
-  vector<int>& iboSizes = meshSky.iboSizes();
-  int nIBOs = meshSky.numIBOs();
-
+  // Load the VBO.
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
+  glEnableVertexAttribArray(3);
+  glEnableVertexAttribArray(4);
+  glEnableVertexAttribArray(5);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(0));
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(12));
   glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(20));
+  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(32));
+  glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(44));
+  glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(56));
 
-  // Load materials specific to each IBO and render those elements.
+  // Load each IBO and draw elements. Loads one texture per IBO.
   for (int i = 0; i < nIBOs; i++) {
-    if (useMaterials) {
-      int mat = meshSky.getUsedMaterials()[i];
-      Material& mCurrent = meshSky.getMaterials()[mat];
-
-      progSky.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(mCurrent.ambient()));
-      progSky.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(mCurrent.diffuse()));
-      progSky.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(mCurrent.specular()));
-      progSky.setUniform(GL_FLOAT, "mat.matShiny",  mCurrent.specular_coeff());
-
+    if (texIds.size()) {
       glEnable(GL_TEXTURE_2D);
-      progSky.setTexture("tex", 0, texIds[0], 0);
+      progSky.setTexture(0, texIds[i].texUnit, texIds[i].texID);
     }
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *(iboIDs[i]));
@@ -99,32 +91,11 @@ void PushVerticesSky() {
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
+  glDisableVertexAttribArray(3);
+  glDisableVertexAttribArray(4);
+  glDisableVertexAttribArray(5);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-void PushStaticUniformsCube() {
-  GLuint locLight0;
-  GLuint blockBindingLight0 = 1;
-
-  // Load matrices.
-  progCube.setUniformMatrix(4, "modelviewMatrix", glm::value_ptr(mModel));
-  progCube.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
-
-  // Bind the (static) location/properties of the light.
-  locLight0 = glGetUniformBlockIndex(progCube.getProgramId(), "Light");
-  glUniformBlockBinding(progCube.getProgramId(), locLight0, blockBindingLight0);
-  glBindBufferBase(GL_UNIFORM_BUFFER, blockBindingLight0, uboID);
-
-  // Load material properties.
-  progCube.setUniformv(3, GL_FLOAT, "mat.matAmb", glm::value_ptr(material_ambient));
-  progCube.setUniformv(3, GL_FLOAT, "mat.matDiff", glm::value_ptr(material_diffuse));
-  progCube.setUniformv(3, GL_FLOAT, "mat.matSpec", glm::value_ptr(material_specular));
-  progCube.setUniform(    GL_FLOAT, "mat.matShiny", material_shininess);
-}
-
-void PushVerticesCube() {
-  glutSolidCube(15.0);
 }
 
 
@@ -237,8 +208,8 @@ void OpenCLInit() {
 }
 
 void BufferInit() {
-  std::vector<VBOVertex>& vboArray = meshSky.getVBOVertexArray();
-  std::vector<vector<GLuint> >& iboArrays = meshSky.getIBOIndexArrays();
+  std::vector<VBOVertex>& vboArray = mesh.getVBOVertexArray();
+  std::vector<vector<GLuint> >& iboArrays = mesh.getIBOIndexArrays();
   int nVBO = vboArray.size();
   int nIBOs = iboArrays.size();
   GLfloat align = 0.0f;
@@ -273,12 +244,11 @@ void BufferInit() {
   }
   // Data should now be in GPU memory (server-side), so free heap memory.
   // TODO This data was not assigned to any buffer yet.
-  meshSky.freeArrays();
+  mesh.freeArrays();
 }
 
 void ShaderInit() {
   GLint texLoad;
-  string t0 = "../tex/skybox2.jpg";
 
   progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
   progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
@@ -286,19 +256,11 @@ void ShaderInit() {
   progSky.bindAttribute(0, "vertexNormal");
   progSky.bindAttribute(1, "vertexTexCoord");
   progSky.bindAttribute(2, "vertexLocation");
+  progSky.bindAttribute(3, "vertexMatDiffuse");
+  progSky.bindAttribute(4, "vertexMatSpecular");
+  progSky.bindAttribute(5, "vertexShininess");
   progSky.linkAndValidate();
-  progSky.addSampler();
-
-  texIds.push_back(texLoad = LoadTexture(t0, 0));
-  if (!texLoad) {
-    cout << "SOIL: Error loading texture from " << t0 << endl;
-    exit(-1);
-  }
-
-  progCube.addShader("shader.vert1", GL_VERTEX_SHADER);
-  progCube.addShader("shader.frag1", GL_FRAGMENT_SHADER);
-  progCube.init();
-  progCube.linkAndValidate();
+  progSky.addSampler("tex");
 }
 
 void OpenGLInit() {
@@ -361,16 +323,14 @@ int main(int argc, char* argv[]) {
   }
 
   // Load skybox mesh
-  ParseObj("skybox.obj", meshSky);
-  meshSky.compute_normals();
-  for (int i = 0; i < meshSky.num_materials(); ++i)
-    Material& material = meshSky.material(i);
-  meshSky.loadVBOArrays();
+  mesh.setTexturePath("../tex/");
+  if (!mesh.loadFile("skybox.obj"))
+    return -1;
 
   OpenGLInit();
   ShaderInit();
   BufferInit();
-  OpenCLInit();
+//  OpenCLInit();
 
   glutMainLoop();
 

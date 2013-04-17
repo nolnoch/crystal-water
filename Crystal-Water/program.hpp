@@ -2,7 +2,7 @@
  * program.hpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 8, 2013
+ *   Last Update: Apr 16, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  *
@@ -52,6 +52,12 @@
 #include "./shaderobj.hpp"
 
 
+typedef struct {
+  GLuint samplerID;
+  std::string samplerName;
+} SamplerInfo;
+
+
 class Program {
  public:
   Program();
@@ -59,7 +65,7 @@ class Program {
 
   int addShader(std::string fName, int type);
   void addDefaultShaders();
-  void addSampler();
+  void addSampler(std::string sName);
 
   void init();
   void bindAttribute(int location, std::string name);
@@ -70,8 +76,7 @@ class Program {
   void setUniform(int type, std::string name, float n);
   void setUniformv(int count, int type, std::string name, const float *n);
   void setUniformMatrix(int size, std::string name, float *m);
-  void setTexture(std::string samplerName, GLuint texUnit, GLuint texId,
-      int sampler);
+  void setTexture(int samplerIdx, GLuint texUnit, GLuint texID);
 
   GLenum getProgramId();
 
@@ -81,8 +86,8 @@ class Program {
  private:
   GLenum programId;
   std::vector<Shader> shaders;
-  std::vector<GLuint> *samplers;
+  std::vector<SamplerInfo> *samplers;
   int stage;
 };
 
-#endif /* PROGRAM_H_ */
+#endif /* PROGRAM_HPP_ */

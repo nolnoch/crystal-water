@@ -2,7 +2,7 @@
  * program.cpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 11, 2013
+ *   Last Update: Apr 16, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -67,15 +67,19 @@ void Program::addDefaultShaders() {
 /**
  * Generates a sampler uniform bind target for use in the GLSL shader code.
  */
-void Program::addSampler() {
+void Program::addSampler(string sName) {
+  SamplerInfo info;
   GLuint sample;
 
   if (!samplers)
-    this->samplers = new vector<GLuint>();
+    this->samplers = new vector<SamplerInfo>();
 
   glGenSamplers(1, &sample);
 
-  this->samplers->push_back(sample);
+  info.samplerID = sample;
+  info.samplerName = sName;
+
+  this->samplers->push_back(info);
 }
 
 /**
@@ -272,25 +276,23 @@ void Program::setUniformMatrix(int size, string name, float *m) {
 
 /**
  * Single call to bind a sampler2D uniform to an already generated texture.
- * @param samplerName - string representation of the GLSL sampler2D name
+ * @param samplerIdx - index of desired SamplerInfo in added samplers
  * @param texUnit - texture unit to be associated with this texture object
- * @param texId - the ID assigned at the generation of the texture
- * @param sampler - the index of the sampler in this Program object according
- *                  to the order in which they were added by addSampler()
+ * @param texID - the ID assigned at the generation of the texture
  */
-void Program::setTexture(string samplerName, GLuint texUnit,
-              GLuint texId, int sampler) {
-  if ((*this->samplers).empty()) {
-    cout << "Cannot set texture: No samplers added to program." << endl;
+void Program::setTexture(int samplerIdx, GLuint texUnit, GLuint texID) {
+  if ((*this->samplers).empty() || (*this->samplers).size() < samplerIdx) {
+    cout << "Cannot set texture: Sampler not added to program." << endl;
     return;
   }
 
-  GLint loc = glGetUniformLocation(this->programId, samplerName.c_str());
+  GLint loc = glGetUniformLocation(this->programId,
+      (*this->samplers)[samplerIdx].samplerName.c_str());
 
   glActiveTexture(GL_TEXTURE0 + texUnit);
-  glBindSampler(GL_TEXTURE0 + texUnit, (*this->samplers)[sampler]);
+  glBindSampler(GL_TEXTURE0 + texUnit, (*this->samplers)[samplerIdx].samplerID);
 
-  glBindTexture(GL_TEXTURE_2D, texId);
+  glBindTexture(GL_TEXTURE_2D, texID);
   glUniform1i(loc, texUnit);
 }
 

@@ -7,19 +7,15 @@ layout (std140) uniform Light {
     vec3 lightSpec;
 };
 
-struct Material {
-    vec3 matAmb;
-    vec3 matDiff;
-    vec3 matSpec;
-    float matShiny;
-};
-
 uniform Material mat;
 uniform sampler2D tex;
 
 in vec3 v;
 in vec3 N;
 in vec2 texCoord;
+in vec3 matDiff;
+in vec3 matSpec;
+in float shiny;
 
 out vec4 phongColor;
 
@@ -33,12 +29,12 @@ void main() {
     vec3 R = normalize(reflect(-L, N));
     vec3 V = normalize(-v);
     
-    ambient = lightAmb * mat.matAmb;
+    ambient = lightAmb * vec3(0.3, 0.3, 0.3);
     
-    diffuse = clamp(lightDiff * mat.matDiff * max(dot(N, L), 0.0), 0.0, 1.0);
+    diffuse = clamp(lightDiff * matDiff * max(dot(N, L), 0.0), 0.0, 1.0);
     texture = texture2D(tex, vec2(texCoord.s, texCoord.t)); 
     
-    specular = clamp(lightSpec * mat.matSpec * pow(max(dot(R, V), 0.0), mat.matShiny), 0.0, 1.0);
+    specular = clamp(lightSpec * matSpec * pow(max(dot(R, V), 0.0), shiny), 0.0, 1.0);
     
     phongColor = vec4(clamp(ambient + (diffuse * texture.rgb) + specular, 0.0, 1.0), 1.0);
 }

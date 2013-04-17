@@ -1,237 +1,145 @@
+/**
+ * mesh.cpp
+ *
+ *    Created on: Apr 16, 2013
+ *   Last Update: Apr 16, 2013
+ *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
+ *  Contributors: [none]
+ */
+
+
 #include <iostream>
 #include <vector>
 #include <cstring>
 
-#include "./mesh.h"
+#include "./mesh.hpp"
 
 using namespace std;
 
-Mesh::Mesh() {
-  _cur_mtl = -1;
+Mesh::Mesh()
+: loaded(false),
+  vboArray(NULL),
+  iboArrays(NULL),
+  textures(NULL),
+  nVBO(0),
+  nIBOs(0) {
+}
+
+void Mesh::Reset() {
+  this->freeArrays();
   loaded = false;
   vboArray = NULL;
   iboArrays = NULL;
-  textureTemp = NULL;
+  textures = NULL;
   nVBO = 0;
   nIBOs = 0;
 }
 
-/**
- * This will be called by the obj parser.
- */
-void Mesh::AddVertex(const glm::vec3& v) {
-  this->_vertices.push_back(v);
-}
+bool Mesh::loadFile(const string& filename) {
+  Assimp::Importer importer;
 
-/**
- * This **may** be called by the obj parser.
- * We can support vertex weighting for "trimming curves" at a later date.
- * Until then, shorten the glm::vec4 to a glm::vec3, and deal with it normally.
- */
-void Mesh::AddVertex(const glm::vec4& v) {
-  glm::vec3 v3 = glm::vec3(v[0], v[1], v[2]);
-  this->_vertices.push_back(v3);
-}
-
-/**
- * This will be called by the obj parser.
- */
-void Mesh::AddTextureVertex(const glm::vec3& v) {
-  this->_textures.push_back(v);
-}
-
-/**
- * This **may** be called by the obj parser (forward compatible).
- */
-void Mesh::AddNormalVertex(const glm::vec3& v) {
-//  this->_normals.push_back(v);
-}
-
-/**
- * p is the list of indices of vertices for this polygon.  For example,
- * if p = {0, 1, 2} then the polygon is a triangle with the zeroth, first and
- * second vertices added using AddVertex.
- *
- * pt is the list of texture indices for this polygon, similar to the
- * actual vertices described above.
- */
-void Mesh::AddPolygon(const std::vector<int>& p, const std::vector<int>& pt) {
-  Face f = Face(p, pt, VT);
-
-  this->_faces.push_back(f);
-
-  // updates the poly2mat map
-  _polygon2material.push_back(_cur_mtl);
-}
-
-/**
- * Computes the normals for each vertex.
- * Whether the normals are loaded from the obj file or generated here,
- * this function must be called before the Mesh may be rendered (safety).
- */
-void Mesh::compute_normals() {
-  int size = this->_vertices.size();
-  vector<glm::vec3> sumNormals = vector<glm::vec3>(size, glm::vec3(0, 0, 0));
-  vector<int> numNormals = vector<int>(size, 0);
-
-  // It's possible that the normals were already read in by the obj parser.
-  if (this->_normals.size() != 0) {
-    cout << "Normals included. Skipping computation." << endl;
-    this->loaded = true;
-    return;
+  if (loaded) {
+    Reset();
+    loaded = false;
   }
 
-  // The normal for each face is the cross product of two vectors
-  // defined in counter-clockwise order.
-  for (int i = 0; i < this->_faces.size(); i++) {
-    Face f = this->_faces[i];
-    vector<int> v = f.vertices();
+  const aiScene *scene = importer.ReadFile(filename,
+      aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals);
+  if ((loaded = !scene))
+    cout << importer.GetErrorString() << endl;
+  else
+    this->ProcessScene(scene);
 
-    glm::vec3 v0 = this->_vertices[v[0]];
-    glm::vec3 v1 = this->_vertices[v[1]];
-    glm::vec3 v2 = this->_vertices[v[2]];
-
-    glm::vec3 vecA = v2 - v1;
-    glm::vec3 vecB = v0 - v1;
-
-    f.setNormal(glm::normalize(glm::cross(vecA, vecB)));
-
-    // The normal for each Vertex is the average of the normals of
-    // all faces containing that vertex. Sum them here.
-    for (vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
-      sumNormals[*it] += f.getNormal();
-      numNormals[*it]++;
-    }
-  }
-
-  // Now divide each vertex's sumNormals by the numNormals contributed.
-  // Each normal should already be normalized (from faces' unit normals).
-  for (int i = 0; i < sumNormals.size(); i++)
-    this->_normals.push_back(glm::vec3(sumNormals[i].x / numNormals[i],
-                                       sumNormals[i].y / numNormals[i],
-                                       sumNormals[i].z / numNormals[i]));
-
-  this->loaded = true;
+  return loaded;
 }
 
-/**
- * Set up the Mesh-wide VBO array and an IBO array for each material.
- */
-void Mesh::loadVBOArrays() {
-  bool textures = this->_textures.size() != 0;
-  bool materials = this->_materials.size() != 0;
-  int matIdx, prevMatIdx, iboIdx = 0;
+void Mesh::ProcessScene(const aiScene *s) {
+  this->textures = new vector<TexInfo>(s->mNumMeshes);
+  this->iboArrays = new vector<vector<GLuint> >(s->mNumMeshes);
+  this->vboArray = new vector<VBOVertex>;
 
-  // May not proceed until the normals have been computed or verified.
-  if (!loaded) {
-    cout << "Computing normals." << endl;
-    this->compute_normals();
-  }
+  /*  Construct internal buffers for VBO and IBOs while loading textures  */
 
-  /*  Create VBO and array of IBO arrays.  */
+  /* TODO *******************************************************************
+   * Meshes may have n materials such that n == 0 || n > 1. Cover these cases.
+   *
+   * Texture coordinates do not (necessarily) match vertices, as in our test
+   * file.  WE ARE SEG FAULTING below.  Fix this.
+   *
+   * Is that the royal 'we'?
+   *
+   * I need to shower.
+   */
 
-  // Create array of "n" IBO index arrays where n = unique materials used.
-  int uniqueMats = this->_usedMaterials.size();
-  iboArrays = new vector<vector<GLuint> >(uniqueMats ? uniqueMats : 1);
-  vboArray = new vector<VBOVertex>;
+  for (int i = 0; i < s->mNumMeshes; i++) {
+    aiMesh *mesh = s->mMeshes[i];
+    unsigned int numVertices = mesh->mNumVertices;
+    aiColor3D spec(0.0f, 0.0f, 0.0f);
+    aiColor3D diff(0.0f, 0.0f, 0.0f);
+    aiMaterial* mat = s->mMaterials[i];
+    float shiny;
 
-  // For each face, determine material used and load IBO for that material with
-  // the vertices specified. Converts from polygons of v > 3 to triangles.
+    // Load mesh's texture if it exists and retrieve color properties.
+    if (mat->GetTextureCount(aiTextureType_DIFFUSE)) {
+      aiString fileName;
+      if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &fileName,
+          NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+        string fullPath = this->filePath + fileName.data;
+        GLint texLoad = this->LoadTexture(fullPath, i);
+        if (texLoad) {
+          TexInfo tex;
+          tex.texID = texLoad;
+          tex.texUnit = i;
 
-  vector<glm::vec3>& vV = this->_vertices;
-  vector<glm::vec3>& vN = this->_normals;
-  vector<glm::vec3>& vT = this->_textures;
-  vector<Face>& vF = this->_faces;
-
-  for (int j = 0; j < vF.size(); j++) {
-    vector<int> verts = vF[j].vertices();
-    vector<int> texes = vF[j].textures();
-    vector<int> norms = vF[j].normals();
-    int k = 0;
-
-    // Based on material for this polygon, which VBO array do we load?
-    matIdx = materials ? polygon2material(j) : 0;
-    for (int m = 0; m < uniqueMats; m++) {
-      if (matIdx == this->_usedMaterials[m])
-        k = m;
+          this->textures->push_back(tex);
+        } else {
+          cout << "SOIL: Error loading texture from " << fullPath << endl;
+          exit(-1);
+        }
+      } else {
+        cout << "AssImp: Error retrieving texture file name." << endl;
+        exit(-1);
+      }
     }
 
-    // Construct a VBO vertex for requisite three vertices.
-    for (int i = 0; i < 3; i++) {
+    mat->Get(AI_MATKEY_COLOR_SPECULAR, spec);
+    mat->Get(AI_MATKEY_COLOR_DIFFUSE, diff);
+    mat->Get(AI_MATKEY_SHININESS, shiny);
+
+    // Dump all vertices into the VBO array.
+    for (int j = 0; j < numVertices; j++) {
       VBOVertex vbo;
-      int idV = verts[i];
-      int idN = norms[i];
-      int idT = texes[i];
 
-      vbo.position[0] = vV[idV][0];
-      vbo.position[1] = vV[idV][1];
-      vbo.position[2] = vV[idV][2];
-      vbo.normal[0] = vN[idV][0];
-      vbo.normal[1] = vN[idV][1];
-      vbo.normal[2] = vN[idV][2];
-      vbo.texture[0] = vT[idT][0];
-      vbo.texture[1] = 1.0f - vT[idT][1];
+      vbo.position[0] = mesh->mVertices[j][0];
+      vbo.position[1] = mesh->mVertices[j][1];
+      vbo.position[2] = mesh->mVertices[j][2];
+      vbo.normal[0] = mesh->mNormals[j][0];
+      vbo.normal[1] = mesh->mNormals[j][1];
+      vbo.normal[2] = mesh->mNormals[j][2];
+      vbo.texture[0] = mesh->mTextureCoords[j]->x;
+      vbo.texture[1] = mesh->mTextureCoords[j]->y;
+      vbo.specular[0] = spec.r;
+      vbo.specular[1] = spec.g;
+      vbo.specular[2] = spec.b;
+      vbo.diffuse[0] = diff.r;
+      vbo.diffuse[1] = diff.g;
+      vbo.diffuse[2] = diff.b;
+      vbo.shininess = shiny;
+      vbo.align = 0;
 
       vboArray->push_back(vbo);
-      (*iboArrays)[k].push_back(iboIdx++);
     }
 
-    // Construct a VBO vertex for any additional vertices.
-    for (int i = 3; i < verts.size(); i++) {
-      VBOVertex vbo1;
-      int idV = verts[i-1];
-      int idN = norms[i-1];
-      int idT = texes[i-1];
-
-      vbo1.position[0] = vV[idV][0];
-      vbo1.position[1] = vV[idV][1];
-      vbo1.position[2] = vV[idV][2];
-      vbo1.normal[0] = vN[idV][0];
-      vbo1.normal[1] = vN[idV][1];
-      vbo1.normal[2] = vN[idV][2];
-      vbo1.texture[0] = vT[idT][0];
-      vbo1.texture[1] = 1.0f - vT[idT][1];
-
-      vboArray->push_back(vbo1);
-      (*iboArrays)[k].push_back(iboIdx++);
-
-      VBOVertex vbo2;
-      idV = verts[i];
-      idN = norms[i];
-      idT = texes[i];
-
-      vbo2.position[0] = vV[idV][0];
-      vbo2.position[1] = vV[idV][1];
-      vbo2.position[2] = vV[idV][2];
-      vbo2.normal[0] = vN[idV][0];
-      vbo2.normal[1] = vN[idV][1];
-      vbo2.normal[2] = vN[idV][2];
-      vbo2.texture[0] = vT[idT][0];
-      vbo2.texture[1] = 1.0f - vT[idT][1];
-
-      vboArray->push_back(vbo2);
-      (*iboArrays)[k].push_back(iboIdx++);
-
-      VBOVertex vbo3;
-      idV = verts[0];
-      idN = norms[0];
-      idT = texes[0];
-
-      vbo3.position[0] = vV[idV][0];
-      vbo3.position[1] = vV[idV][1];
-      vbo3.position[2] = vV[idV][2];
-      vbo3.normal[0] = vN[idV][0];
-      vbo3.normal[1] = vN[idV][1];
-      vbo3.normal[2] = vN[idV][2];
-      vbo3.texture[0] = vT[idT][0];
-      vbo3.texture[1] = 1.0f - vT[idT][1];
-
-      vboArray->push_back(vbo3);
-      (*iboArrays)[k].push_back(iboIdx++);
+    // Add vertex indices to object-specific vectors.
+    for (int j = 0; j < mesh->mNumFaces; j++) {
+      aiFace& face = mesh->mFaces[j];
+      for (int k = 0; k < face.mNumIndices; k++) {
+        (*iboArrays)[i].push_back(face.mIndices[k]);
+      }
     }
   }
 
-  /*  Save array sizes for rendering so we can free the array memory.  */
+  /*  Save sizes for rendering so we can free the arrays after pushing.  */
 
   nVBO = vboArray->size();
   nIBOs = iboArrays->size();
@@ -240,7 +148,55 @@ void Mesh::loadVBOArrays() {
   }
 }
 
+GLuint Mesh::LoadTexture(string filename, int texUnit) {
+  GLuint id;
+
+  glEnable(GL_TEXTURE_2D);
+  glActiveTexture(GL_TEXTURE0 + texUnit);
+
+  id = SOIL_load_OGL_texture(filename.c_str(),
+                             SOIL_LOAD_AUTO,
+                             SOIL_CREATE_NEW_ID,
+                             SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+
+  glBindTexture(GL_TEXTURE_2D, id);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+  return id;
+}
+
+void Mesh::setTexturePath(string path) {
+  // TODO Perform checking for (and conditional appending of) trailing '/'
+  this->filePath = path;
+}
+
 void Mesh::freeArrays() {
   vboArray->~vector();
   iboArrays->~vector();
+  textures->~vector();
+}
+
+int Mesh::vboSize() {
+  return this->nVBO;
+}
+
+int Mesh::numIBOs() {
+  return this->nIBOs;
+}
+
+std::vector<int>& Mesh::iboSizes() {
+  return this->_iboSizes;
+}
+
+std::vector<VBOVertex>& Mesh::getVBOVertexArray() {
+  return *(this->vboArray);
+}
+
+std::vector<vector<GLuint> >& Mesh::getIBOIndexArrays() {
+  return *(this->iboArrays);
+}
+
+std::vector<TexInfo>& Mesh::getTextures() {
+  return *(this->textures);
 }

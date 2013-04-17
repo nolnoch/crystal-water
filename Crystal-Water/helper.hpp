@@ -2,7 +2,7 @@
  * helper.hpp
  *
  *    Created on: Apr 10, 2013
- *   Last Update: Apr 10, 2013
+ *   Last Update: Apr 16, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -14,19 +14,16 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <GL/glx.h>
+
 #include <CL/cl.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <SOIL/SOIL.h>
-// #include <assimp/Importer.hpp>
-// #include <assimp/scene.h>
-
 #include "./program.hpp"
 #include "./quaternion.hpp"
-#include "./io.h"
+#include "./mesh.hpp"
 
 
 #define NULL_PTR        reinterpret_cast<char *>(NULL)
@@ -54,8 +51,7 @@ GLuint vboID, uboID;
 vector<GLuint *> iboIDs;
 
 // Objects
-Mesh meshSky;
-vector<GLuint> texIds;
+Mesh mesh;
 bool useSkyBox;
 
 // Lighting
@@ -92,10 +88,7 @@ bool stateOrbiting;
  */
 
 void CrystalDisplay();
-void PushStaticUniformsCube();
-void PushVerticesCube();
-void PushStaticUniformsSky();
-void PushVerticesSky();
+void RenderMesh();
 void MouseClick(int button, int state, int x, int y);
 void MouseMotion(int x, int y);
 void MouseWheel(int wheel, int direction, int x, int y);
@@ -116,24 +109,6 @@ void CollapseMatrices() {
   mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
 
   mModel = mLook * mTrans * mRot;
-}
-
-GLuint LoadTexture(string filename, int texUnit) {
-  GLuint id;
-
-  glEnable(GL_TEXTURE_2D);
-  glActiveTexture(GL_TEXTURE0 + texUnit);
-
-  id = SOIL_load_OGL_texture(filename.c_str(),
-                             SOIL_LOAD_AUTO,
-                             SOIL_CREATE_NEW_ID,
-                             SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-
-  glBindTexture(GL_TEXTURE_2D, id);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-
-  return id;
 }
 
 GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
