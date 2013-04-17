@@ -44,7 +44,7 @@ particle system-based water feature.</p>
 
 <p><strong>Working branch</strong>: opencl</p>
 
-<hr><p><strong>Required libraries</strong>: GLEW, Freeglut, GLM, SOIL</p>
+<hr><p><strong>Required libraries</strong>: GLEW, Freeglut, GLM, SOIL, AssImp</p>
 
 <p><strong>Stage 1</strong> (complete): Establish controls and render primitive object in a skybox.  </p>
 
@@ -125,6 +125,12 @@ Design Software:   Eclipse CDT Juno on Kubuntu 12.10 Quantal</p>
 <li>Need to avoid gimbal lock.</li>
 <li>Allows slerping (Spherical Linear intERPolation).</li>
 <li>Understood just enough to put it together and make it robust.</li>
+</ul><p>Custom Mesh class</p>
+
+<ul>
+<li>Uses AssImp to import object/model files.</li>
+<li>Uses SOIL to load and bind the texture files read in from AssImp.</li>
+<li>Automatically prepares VBO/IBOs from the imported scene data.</li>
 </ul><p>Matrix management</p>
 
 <ul>
