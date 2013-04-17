@@ -11,7 +11,7 @@ particle system-based water feature.
 
 ___
 
-**Required libraries**: GLEW, Freeglut, GLM, SOIL
+**Required libraries**: GLEW, Freeglut, GLM, SOIL, AssImp
 
 **Stage 1** (complete): Establish controls and render primitive object in a skybox.  
  - Challenge : *Which modern libraries are robust, supported, and commonly
@@ -84,6 +84,11 @@ Custom Quaternion class
   - Need to avoid gimbal lock.
   - Allows slerping (Spherical Linear intERPolation).
   - Understood just enough to put it together and make it robust.
+
+Custom Mesh class
+  - Uses AssImp to import object/model files.
+  - Uses SOIL to load and bind the texture files read in from AssImp.
+  - Automatically prepares VBO/IBOs from the imported scene data.
 
 Matrix management
   - Deprecation of matrix stack and GLSL built-in variables.
