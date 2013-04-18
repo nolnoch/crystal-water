@@ -218,6 +218,7 @@ void BufferInit() {
   glGenBuffers(1, &vboID);
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
   glBufferData(GL_ARRAY_BUFFER, sizeof(VBOVertex)*nVBO, NULL, GL_STATIC_DRAW);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VBOVertex)*nVBO, &vboArray[0]);
 
   glNormalPointer(GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(0));
   glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(12));
@@ -324,8 +325,10 @@ int main(int argc, char* argv[]) {
 
   // Load skybox mesh
   mesh.setTexturePath("../tex/");
-  if (!mesh.loadFile("skybox.obj"))
+  if (!mesh.loadFile("skybox.obj")) {
+    cout << "Error loading object/mesh file. Aborting program..." << endl;
     return -1;
+  }
 
   OpenGLInit();
   ShaderInit();

@@ -7,7 +7,6 @@ layout (std140) uniform Light {
     vec3 lightSpec;
 };
 
-uniform Material mat;
 uniform sampler2D tex;
 
 in vec3 v;
