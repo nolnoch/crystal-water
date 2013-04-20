@@ -96,6 +96,8 @@ void RenderMesh() {
   glDisableVertexAttribArray(5);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  glutSolidSphere(10, 24, 24);
 }
 
 
@@ -214,15 +216,20 @@ void BufferInit() {
   int nIBOs = iboArrays.size();
   GLfloat align = 0.0f;
 
+  cout << "VBO Size: " << nVBO << ", IBOs: " << nIBOs << endl;
+
   // Vertex Buffer Object
   glGenBuffers(1, &vboID);
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
   glBufferData(GL_ARRAY_BUFFER, sizeof(VBOVertex)*nVBO, NULL, GL_STATIC_DRAW);
   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VBOVertex)*nVBO, &vboArray[0]);
 
-  glNormalPointer(GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(0));
-  glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(12));
-  glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), OFFSET_PTR(20));
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(0));
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(12));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(20));
+  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(32));
+  glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(44));
+  glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(56));
 
   // Uniform Buffer Object
   GLfloat uLight0[16] = { light_position.x, light_position.y, light_position.z, align,

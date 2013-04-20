@@ -44,7 +44,7 @@ bool Mesh::loadFile(const string& filename) {
   }
 
   const aiScene *scene = importer.ReadFile(filename,
-      aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
+      aiProcessPreset_TargetRealtime_MaxQuality);
   if (!(loaded = scene))
     cout << importer.GetErrorString() << endl;
   else
@@ -60,8 +60,8 @@ void Mesh::ProcessScene(const aiScene *s) {
 
   /*  Construct internal buffers for VBO and IBOs while loading textures  */
 
-  /* TODO *******************************************************************
-   * Materials may not correspond to meshes in a 1-to-1 mapping.
+  /**************************************************************************
+   * According to doc, materials will correspond to meshes in a 1-to-1 mapping.
    *
    * All vertices are stored in order with interleaved data. No IBO necessary,
    * but we'll send one in for flexibility and possible performance gains(?).
@@ -72,23 +72,23 @@ void Mesh::ProcessScene(const aiScene *s) {
     unsigned int numVertices = mesh->mNumVertices;
     aiColor3D spec(0.5f, 0.1f, 0.2f);
     aiColor3D diff(0.5f, 0.1f, 0.2f);
-    float shiny = 42;                                 // The answer to LTUAE.
+    float shiny = 42;                                 // The answer to LTU&E.
     int verts = 0;
 
     // Load texture.
-    if (s->HasMaterials() && s->mNumMaterials >= i) {
-      aiMaterial* mat = s->mMaterials[i];
+    if (s->HasMaterials() && s->mNumMaterials > 1) {
+      aiMaterial* mat = s->mMaterials[1];
       aiString fileName;
       if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &fileName) == AI_SUCCESS) {
         string fullPath = this->filePath + fileName.data;
         GLint texLoad = this->LoadTexture(fullPath, i);
         if (texLoad) {
-          TexInfo tex;
-          tex.texID = texLoad;
-          tex.texUnit = i;
+          TexInfo texInfo;
+          texInfo.texID = texLoad;
+          texInfo.texUnit = i;
 
-          this->textures->push_back(tex);
-          cout << " Loaded " << fileName.C_Str() << "." << endl;
+          this->textures->push_back(texInfo);
+          cout << "Loaded " << fileName.C_Str() << "." << endl;
         } else {
           cout << "SOIL: Error loading texture from " << fullPath << endl;
         }
@@ -109,30 +109,33 @@ void Mesh::ProcessScene(const aiScene *s) {
     // Add vertex indices to object-specific vectors.
     for (int j = 0; j < mesh->mNumFaces; j++) {
       aiFace& face = mesh->mFaces[j];
-      VBOVertex vbo;
-      GLint vertIdx = face.mIndices[0];
-      GLint texCIdx = face.mIndices[1];
-      GLint normIdx = face.mIndices[2];
 
-      vbo.position[0] = mesh->mVertices[vertIdx][0];
-      vbo.position[1] = mesh->mVertices[vertIdx][1];
-      vbo.position[2] = mesh->mVertices[vertIdx][2];
-      vbo.normal[0] = mesh->mNormals[normIdx][0];
-      vbo.normal[1] = mesh->mNormals[normIdx][1];
-      vbo.normal[2] = mesh->mNormals[normIdx][2];
-      vbo.texture[0] = mesh->mTextureCoords[0][texCIdx].x;
-      vbo.texture[1] = mesh->mTextureCoords[0][texCIdx].y;
-      vbo.specular[0] = spec.r;
-      vbo.specular[1] = spec.g;
-      vbo.specular[2] = spec.b;
-      vbo.diffuse[0] = diff.r;
-      vbo.diffuse[1] = diff.g;
-      vbo.diffuse[2] = diff.b;
-      vbo.shininess = shiny;
-      vbo.align = 0;
+      for (int k = 0; k < face.mNumIndices; k++) {
+        VBOVertex vbo;
+        GLint vertIdx = face.mIndices[k];
+        GLint texCIdx = face.mIndices[k];
+        GLint normIdx = face.mIndices[k];
 
-      vboArray->push_back(vbo);
-      (*iboArrays)[i].push_back(verts++);
+        vbo.position[0] = mesh->mVertices[vertIdx][0];
+        vbo.position[1] = mesh->mVertices[vertIdx][1];
+        vbo.position[2] = mesh->mVertices[vertIdx][2];
+        vbo.normal[0] = mesh->mNormals[normIdx][0];
+        vbo.normal[1] = mesh->mNormals[normIdx][1];
+        vbo.normal[2] = mesh->mNormals[normIdx][2];
+        vbo.texture[0] = mesh->mTextureCoords[0][texCIdx].x;
+        vbo.texture[1] = mesh->mTextureCoords[0][texCIdx].y;
+        vbo.specular[0] = spec.r;
+        vbo.specular[1] = spec.g;
+        vbo.specular[2] = spec.b;
+        vbo.diffuse[0] = diff.r;
+        vbo.diffuse[1] = diff.g;
+        vbo.diffuse[2] = diff.b;
+        vbo.shininess = shiny;
+        vbo.align = 0;
+
+        vboArray->push_back(vbo);
+        (*iboArrays)[i].push_back(verts++);
+      }
     }
   }
 
