@@ -1,20 +1,58 @@
 \hypertarget{structVBOVertex}{\section{V\-B\-O\-Vertex Struct Reference}
 \label{structVBOVertex}\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}}
 }
+
+
+{\ttfamily \#include $<$mesh.\-hpp$>$}
+
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{structVBOVertex_abf03d625c89963c0b39d4d3cd59fafb2}{G\-Lfloat {\bfseries normal} \mbox{[}3\mbox{]}}\label{structVBOVertex_abf03d625c89963c0b39d4d3cd59fafb2}
-
+G\-Lfloat \hyperlink{structVBOVertex_aa0ce514d26cbbdbfab7ffba3c5b53e2e}{position} \mbox{[}3\mbox{]}
 \item 
-\hypertarget{structVBOVertex_a66eb5e96270293ec950bbd9fe1773424}{G\-Lfloat {\bfseries texture} \mbox{[}2\mbox{]}}\label{structVBOVertex_a66eb5e96270293ec950bbd9fe1773424}
-
+G\-Lfloat \hyperlink{structVBOVertex_abf03d625c89963c0b39d4d3cd59fafb2}{normal} \mbox{[}3\mbox{]}
 \item 
-\hypertarget{structVBOVertex_aa0ce514d26cbbdbfab7ffba3c5b53e2e}{G\-Lfloat {\bfseries position} \mbox{[}3\mbox{]}}\label{structVBOVertex_aa0ce514d26cbbdbfab7ffba3c5b53e2e}
-
+G\-Lfloat \hyperlink{structVBOVertex_a66eb5e96270293ec950bbd9fe1773424}{texture} \mbox{[}2\mbox{]}
+\item 
+G\-Lfloat \hyperlink{structVBOVertex_aab28e81480a342a61ce79b74702fccc5}{diffuse} \mbox{[}3\mbox{]}
+\item 
+G\-Lfloat \hyperlink{structVBOVertex_a35725f03472cebdfea1aaa98dac0aa1b}{specular} \mbox{[}3\mbox{]}
+\item 
+G\-Lfloat \hyperlink{structVBOVertex_a6a650b656bade90ee41ae7dded37c7d1}{shininess}
+\item 
+G\-Lfloat \hyperlink{structVBOVertex_a6b0bd5c23010ff965be5f0e363794e2e}{align}
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+\hyperlink{mesh_8hpp_source}{mesh.\-hpp}
+
+Created on\-: Apr 16, 2013 Last Update\-: Apr 21, 2013 Orig. Author\-: Wade Burch (\href{mailto:nolnoch@cs.utexas.edu}{\tt nolnoch@cs.\-utexas.\-edu}) Contributors\-: \mbox{[}none\mbox{]} Interleaved position, normal, texture, and material data for the V\-B\-O. Aligned to a 64-\/byte block for performance. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structVBOVertex_a6b0bd5c23010ff965be5f0e363794e2e}{\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}!align@{align}}
+\index{align@{align}!VBOVertex@{V\-B\-O\-Vertex}}
+\subsubsection[{align}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat V\-B\-O\-Vertex\-::align}}\label{structVBOVertex_a6b0bd5c23010ff965be5f0e363794e2e}
+4 empty bytes for alignment \hypertarget{structVBOVertex_aab28e81480a342a61ce79b74702fccc5}{\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}!diffuse@{diffuse}}
+\index{diffuse@{diffuse}!VBOVertex@{V\-B\-O\-Vertex}}
+\subsubsection[{diffuse}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat V\-B\-O\-Vertex\-::diffuse\mbox{[}3\mbox{]}}}\label{structVBOVertex_aab28e81480a342a61ce79b74702fccc5}
+Vertex material diffuse property \hypertarget{structVBOVertex_abf03d625c89963c0b39d4d3cd59fafb2}{\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}!normal@{normal}}
+\index{normal@{normal}!VBOVertex@{V\-B\-O\-Vertex}}
+\subsubsection[{normal}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat V\-B\-O\-Vertex\-::normal\mbox{[}3\mbox{]}}}\label{structVBOVertex_abf03d625c89963c0b39d4d3cd59fafb2}
+Vertex normal \hypertarget{structVBOVertex_aa0ce514d26cbbdbfab7ffba3c5b53e2e}{\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}!position@{position}}
+\index{position@{position}!VBOVertex@{V\-B\-O\-Vertex}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat V\-B\-O\-Vertex\-::position\mbox{[}3\mbox{]}}}\label{structVBOVertex_aa0ce514d26cbbdbfab7ffba3c5b53e2e}
+Vertex position \hypertarget{structVBOVertex_a6a650b656bade90ee41ae7dded37c7d1}{\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}!shininess@{shininess}}
+\index{shininess@{shininess}!VBOVertex@{V\-B\-O\-Vertex}}
+\subsubsection[{shininess}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat V\-B\-O\-Vertex\-::shininess}}\label{structVBOVertex_a6a650b656bade90ee41ae7dded37c7d1}
+Vertex material shininess coefficient \hypertarget{structVBOVertex_a35725f03472cebdfea1aaa98dac0aa1b}{\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}!specular@{specular}}
+\index{specular@{specular}!VBOVertex@{V\-B\-O\-Vertex}}
+\subsubsection[{specular}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat V\-B\-O\-Vertex\-::specular\mbox{[}3\mbox{]}}}\label{structVBOVertex_a35725f03472cebdfea1aaa98dac0aa1b}
+Vertex material specular property \hypertarget{structVBOVertex_a66eb5e96270293ec950bbd9fe1773424}{\index{V\-B\-O\-Vertex@{V\-B\-O\-Vertex}!texture@{texture}}
+\index{texture@{texture}!VBOVertex@{V\-B\-O\-Vertex}}
+\subsubsection[{texture}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat V\-B\-O\-Vertex\-::texture\mbox{[}2\mbox{]}}}\label{structVBOVertex_a66eb5e96270293ec950bbd9fe1773424}
+Vertex texture coordinates 
+
 The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-mesh.\-h\end{DoxyCompactItemize}
+mesh.\-hpp\end{DoxyCompactItemize}

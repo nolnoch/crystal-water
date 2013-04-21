@@ -2,7 +2,7 @@
  * program.cpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 16, 2013
+ *   Last Update: Apr 21, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -280,8 +280,7 @@ void Program::setUniformMatrix(int size, string name, float *m) {
 /**
  * Single call to bind a sampler2D uniform to an already generated texture.
  * @param samplerIdx - index of desired SamplerInfo in added samplers
- * @param texUnit - texture unit to be associated with this texture object
- * @param texID - the ID assigned at the generation of the texture
+ * @param texInfo - TexInfo with stored texture ID and associated texture unit
  */
 void Program::setTexture(int samplerIdx, TexInfo& texInfo) {
   if ((*this->samplers).empty() || (*this->samplers).size() < samplerIdx) {

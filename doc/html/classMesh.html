@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,246 +87,244 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Mesh Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="mesh_8hpp_source.html">mesh.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a057b3461e646a8a022f9989b3014194e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a057b3461e646a8a022f9989b3014194e">AddVertex</a> (const glm::vec3 &amp;v)</td></tr>
-<tr class="separator:a057b3461e646a8a022f9989b3014194e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8b8eead3d37411bd91a24417b300148"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#aa8b8eead3d37411bd91a24417b300148">AddVertex</a> (const glm::vec4 &amp;v)</td></tr>
-<tr class="separator:aa8b8eead3d37411bd91a24417b300148"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0737fe043d4c8f9d5b83ca0ea89a1cfc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a0737fe043d4c8f9d5b83ca0ea89a1cfc">AddTextureVertex</a> (const glm::vec3 &amp;v)</td></tr>
-<tr class="separator:a0737fe043d4c8f9d5b83ca0ea89a1cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba5bf035eafa537adeae5f3bc0804ff4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#aba5bf035eafa537adeae5f3bc0804ff4">AddNormalVertex</a> (const glm::vec3 &amp;v)</td></tr>
-<tr class="separator:aba5bf035eafa537adeae5f3bc0804ff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67fae480eb46255053a3dd08d44522da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a67fae480eb46255053a3dd08d44522da">AddPolygon</a> (const std::vector&lt; int &gt; &amp;p, const std::vector&lt; int &gt; &amp;pt)</td></tr>
-<tr class="separator:a67fae480eb46255053a3dd08d44522da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa196429f3e87ecd53e8770ba979222f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa196429f3e87ecd53e8770ba979222f4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>render</b> ()</td></tr>
-<tr class="separator:aa196429f3e87ecd53e8770ba979222f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae22e2d895293ab336df9d118d02548a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#ae22e2d895293ab336df9d118d02548a3">loadVBOArrays</a> ()</td></tr>
-<tr class="separator:ae22e2d895293ab336df9d118d02548a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7851ef56844e42b5943fe3e44c88416f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7851ef56844e42b5943fe3e44c88416f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>freeArrays</b> ()</td></tr>
-<tr class="separator:a7851ef56844e42b5943fe3e44c88416f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9207d439941d5d12f30d2d2ace000093"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9207d439941d5d12f30d2d2ace000093"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>vboSize</b> ()</td></tr>
+<tr class="memitem:a2af137f1571af89172b9c102302c416b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a2af137f1571af89172b9c102302c416b">Mesh</a> ()</td></tr>
+<tr class="separator:a2af137f1571af89172b9c102302c416b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5efe4da1a4c0971cfb037bd70304c303"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a5efe4da1a4c0971cfb037bd70304c303">~Mesh</a> ()</td></tr>
+<tr class="separator:a5efe4da1a4c0971cfb037bd70304c303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb69ef9bf91041670f903a9e6d3f574c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#acb69ef9bf91041670f903a9e6d3f574c">loadFile</a> (const std::string &amp;filename)</td></tr>
+<tr class="separator:acb69ef9bf91041670f903a9e6d3f574c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9207d439941d5d12f30d2d2ace000093"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a9207d439941d5d12f30d2d2ace000093">vboSize</a> ()</td></tr>
 <tr class="separator:a9207d439941d5d12f30d2d2ace000093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5334ea5e7835eae71f8fc7ba5c431818"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5334ea5e7835eae71f8fc7ba5c431818"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>numIBOs</b> ()</td></tr>
+<tr class="memitem:a5334ea5e7835eae71f8fc7ba5c431818"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a5334ea5e7835eae71f8fc7ba5c431818">numIBOs</a> ()</td></tr>
 <tr class="separator:a5334ea5e7835eae71f8fc7ba5c431818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29874e1f0dc026ea0501cbabddb6990e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29874e1f0dc026ea0501cbabddb6990e"></a>
-std::vector&lt; int &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>iboSizes</b> ()</td></tr>
-<tr class="separator:a29874e1f0dc026ea0501cbabddb6990e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbfb42b55e8cfaf340d344af708f435e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbfb42b55e8cfaf340d344af708f435e"></a>
-std::vector&lt; <a class="el" href="structVBOVertex.html">VBOVertex</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getVBOVertexArray</b> ()</td></tr>
-<tr class="separator:abbfb42b55e8cfaf340d344af708f435e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6a5c0633ed0acfdc76659bce170b53e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6a5c0633ed0acfdc76659bce170b53e"></a>
-std::vector&lt; vector&lt; GLuint &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getIBOIndexArrays</b> ()</td></tr>
-<tr class="separator:ac6a5c0633ed0acfdc76659bce170b53e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63bea725717d1eed08a5b36fae1edc3f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a63bea725717d1eed08a5b36fae1edc3f"></a>
-std::vector&lt; int &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getUsedMaterials</b> ()</td></tr>
-<tr class="separator:a63bea725717d1eed08a5b36fae1edc3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef73d7d063129475d060d26d309e6432"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef73d7d063129475d060d26d309e6432"></a>
-std::vector&lt; <a class="el" href="classMaterial.html">Material</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMaterials</b> ()</td></tr>
-<tr class="separator:aef73d7d063129475d060d26d309e6432"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a961353b6282350124d154fb6954d98"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a961353b6282350124d154fb6954d98"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>new_material</b> (int material_idx, const std::string &amp;name)</td></tr>
-<tr class="separator:a7a961353b6282350124d154fb6954d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a824f5eb1ae2410e8ca0aa5545d1fc8a7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a824f5eb1ae2410e8ca0aa5545d1fc8a7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_cur_material</b> (const string &amp;name)</td></tr>
-<tr class="separator:a824f5eb1ae2410e8ca0aa5545d1fc8a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50427b613dfc9d2bbfad3606cdebb793"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50427b613dfc9d2bbfad3606cdebb793"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_cur_material</b> (int cur_mtl)</td></tr>
-<tr class="separator:a50427b613dfc9d2bbfad3606cdebb793"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a067a5fa985f9cd9a04e4c1fa5a6da8d9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a067a5fa985f9cd9a04e4c1fa5a6da8d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_ambient</b> (int material_idx, const glm::vec3 &amp;ambient)</td></tr>
-<tr class="separator:a067a5fa985f9cd9a04e4c1fa5a6da8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af76944b10f0964e2aa5092eda8c00675"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af76944b10f0964e2aa5092eda8c00675"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_diffuse</b> (int material_idx, const glm::vec3 &amp;diffuse)</td></tr>
-<tr class="separator:af76944b10f0964e2aa5092eda8c00675"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0ff9ddf30edddf1f563ca9d92555b47"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0ff9ddf30edddf1f563ca9d92555b47"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_specular</b> (int material_idx, const glm::vec3 &amp;specular)</td></tr>
-<tr class="separator:af0ff9ddf30edddf1f563ca9d92555b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a470c8fb2872fc583645ef0bfa44747ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a470c8fb2872fc583645ef0bfa44747ee"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_specular_coeff</b> (int material_idx, const float &amp;coeff)</td></tr>
-<tr class="separator:a470c8fb2872fc583645ef0bfa44747ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c2ab09440340626a29be1d7902a7758"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a4c2ab09440340626a29be1d7902a7758">polygon2material</a> (int polygon_idx) const </td></tr>
-<tr class="separator:a4c2ab09440340626a29be1d7902a7758"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa23b95044b1637d63c7398a2fdcd6eb2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa23b95044b1637d63c7398a2fdcd6eb2"></a>
-const <a class="el" href="classMaterial.html">Material</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>material</b> (int i) const </td></tr>
-<tr class="separator:aa23b95044b1637d63c7398a2fdcd6eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d508965e0a0cb8f3b197f4bce580d71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d508965e0a0cb8f3b197f4bce580d71"></a>
-<a class="el" href="classMaterial.html">Material</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>material</b> (int i)</td></tr>
-<tr class="separator:a0d508965e0a0cb8f3b197f4bce580d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7ec7c54c2193d3570319e533c2b4bd6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7ec7c54c2193d3570319e533c2b4bd6"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>num_materials</b> () const </td></tr>
-<tr class="separator:aa7ec7c54c2193d3570319e533c2b4bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e9bedfc415b7135c9587f63535fcb6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a4e9bedfc415b7135c9587f63535fcb6d">compute_normals</a> ()</td></tr>
-<tr class="separator:a4e9bedfc415b7135c9587f63535fcb6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e8627844ab7ab59429dccd527fabb88"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a2e8627844ab7ab59429dccd527fabb88">iboSizes</a> ()</td></tr>
+<tr class="separator:a2e8627844ab7ab59429dccd527fabb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae37b48d6bfb51824a659cfa332297e57"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structTexInfo.html">TexInfo</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#ae37b48d6bfb51824a659cfa332297e57">getTextures</a> ()</td></tr>
+<tr class="separator:ae37b48d6bfb51824a659cfa332297e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afafecb91428f264c980cc5dba0f97463"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structVBOVertex.html">VBOVertex</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#afafecb91428f264c980cc5dba0f97463">getVBOVertexArray</a> ()</td></tr>
+<tr class="separator:afafecb91428f264c980cc5dba0f97463"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeef415ec50612c05dd06d2d14263558b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector<br class="typebreak"/>
+&lt; GLuint &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#aeef415ec50612c05dd06d2d14263558b">getIBOIndexArrays</a> ()</td></tr>
+<tr class="separator:aeef415ec50612c05dd06d2d14263558b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5fe12b38efbb4aa298b7425dc8abece"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#aa5fe12b38efbb4aa298b7425dc8abece">setTexturePath</a> (std::string path)</td></tr>
+<tr class="separator:aa5fe12b38efbb4aa298b7425dc8abece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7851ef56844e42b5943fe3e44c88416f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMesh.html#a7851ef56844e42b5943fe3e44c88416f">freeArrays</a> ()</td></tr>
+<tr class="separator:a7851ef56844e42b5943fe3e44c88416f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class representing a loaded object and material file. Somewhat misnamed in that the driver for the class, Assimp, subdivides such files into multiple meshes for each material. This is largely abstracted, however, as this detail is not visible from outside the class. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a2af137f1571af89172b9c102302c416b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Mesh::Mesh </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default constructor, </p>
+
+</div>
+</div>
+<a class="anchor" id="a5efe4da1a4c0971cfb037bd70304c303"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Mesh::~Mesh </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default destructor. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aba5bf035eafa537adeae5f3bc0804ff4"></a>
+<a class="anchor" id="a7851ef56844e42b5943fe3e44c88416f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Mesh::AddNormalVertex </td>
-          <td>(</td>
-          <td class="paramtype">const glm::vec3 &amp;&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This <b>may</b> be called by the obj parser (forward compatible). </p>
-
-</div>
-</div>
-<a class="anchor" id="a67fae480eb46255053a3dd08d44522da"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Mesh::AddPolygon </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>pt</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>p is the list of indices of vertices for this polygon. For example, if p = {0, 1, 2} then the polygon is a triangle with the zeroth, first and second vertices added using AddVertex.</p>
-<p>pt is the list of texture indices for this polygon, similar to the actual vertices described above. </p>
-
-</div>
-</div>
-<a class="anchor" id="a0737fe043d4c8f9d5b83ca0ea89a1cfc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Mesh::AddTextureVertex </td>
-          <td>(</td>
-          <td class="paramtype">const glm::vec3 &amp;&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This will be called by the obj parser. </p>
-
-</div>
-</div>
-<a class="anchor" id="a057b3461e646a8a022f9989b3014194e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Mesh::AddVertex </td>
-          <td>(</td>
-          <td class="paramtype">const glm::vec3 &amp;&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This will be called by the obj parser. </p>
-
-</div>
-</div>
-<a class="anchor" id="aa8b8eead3d37411bd91a24417b300148"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Mesh::AddVertex </td>
-          <td>(</td>
-          <td class="paramtype">const glm::vec4 &amp;&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This <b>may</b> be called by the obj parser. We can support vertex weighting for "trimming curves" at a later date. Until then, shorten the glm::vec4 to a glm::vec3, and deal with it normally. </p>
-
-</div>
-</div>
-<a class="anchor" id="a4e9bedfc415b7135c9587f63535fcb6d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Mesh::compute_normals </td>
+          <td class="memname">void Mesh::freeArrays </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Computes the normals for each vertex. Whether the normals are loaded from the obj file or generated here, this function must be called before the <a class="el" href="classMesh.html">Mesh</a> may be rendered (safety). </p>
+<p>Allows explicit freeing of the texture arrays once VBO and IBOs are loaded without losing all state information of the mesh. </p>
 
 </div>
 </div>
-<a class="anchor" id="ae22e2d895293ab336df9d118d02548a3"></a>
+<a class="anchor" id="aeef415ec50612c05dd06d2d14263558b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Mesh::loadVBOArrays </td>
+          <td class="memname">std::vector&lt; vector&lt; GLuint &gt; &gt; &amp; Mesh::getIBOIndexArrays </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set up the Mesh-wide VBO array and an IBO array for each material. </p>
+<p>Retrieves all IBO arrays constructed. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to an STL vector of all IBO arrays </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a4c2ab09440340626a29be1d7902a7758"></a>
+<a class="anchor" id="ae37b48d6bfb51824a659cfa332297e57"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int Mesh::polygon2material </td>
+          <td class="memname">std::vector&lt; <a class="el" href="structTexInfo.html">TexInfo</a> &gt; &amp; Mesh::getTextures </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>polygon_idx</em></td><td>)</td>
-          <td> const</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>You don't need to modify this function, but it will be useful in your Display() function.</p>
-<p>Given a polygon index, returns the index of the material that should be used for that polygon. </p>
+<p>Retrieves all loaded texture IDs with associated texture units. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to an STL vector of <a class="el" href="structTexInfo.html">TexInfo</a> pairings </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afafecb91428f264c980cc5dba0f97463"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structVBOVertex.html">VBOVertex</a> &gt; &amp; Mesh::getVBOVertexArray </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves the interleaved VBO array. </p>
+<dl class="section return"><dt>Returns</dt><dd>a reference to the VBO array </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2e8627844ab7ab59429dccd527fabb88"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int &gt; &amp; Mesh::iboSizes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves array of IBO sizes. </p>
+<dl class="section return"><dt>Returns</dt><dd>STL vector of sizes for each IBO </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acb69ef9bf91041670f903a9e6d3f574c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Mesh::loadFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Loads an object or mesh file from many, many formats. To see a complete list, visit: <a href="http://assimp.sourceforge.net/main_features_formats.html">http://assimp.sourceforge.net/main_features_formats.html</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>- the file (including path) to be loaded </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if load is successful, false if it fails </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5334ea5e7835eae71f8fc7ba5c431818"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Mesh::numIBOs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves stored number of IBO arrays. </p>
+<dl class="section return"><dt>Returns</dt><dd>number of IBO arrays </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa5fe12b38efbb4aa298b7425dc8abece"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Mesh::setTexturePath </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Allows user to specify a non-local path to the directory where the textures are stored. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>- string value of the path to the non-local texture directory </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a9207d439941d5d12f30d2d2ace000093"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Mesh::vboSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves stored size of the VBO array. </p>
+<dl class="section return"><dt>Returns</dt><dd>VBO array size </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="mesh_8h_source.html">mesh.h</a></li>
+<li><a class="el" href="mesh_8hpp_source.html">mesh.hpp</a></li>
 <li>mesh.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 11 2013 14:23:38 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 21 2013 02:01:47 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

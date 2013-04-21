@@ -2,7 +2,7 @@
  * program.hpp
  *
  *    Created on: Apr 8, 2013
- *   Last Update: Apr 16, 2013
+ *   Last Update: Apr 21, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  *
@@ -53,12 +53,19 @@
 #include "./mesh.hpp"
 
 
+/**
+ * Stores pairings of generated GLSL samplers and their uniform names.
+ */
 typedef struct {
-  GLuint samplerID;
-  std::string samplerName;
+  GLuint samplerID;         /**< Generated sampler ID */
+  std::string samplerName;  /**< Uniform name as string */
 } SamplerInfo;
 
 
+/**
+ * Class representing an OpenGL shader program. Simplifies the initialization
+ * and management of all sources and bindings.
+ */
 class Program {
  public:
   Program();

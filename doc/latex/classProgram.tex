@@ -16,7 +16,7 @@ int \hyperlink{classProgram_ade6fdcdf18bad44d602588eb2870baba}{add\-Shader} (std
 \item 
 void \hyperlink{classProgram_a93a1c92516c590a6779438568ef729a5}{add\-Default\-Shaders} ()
 \item 
-void \hyperlink{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{add\-Sampler} ()
+void \hyperlink{classProgram_aea90548a29130479b1bcd0061ca86a8d}{add\-Sampler} (std\-::string s\-Name)
 \item 
 void \hyperlink{classProgram_a33d5912b81ccf4a0c089894513844580}{init} ()
 \item 
@@ -34,9 +34,9 @@ void \hyperlink{classProgram_ad09d665e9a38943e9087243aab3d7162}{set\-Uniformv} (
 \item 
 void \hyperlink{classProgram_a28a7ee31d22c01c65e559699ef07f8ec}{set\-Uniform\-Matrix} (int size, std\-::string name, float $\ast$m)
 \item 
-void \hyperlink{classProgram_a1d5b0c22dfb26649a5cca8c879eaecc5}{set\-Texture} (std\-::string sampler\-Name, G\-Luint tex\-Unit, G\-Luint tex\-Id, int sampler)
+void \hyperlink{classProgram_a5b8c3cba93ccaff73af2b61db3050775}{set\-Texture} (int sampler\-Idx, \hyperlink{structTexInfo}{Tex\-Info} \&tex\-Info)
 \item 
-G\-Lenum \hyperlink{classProgram_a092f9c234261a3e0e05766b0bb92fcb8}{get\-Program\-Id} ()
+G\-Luint \hyperlink{classProgram_a181ccd3b46d0c6d82c4a48faff268f82}{get\-Program\-Id} ()
 \item 
 void \hyperlink{classProgram_a76c829244760f9ddbee5da25b296dcb3}{display\-Log\-Program} ()
 \item 
@@ -45,33 +45,7 @@ void \hyperlink{classProgram_a411a347acc65a576ab84bc464bd35b45}{display\-Log\-Sh
 
 
 \subsection{Detailed Description}
-\hyperlink{program_8hpp_source}{program.\-hpp}
-
-Created on\-: Apr 8, 2013 Last Update\-: Apr 8, 2013 Orig. Author\-: Wade Burch (\href{mailto:nolnoch@cs.utexas.edu}{\tt nolnoch@cs.\-utexas.\-edu}) Contributors\-: \mbox{[}none\mbox{]}
-
-This class was created to automate (and generally make easier) the use of G\-L\-S\-L programs through the G\-L\-E\-W extension libraries.
-
-Notes\-:
-
-You may call add\-Shader for every file you want to attach to each program, and all will be processed and used for that program's lifespan. Create multiple programs to separate your shaders for modular loading and use.
-
-The construction and usage of the program is managed in sequence-\/ protected stages. Error messages will be printed if functions are called out of order. The correct order is\-: \begin{DoxyVerb}  addShader()         // as many as you need
-  init()              // called once
-  [bindAttribute()]   // only if you wish, for VAO/VBOs
-  linkAndValidate()   // must be run before using program
-  addSampler()        // called after program is linked for safety
-  enable()            // to actually use
-  disable()           // when you're done
-\end{DoxyVerb}
-
-
-At the moment, the samplers may only be specified when calling set\-Texure() by remembering the order in which you added them with \hyperlink{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{add\-Sampler()}.
-
-This is a work in progress and will be continually improved as I use it.
-
-Feel free to share, expand, and modify as you see fit with attribution to the original author (me) and any who have added since.
-
--\/\-Wade Burch 
+Class representing an Open\-G\-L shader program. Simplifies the initialization and management of all sources and bindings. 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classProgram_aaefaa0df08f3484476fc4d61e97acbdc}{\index{Program@{Program}!Program@{Program}}
@@ -98,13 +72,13 @@ Default Destructor.
 {}
 \end{DoxyParamCaption}
 )}}\label{classProgram_a93a1c92516c590a6779438568ef729a5}
-Shortcut for adding one shader.\-vert and one shader.\-frag. \hypertarget{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{\index{Program@{Program}!add\-Sampler@{add\-Sampler}}
+Shortcut for adding one shader.\-vert and one shader.\-frag. \hypertarget{classProgram_aea90548a29130479b1bcd0061ca86a8d}{\index{Program@{Program}!add\-Sampler@{add\-Sampler}}
 \index{add\-Sampler@{add\-Sampler}!Program@{Program}}
 \subsubsection[{add\-Sampler}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::add\-Sampler (
 \begin{DoxyParamCaption}
-{}
+\item[{std\-::string}]{s\-Name}
 \end{DoxyParamCaption}
-)}}\label{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}
+)}}\label{classProgram_aea90548a29130479b1bcd0061ca86a8d}
 Generates a sampler uniform bind target for use in the G\-L\-S\-L shader code. \hypertarget{classProgram_ade6fdcdf18bad44d602588eb2870baba}{\index{Program@{Program}!add\-Shader@{add\-Shader}}
 \index{add\-Shader@{add\-Shader}!Program@{Program}}
 \subsubsection[{add\-Shader}]{\setlength{\rightskip}{0pt plus 5cm}int Program\-::add\-Shader (
@@ -173,13 +147,13 @@ Displays the info log for the specified shader.
 {}
 \end{DoxyParamCaption}
 )}}\label{classProgram_ae435cb6813edc4ce2a8f91c99fb7a79b}
-A sequence-\/protected wrapper for gl\-Use\-Program(). This completely preempts the Open\-G\-L graphics pipeline for any shader functions implemented. \hypertarget{classProgram_a092f9c234261a3e0e05766b0bb92fcb8}{\index{Program@{Program}!get\-Program\-Id@{get\-Program\-Id}}
+A sequence-\/protected wrapper for gl\-Use\-Program(). This completely preempts the Open\-G\-L graphics pipeline for any shader functions implemented. \hypertarget{classProgram_a181ccd3b46d0c6d82c4a48faff268f82}{\index{Program@{Program}!get\-Program\-Id@{get\-Program\-Id}}
 \index{get\-Program\-Id@{get\-Program\-Id}!Program@{Program}}
-\subsubsection[{get\-Program\-Id}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lenum Program\-::get\-Program\-Id (
+\subsubsection[{get\-Program\-Id}]{\setlength{\rightskip}{0pt plus 5cm}G\-Luint Program\-::get\-Program\-Id (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classProgram_a092f9c234261a3e0e05766b0bb92fcb8}
+)}}\label{classProgram_a181ccd3b46d0c6d82c4a48faff268f82}
 Accessor function for the G\-Lenum program I\-D. \begin{DoxyReturn}{Returns}
 the program I\-D 
 \end{DoxyReturn}
@@ -202,25 +176,19 @@ Completes the linking of the program with all attached shaders. Automatically va
 Note\-: Some cards print only errors while some print a success statement. \begin{DoxyReturn}{Returns}
 G\-L\-E\-W\-\_\-\-O\-K on success or an error code on failure. 
 \end{DoxyReturn}
-\hypertarget{classProgram_a1d5b0c22dfb26649a5cca8c879eaecc5}{\index{Program@{Program}!set\-Texture@{set\-Texture}}
+\hypertarget{classProgram_a5b8c3cba93ccaff73af2b61db3050775}{\index{Program@{Program}!set\-Texture@{set\-Texture}}
 \index{set\-Texture@{set\-Texture}!Program@{Program}}
 \subsubsection[{set\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}void Program\-::set\-Texture (
 \begin{DoxyParamCaption}
-\item[{std\-::string}]{sampler\-Name, }
-\item[{G\-Luint}]{tex\-Unit, }
-\item[{G\-Luint}]{tex\-Id, }
-\item[{int}]{sampler}
+\item[{int}]{sampler\-Idx, }
+\item[{{\bf Tex\-Info} \&}]{tex\-Info}
 \end{DoxyParamCaption}
-)}}\label{classProgram_a1d5b0c22dfb26649a5cca8c879eaecc5}
+)}}\label{classProgram_a5b8c3cba93ccaff73af2b61db3050775}
 Single call to bind a sampler2\-D uniform to an already generated texture. 
 \begin{DoxyParams}{Parameters}
-{\em sampler\-Name} & -\/ string representation of the G\-L\-S\-L sampler2\-D name \\
+{\em sampler\-Idx} & -\/ index of desired \hyperlink{structSamplerInfo}{Sampler\-Info} in added samplers \\
 \hline
-{\em tex\-Unit} & -\/ texture unit to be associated with this texture object \\
-\hline
-{\em tex\-Id} & -\/ the I\-D assigned at the generation of the texture \\
-\hline
-{\em sampler} & -\/ the index of the sampler in this \hyperlink{classProgram}{Program} object according to the order in which they were added by \hyperlink{classProgram_aa0fe912ec4d03063c3e15b383ae8c113}{add\-Sampler()} \\
+{\em tex\-Info} & -\/ \hyperlink{structTexInfo}{Tex\-Info} with stored texture I\-D and associated texture unit \\
 \hline
 \end{DoxyParams}
 \hypertarget{classProgram_ac342b7cadffa671c9a0164997a0141fb}{\index{Program@{Program}!set\-Uniform@{set\-Uniform}}

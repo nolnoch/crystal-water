@@ -2,7 +2,7 @@
  * mesh.cpp
  *
  *    Created on: Apr 16, 2013
- *   Last Update: Apr 16, 2013
+ *   Last Update: Apr 21, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -16,6 +16,9 @@
 
 using namespace std;
 
+/**
+ * Default constructor,
+ */
 Mesh::Mesh()
 : loaded(false),
   vboArray(NULL),
@@ -25,6 +28,9 @@ Mesh::Mesh()
   nIBOs(0) {
 }
 
+/**
+ * Resets the Mesh to an empty state.
+ */
 void Mesh::Reset() {
   this->freeArrays();
   loaded = false;
@@ -35,10 +41,19 @@ void Mesh::Reset() {
   nIBOs = 0;
 }
 
+/**
+ * Default destructor.
+ */
 Mesh::~Mesh() {
   textures->~vector();
 }
 
+/**
+ * Loads an object or mesh file from many, many formats. To see a complete
+ * list, visit: http://assimp.sourceforge.net/main_features_formats.html.
+ * @param filename - the file (including path) to be loaded
+ * @return true if load is successful, false if it fails
+ */
 bool Mesh::loadFile(const string& filename) {
   Assimp::Importer importer;
 
@@ -57,6 +72,14 @@ bool Mesh::loadFile(const string& filename) {
   return loaded;
 }
 
+/**
+ * The main processing of the class. This takes the scene object returned from
+ * Assimp and interleaves the vertex and material data into a single VBO and
+ * an IBO for each sub-mesh. These meshes are delineated by material changes
+ * in the loaded file. Any included texture files will also be loaded here.
+ * [Currently only supports diffuse textures]
+ * @param s - the Assimp scene object
+ */
 void Mesh::ProcessScene(const aiScene *s) {
   this->iboArrays = new vector<vector<GLuint> >(s->mNumMeshes);
   this->vboArray = new vector<VBOVertex>;
@@ -154,6 +177,13 @@ void Mesh::ProcessScene(const aiScene *s) {
   }
 }
 
+/**
+ * Uses SOIL to load textures discovered by Assimp in the loading of an object
+ * or mesh file's materials.
+ * @param filename - the filename of the compressed image texture
+ * @param texUnit - the texture unit to bind this texture under (mesh index)
+ * @return the texture ID assigned by OpenGL via SOIL
+ */
 GLuint Mesh::LoadTexture(string filename, int texUnit) {
   GLuint id;
 
@@ -172,36 +202,69 @@ GLuint Mesh::LoadTexture(string filename, int texUnit) {
   return id;
 }
 
+/**
+ * Allows user to specify a non-local path to the directory where the textures
+ * are stored.
+ * @param path - string value of the path to the non-local texture directory
+ */
 void Mesh::setTexturePath(string path) {
   // TODO Perform checking for (and conditional appending of) trailing '/'
   this->filePath = path;
 }
 
+/**
+ * Allows explicit freeing of the texture arrays once VBO and IBOs are loaded
+ * without losing all state information of the mesh.
+ */
 void Mesh::freeArrays() {
   vboArray->~vector();
   iboArrays->~vector();
 }
 
+/**
+ * Retrieves stored size of the VBO array.
+ * @return VBO array size
+ */
 int Mesh::vboSize() {
   return this->nVBO;
 }
 
+/**
+ * Retrieves stored number of IBO arrays.
+ * @return number of IBO arrays
+ */
 int Mesh::numIBOs() {
   return this->nIBOs;
 }
 
+/**
+ * Retrieves array of IBO sizes.
+ * @return STL vector of sizes for each IBO
+ */
 std::vector<int>& Mesh::iboSizes() {
   return this->_iboSizes;
 }
 
+/**
+ * Retrieves the interleaved VBO array.
+ * @return a reference to the VBO array
+ */
 std::vector<VBOVertex>& Mesh::getVBOVertexArray() {
   return *(this->vboArray);
 }
 
+/**
+ * Retrieves all IBO arrays constructed.
+ * @return reference to an STL vector of all IBO arrays
+ */
 std::vector<vector<GLuint> >& Mesh::getIBOIndexArrays() {
   return *(this->iboArrays);
 }
 
+/**
+ * Retrieves all loaded texture IDs with associated texture units.
+ * @return reference to an STL vector of TexInfo pairings
+ */
 std::vector<TexInfo>& Mesh::getTextures() {
   return *(this->textures);
 }

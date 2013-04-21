@@ -1,0 +1,57 @@
+\hypertarget{structSamplerInfo}{\section{Sampler\-Info Struct Reference}
+\label{structSamplerInfo}\index{Sampler\-Info@{Sampler\-Info}}
+}
+
+
+{\ttfamily \#include $<$program.\-hpp$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+G\-Luint \hyperlink{structSamplerInfo_a59a388ce01f16caf9e2b5ec1bf14ac9e}{sampler\-I\-D}
+\item 
+std\-::string \hyperlink{structSamplerInfo_a7906eb3a44b5726904ab84e971e83214}{sampler\-Name}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{program_8hpp_source}{program.\-hpp}
+
+Created on\-: Apr 8, 2013 Last Update\-: Apr 21, 2013 Orig. Author\-: Wade Burch (\href{mailto:nolnoch@cs.utexas.edu}{\tt nolnoch@cs.\-utexas.\-edu}) Contributors\-: \mbox{[}none\mbox{]}
+
+This class was created to automate (and generally make easier) the use of G\-L\-S\-L programs through the G\-L\-E\-W extension libraries.
+
+Notes\-:
+
+You may call add\-Shader for every file you want to attach to each program, and all will be processed and used for that program's lifespan. Create multiple programs to separate your shaders for modular loading and use.
+
+The construction and usage of the program is managed in sequence-\/ protected stages. Error messages will be printed if functions are called out of order. The correct order is\-: \begin{DoxyVerb}  addShader()         // as many as you need
+  init()              // called once
+  [bindAttribute()]   // only if you wish, for VAO/VBOs
+  linkAndValidate()   // must be run before using program
+  addSampler()        // called after program is linked for safety
+  enable()            // to actually use
+  disable()           // when you're done
+\end{DoxyVerb}
+
+
+At the moment, the samplers may only be specified when calling set\-Texure() by remembering the order in which you added them with add\-Sampler().
+
+This is a work in progress and will be continually improved as I use it.
+
+Feel free to share, expand, and modify as you see fit with attribution to the original author (me) and any who have added since.
+
+-\/\-Wade Burch Stores pairings of generated G\-L\-S\-L samplers and their uniform names. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structSamplerInfo_a59a388ce01f16caf9e2b5ec1bf14ac9e}{\index{Sampler\-Info@{Sampler\-Info}!sampler\-I\-D@{sampler\-I\-D}}
+\index{sampler\-I\-D@{sampler\-I\-D}!SamplerInfo@{Sampler\-Info}}
+\subsubsection[{sampler\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}G\-Luint Sampler\-Info\-::sampler\-I\-D}}\label{structSamplerInfo_a59a388ce01f16caf9e2b5ec1bf14ac9e}
+Generated sampler I\-D \hypertarget{structSamplerInfo_a7906eb3a44b5726904ab84e971e83214}{\index{Sampler\-Info@{Sampler\-Info}!sampler\-Name@{sampler\-Name}}
+\index{sampler\-Name@{sampler\-Name}!SamplerInfo@{Sampler\-Info}}
+\subsubsection[{sampler\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Sampler\-Info\-::sampler\-Name}}\label{structSamplerInfo_a7906eb3a44b5726904ab84e971e83214}
+Uniform name as string 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+program.\-hpp\end{DoxyCompactItemize}

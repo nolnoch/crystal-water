@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,26 +87,128 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">VBOVertex Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="mesh_8hpp_source.html">mesh.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:abf03d625c89963c0b39d4d3cd59fafb2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf03d625c89963c0b39d4d3cd59fafb2"></a>
-GLfloat&#160;</td><td class="memItemRight" valign="bottom"><b>normal</b> [3]</td></tr>
-<tr class="separator:abf03d625c89963c0b39d4d3cd59fafb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66eb5e96270293ec950bbd9fe1773424"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66eb5e96270293ec950bbd9fe1773424"></a>
-GLfloat&#160;</td><td class="memItemRight" valign="bottom"><b>texture</b> [2]</td></tr>
-<tr class="separator:a66eb5e96270293ec950bbd9fe1773424"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0ce514d26cbbdbfab7ffba3c5b53e2e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0ce514d26cbbdbfab7ffba3c5b53e2e"></a>
-GLfloat&#160;</td><td class="memItemRight" valign="bottom"><b>position</b> [3]</td></tr>
+<tr class="memitem:aa0ce514d26cbbdbfab7ffba3c5b53e2e"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVBOVertex.html#aa0ce514d26cbbdbfab7ffba3c5b53e2e">position</a> [3]</td></tr>
 <tr class="separator:aa0ce514d26cbbdbfab7ffba3c5b53e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf03d625c89963c0b39d4d3cd59fafb2"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVBOVertex.html#abf03d625c89963c0b39d4d3cd59fafb2">normal</a> [3]</td></tr>
+<tr class="separator:abf03d625c89963c0b39d4d3cd59fafb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66eb5e96270293ec950bbd9fe1773424"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVBOVertex.html#a66eb5e96270293ec950bbd9fe1773424">texture</a> [2]</td></tr>
+<tr class="separator:a66eb5e96270293ec950bbd9fe1773424"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab28e81480a342a61ce79b74702fccc5"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVBOVertex.html#aab28e81480a342a61ce79b74702fccc5">diffuse</a> [3]</td></tr>
+<tr class="separator:aab28e81480a342a61ce79b74702fccc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35725f03472cebdfea1aaa98dac0aa1b"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVBOVertex.html#a35725f03472cebdfea1aaa98dac0aa1b">specular</a> [3]</td></tr>
+<tr class="separator:a35725f03472cebdfea1aaa98dac0aa1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a650b656bade90ee41ae7dded37c7d1"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVBOVertex.html#a6a650b656bade90ee41ae7dded37c7d1">shininess</a></td></tr>
+<tr class="separator:a6a650b656bade90ee41ae7dded37c7d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b0bd5c23010ff965be5f0e363794e2e"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVBOVertex.html#a6b0bd5c23010ff965be5f0e363794e2e">align</a></td></tr>
+<tr class="separator:a6b0bd5c23010ff965be5f0e363794e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="mesh_8hpp_source.html">mesh.hpp</a></p>
+<p>Created on: Apr 16, 2013 Last Update: Apr 21, 2013 Orig. Author: Wade Burch (<a href="#" onclick="location.href='mai'+'lto:'+'nol'+'no'+'ch@'+'cs'+'.ut'+'ex'+'as.'+'ed'+'u'; return false;">nolno<span style="display: none;">.nosp@m.</span>ch@c<span style="display: none;">.nosp@m.</span>s.ute<span style="display: none;">.nosp@m.</span>xas.<span style="display: none;">.nosp@m.</span>edu</a>) Contributors: [none] Interleaved position, normal, texture, and material data for the VBO. Aligned to a 64-byte block for performance. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a6b0bd5c23010ff965be5f0e363794e2e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat VBOVertex::align</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>4 empty bytes for alignment </p>
+
+</div>
+</div>
+<a class="anchor" id="aab28e81480a342a61ce79b74702fccc5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat VBOVertex::diffuse[3]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vertex material diffuse property </p>
+
+</div>
+</div>
+<a class="anchor" id="abf03d625c89963c0b39d4d3cd59fafb2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat VBOVertex::normal[3]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vertex normal </p>
+
+</div>
+</div>
+<a class="anchor" id="aa0ce514d26cbbdbfab7ffba3c5b53e2e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat VBOVertex::position[3]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vertex position </p>
+
+</div>
+</div>
+<a class="anchor" id="a6a650b656bade90ee41ae7dded37c7d1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat VBOVertex::shininess</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vertex material shininess coefficient </p>
+
+</div>
+</div>
+<a class="anchor" id="a35725f03472cebdfea1aaa98dac0aa1b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat VBOVertex::specular[3]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vertex material specular property </p>
+
+</div>
+</div>
+<a class="anchor" id="a66eb5e96270293ec950bbd9fe1773424"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat VBOVertex::texture[2]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vertex texture coordinates </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="mesh_8h_source.html">mesh.h</a></li>
+<li><a class="el" href="mesh_8hpp_source.html">mesh.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 11 2013 14:23:38 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 21 2013 02:01:47 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

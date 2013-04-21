@@ -68,25 +68,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
+      <li><a href="functions_vars.html"><span>Variables</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
       <li><a href="#index_a"><span>a</span></a></li>
       <li><a href="#index_b"><span>b</span></a></li>
-      <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
+      <li><a href="#index_n"><span>n</span></a></li>
       <li><a href="#index_o"><span>o</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_q"><span>q</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
+      <li><a href="#index_v"><span>v</span></a></li>
       <li><a href="#index_z"><span>z</span></a></li>
       <li><a href="#index_0x7e"><span>~</span></a></li>
     </ul>
@@ -97,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,23 +116,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>addDefaultShaders()
 : <a class="el" href="classProgram.html#a93a1c92516c590a6779438568ef729a5">Program</a>
 </li>
-<li>AddNormalVertex()
-: <a class="el" href="classMesh.html#aba5bf035eafa537adeae5f3bc0804ff4">Mesh</a>
-</li>
-<li>AddPolygon()
-: <a class="el" href="classMesh.html#a67fae480eb46255053a3dd08d44522da">Mesh</a>
-</li>
 <li>addSampler()
-: <a class="el" href="classProgram.html#aa0fe912ec4d03063c3e15b383ae8c113">Program</a>
+: <a class="el" href="classProgram.html#aea90548a29130479b1bcd0061ca86a8d">Program</a>
 </li>
 <li>addShader()
 : <a class="el" href="classProgram.html#ade6fdcdf18bad44d602588eb2870baba">Program</a>
-</li>
-<li>AddTextureVertex()
-: <a class="el" href="classMesh.html#a0737fe043d4c8f9d5b83ca0ea89a1cfc">Mesh</a>
-</li>
-<li>AddVertex()
-: <a class="el" href="classMesh.html#aa8b8eead3d37411bd91a24417b300148">Mesh</a>
 </li>
 </ul>
 
@@ -137,13 +128,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
 <li>bindAttribute()
 : <a class="el" href="classProgram.html#a047506f09edeb4f862f58599b232fd79">Program</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
-<li>compute_normals()
-: <a class="el" href="classMesh.html#a4e9bedfc415b7135c9587f63535fcb6d">Mesh</a>
 </li>
 </ul>
 
@@ -168,14 +152,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
+<h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
+<li>freeArrays()
+: <a class="el" href="classMesh.html#a7851ef56844e42b5943fe3e44c88416f">Mesh</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
+<li>getIBOIndexArrays()
+: <a class="el" href="classMesh.html#aeef415ec50612c05dd06d2d14263558b">Mesh</a>
+</li>
 <li>getProgramId()
-: <a class="el" href="classProgram.html#a092f9c234261a3e0e05766b0bb92fcb8">Program</a>
+: <a class="el" href="classProgram.html#a181ccd3b46d0c6d82c4a48faff268f82">Program</a>
+</li>
+<li>getTextures()
+: <a class="el" href="classMesh.html#ae37b48d6bfb51824a659cfa332297e57">Mesh</a>
+</li>
+<li>getVBOVertexArray()
+: <a class="el" href="classMesh.html#afafecb91428f264c980cc5dba0f97463">Mesh</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
+<li>iboSizes()
+: <a class="el" href="classMesh.html#a2e8627844ab7ab59429dccd527fabb88">Mesh</a>
+</li>
 <li>id()
 : <a class="el" href="classShader.html#ac0b61429aabf6baf4a58bae99c7d758d">Shader</a>
 </li>
@@ -192,8 +195,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>linkAndValidate()
 : <a class="el" href="classProgram.html#a457e11c867d335cdd815a657fa87e9b1">Program</a>
 </li>
-<li>loadVBOArrays()
-: <a class="el" href="classMesh.html#ae22e2d895293ab336df9d118d02548a3">Mesh</a>
+<li>loadFile()
+: <a class="el" href="classMesh.html#acb69ef9bf91041670f903a9e6d3f574c">Mesh</a>
 </li>
 </ul>
 
@@ -204,6 +207,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>matrixToString()
 : <a class="el" href="classQuaternion.html#a0bf91c04839f665014253c74a0461461">Quaternion</a>
+</li>
+<li>Mesh()
+: <a class="el" href="classMesh.html#a2af137f1571af89172b9c102302c416b">Mesh</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
+<li>numIBOs()
+: <a class="el" href="classMesh.html#a5334ea5e7835eae71f8fc7ba5c431818">Mesh</a>
 </li>
 </ul>
 
@@ -228,9 +241,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
-<li>polygon2material()
-: <a class="el" href="classMesh.html#a4c2ab09440340626a29be1d7902a7758">Mesh</a>
-</li>
 <li>Program()
 : <a class="el" href="classProgram.html#aaefaa0df08f3484476fc4d61e97acbdc">Program</a>
 </li>
@@ -256,7 +266,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classShader.html#a1dca74f97ac0d0d0da0367c9cfd7534d">Shader</a>
 </li>
 <li>setTexture()
-: <a class="el" href="classProgram.html#a1d5b0c22dfb26649a5cca8c879eaecc5">Program</a>
+: <a class="el" href="classProgram.html#a5b8c3cba93ccaff73af2b61db3050775">Program</a>
+</li>
+<li>setTexturePath()
+: <a class="el" href="classMesh.html#aa5fe12b38efbb4aa298b7425dc8abece">Mesh</a>
 </li>
 <li>setUniform()
 : <a class="el" href="classProgram.html#ac342b7cadffa671c9a0164997a0141fb">Program</a>
@@ -286,6 +299,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
+<h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
+<li>vboSize()
+: <a class="el" href="classMesh.html#a9207d439941d5d12f30d2d2ace000093">Mesh</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_z"></a>- z -</h3><ul>
 <li>zero()
 : <a class="el" href="classQuaternion.html#a5be74768bcc366ea59a9c6adffdcdd4e">Quaternion</a>
@@ -294,6 +314,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_0x7e"></a>- ~ -</h3><ul>
+<li>~Mesh()
+: <a class="el" href="classMesh.html#a5efe4da1a4c0971cfb037bd70304c303">Mesh</a>
+</li>
 <li>~Program()
 : <a class="el" href="classProgram.html#a986aef1c50e1d338a3315a47ba6df549">Program</a>
 </li>
@@ -307,7 +330,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 11 2013 14:23:38 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 21 2013 02:01:47 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

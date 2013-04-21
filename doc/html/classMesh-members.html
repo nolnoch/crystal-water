@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,38 +87,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This is the complete list of members for <a class="el" href="classMesh.html">Mesh</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#aba5bf035eafa537adeae5f3bc0804ff4">AddNormalVertex</a>(const glm::vec3 &amp;v)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classMesh.html#a67fae480eb46255053a3dd08d44522da">AddPolygon</a>(const std::vector&lt; int &gt; &amp;p, const std::vector&lt; int &gt; &amp;pt)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#a0737fe043d4c8f9d5b83ca0ea89a1cfc">AddTextureVertex</a>(const glm::vec3 &amp;v)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classMesh.html#a057b3461e646a8a022f9989b3014194e">AddVertex</a>(const glm::vec3 &amp;v)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#aa8b8eead3d37411bd91a24417b300148">AddVertex</a>(const glm::vec4 &amp;v)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classMesh.html#a4e9bedfc415b7135c9587f63535fcb6d">compute_normals</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>freeArrays</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getIBOIndexArrays</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getMaterials</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getUsedMaterials</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getVBOVertexArray</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>iboSizes</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#ae22e2d895293ab336df9d118d02548a3">loadVBOArrays</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>material</b>(int i) const  (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>material</b>(int i) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Mesh</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>new_material</b>(int material_idx, const std::string &amp;name) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>num_materials</b>() const  (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>numIBOs</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classMesh.html#a4c2ab09440340626a29be1d7902a7758">polygon2material</a>(int polygon_idx) const </td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>render</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>set_ambient</b>(int material_idx, const glm::vec3 &amp;ambient) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>set_cur_material</b>(const string &amp;name) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>set_cur_material</b>(int cur_mtl) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>set_diffuse</b>(int material_idx, const glm::vec3 &amp;diffuse) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>set_specular</b>(int material_idx, const glm::vec3 &amp;specular) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>set_specular_coeff</b>(int material_idx, const float &amp;coeff) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>vboSize</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#a7851ef56844e42b5943fe3e44c88416f">freeArrays</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classMesh.html#aeef415ec50612c05dd06d2d14263558b">getIBOIndexArrays</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#ae37b48d6bfb51824a659cfa332297e57">getTextures</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classMesh.html#afafecb91428f264c980cc5dba0f97463">getVBOVertexArray</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#a2e8627844ab7ab59429dccd527fabb88">iboSizes</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classMesh.html#acb69ef9bf91041670f903a9e6d3f574c">loadFile</a>(const std::string &amp;filename)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#a2af137f1571af89172b9c102302c416b">Mesh</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classMesh.html#a5334ea5e7835eae71f8fc7ba5c431818">numIBOs</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#aa5fe12b38efbb4aa298b7425dc8abece">setTexturePath</a>(std::string path)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classMesh.html#a9207d439941d5d12f30d2d2ace000093">vboSize</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMesh.html#a5efe4da1a4c0971cfb037bd70304c303">~Mesh</a>()</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 11 2013 14:23:38 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 21 2013 02:01:47 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

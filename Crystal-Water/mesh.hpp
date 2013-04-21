@@ -2,7 +2,7 @@
  * mesh.hpp
  *
  *    Created on: Apr 16, 2013
- *   Last Update: Apr 16, 2013
+ *   Last Update: Apr 21, 2013
  *  Orig. Author: Wade Burch (nolnoch@cs.utexas.edu)
  *  Contributors: [none]
  */
@@ -22,23 +22,35 @@
 #include <string>
 
 
-// Vertex attributes aligned to a 64-byte block.
+/**
+ * Interleaved position, normal, texture, and material data for the VBO.
+ * Aligned to a 64-byte block for performance.
+ */
 typedef struct {
-  GLfloat position[3];
-  GLfloat normal[3];
-  GLfloat texture[2];
-  GLfloat diffuse[3];
-  GLfloat specular[3];
-  GLfloat shininess;
-  GLfloat align;
+  GLfloat position[3];      /**< Vertex position */
+  GLfloat normal[3];        /**< Vertex normal */
+  GLfloat texture[2];       /**< Vertex texture coordinates */
+  GLfloat diffuse[3];       /**< Vertex material diffuse property */
+  GLfloat specular[3];      /**< Vertex material specular property */
+  GLfloat shininess;        /**< Vertex material shininess coefficient */
+  GLfloat align;            /**< 4 empty bytes for alignment */
 } VBOVertex;
 
+/**
+ * Container for managing loaded textures.
+ */
 typedef struct {
-  GLint texUnit;
-  GLuint texID;
+  GLint texUnit;            /**< Texture unit in which texture was bound */
+  GLuint texID;             /**< Generated texture ID */
 } TexInfo;
 
 
+/**
+ * Class representing a loaded object and material file. Somewhat misnamed in
+ * that the driver for the class, Assimp, subdivides such files into multiple
+ * meshes for each material. This is largely abstracted, however, as this
+ * detail is not visible from outside the class.
+ */
 class Mesh {
  public:
   Mesh();

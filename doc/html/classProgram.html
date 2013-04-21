@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -100,8 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ade6fdcdf18bad44d602588eb2870baba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93a1c92516c590a6779438568ef729a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a93a1c92516c590a6779438568ef729a5">addDefaultShaders</a> ()</td></tr>
 <tr class="separator:a93a1c92516c590a6779438568ef729a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0fe912ec4d03063c3e15b383ae8c113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#aa0fe912ec4d03063c3e15b383ae8c113">addSampler</a> ()</td></tr>
-<tr class="separator:aa0fe912ec4d03063c3e15b383ae8c113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea90548a29130479b1bcd0061ca86a8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#aea90548a29130479b1bcd0061ca86a8d">addSampler</a> (std::string sName)</td></tr>
+<tr class="separator:aea90548a29130479b1bcd0061ca86a8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33d5912b81ccf4a0c089894513844580"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a33d5912b81ccf4a0c089894513844580">init</a> ()</td></tr>
 <tr class="separator:a33d5912b81ccf4a0c089894513844580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a047506f09edeb4f862f58599b232fd79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a047506f09edeb4f862f58599b232fd79">bindAttribute</a> (int location, std::string name)</td></tr>
@@ -118,33 +118,17 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad09d665e9a38943e9087243aab3d7162"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28a7ee31d22c01c65e559699ef07f8ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a28a7ee31d22c01c65e559699ef07f8ec">setUniformMatrix</a> (int size, std::string name, float *m)</td></tr>
 <tr class="separator:a28a7ee31d22c01c65e559699ef07f8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d5b0c22dfb26649a5cca8c879eaecc5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a1d5b0c22dfb26649a5cca8c879eaecc5">setTexture</a> (std::string samplerName, GLuint texUnit, GLuint texId, int sampler)</td></tr>
-<tr class="separator:a1d5b0c22dfb26649a5cca8c879eaecc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a092f9c234261a3e0e05766b0bb92fcb8"><td class="memItemLeft" align="right" valign="top">GLenum&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a092f9c234261a3e0e05766b0bb92fcb8">getProgramId</a> ()</td></tr>
-<tr class="separator:a092f9c234261a3e0e05766b0bb92fcb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b8c3cba93ccaff73af2b61db3050775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a5b8c3cba93ccaff73af2b61db3050775">setTexture</a> (int samplerIdx, <a class="el" href="structTexInfo.html">TexInfo</a> &amp;texInfo)</td></tr>
+<tr class="separator:a5b8c3cba93ccaff73af2b61db3050775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a181ccd3b46d0c6d82c4a48faff268f82"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a181ccd3b46d0c6d82c4a48faff268f82">getProgramId</a> ()</td></tr>
+<tr class="separator:a181ccd3b46d0c6d82c4a48faff268f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76c829244760f9ddbee5da25b296dcb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a76c829244760f9ddbee5da25b296dcb3">displayLogProgram</a> ()</td></tr>
 <tr class="separator:a76c829244760f9ddbee5da25b296dcb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a411a347acc65a576ab84bc464bd35b45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a411a347acc65a576ab84bc464bd35b45">displayLogShader</a> (GLenum shader)</td></tr>
 <tr class="separator:a411a347acc65a576ab84bc464bd35b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="program_8hpp_source.html">program.hpp</a></p>
-<p>Created on: Apr 8, 2013 Last Update: Apr 8, 2013 Orig. Author: Wade Burch (<a href="#" onclick="location.href='mai'+'lto:'+'nol'+'no'+'ch@'+'cs'+'.ut'+'ex'+'as.'+'ed'+'u'; return false;">nolno<span style="display: none;">.nosp@m.</span>ch@c<span style="display: none;">.nosp@m.</span>s.ute<span style="display: none;">.nosp@m.</span>xas.<span style="display: none;">.nosp@m.</span>edu</a>) Contributors: [none]</p>
-<p>This class was created to automate (and generally make easier) the use of GLSL programs through the GLEW extension libraries.</p>
-<p>Notes:</p>
-<p>You may call addShader for every file you want to attach to each program, and all will be processed and used for that program's lifespan. Create multiple programs to separate your shaders for modular loading and use.</p>
-<p>The construction and usage of the program is managed in sequence- protected stages. Error messages will be printed if functions are called out of order. The correct order is: </p>
-<pre class="fragment">  addShader()         // as many as you need
-  init()              // called once
-  [bindAttribute()]   // only if you wish, for VAO/VBOs
-  linkAndValidate()   // must be run before using program
-  addSampler()        // called after program is linked for safety
-  enable()            // to actually use
-  disable()           // when you're done
-</pre><p>At the moment, the samplers may only be specified when calling setTexure() by remembering the order in which you added them with <a class="el" href="classProgram.html#aa0fe912ec4d03063c3e15b383ae8c113">addSampler()</a>.</p>
-<p>This is a work in progress and will be continually improved as I use it.</p>
-<p>Feel free to share, expand, and modify as you see fit with attribution to the original author (me) and any who have added since.</p>
-<p>-Wade Burch </p>
+<div class="textblock"><p>Class representing an OpenGL shader program. Simplifies the initialization and management of all sources and bindings. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aaefaa0df08f3484476fc4d61e97acbdc"></a>
 <div class="memitem">
@@ -203,14 +187,15 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa0fe912ec4d03063c3e15b383ae8c113"></a>
+<a class="anchor" id="aea90548a29130479b1bcd0061ca86a8d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void Program::addSampler </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>sName</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -360,12 +345,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a092f9c234261a3e0e05766b0bb92fcb8"></a>
+<a class="anchor" id="a181ccd3b46d0c6d82c4a48faff268f82"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">GLenum Program::getProgramId </td>
+          <td class="memname">GLuint Program::getProgramId </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -411,33 +396,21 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1d5b0c22dfb26649a5cca8c879eaecc5"></a>
+<a class="anchor" id="a5b8c3cba93ccaff73af2b61db3050775"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void Program::setTexture </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>samplerName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GLuint&#160;</td>
-          <td class="paramname"><em>texUnit</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GLuint&#160;</td>
-          <td class="paramname"><em>texId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>sampler</em>&#160;</td>
+          <td class="paramname"><em>samplerIdx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTexInfo.html">TexInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>texInfo</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -449,10 +422,8 @@ Public Member Functions</h2></td></tr>
 <p>Single call to bind a sampler2D uniform to an already generated texture. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">samplerName</td><td>- string representation of the GLSL sampler2D name </td></tr>
-    <tr><td class="paramname">texUnit</td><td>- texture unit to be associated with this texture object </td></tr>
-    <tr><td class="paramname">texId</td><td>- the ID assigned at the generation of the texture </td></tr>
-    <tr><td class="paramname">sampler</td><td>- the index of the sampler in this <a class="el" href="classProgram.html">Program</a> object according to the order in which they were added by <a class="el" href="classProgram.html#aa0fe912ec4d03063c3e15b383ae8c113">addSampler()</a> </td></tr>
+    <tr><td class="paramname">samplerIdx</td><td>- index of desired <a class="el" href="structSamplerInfo.html">SamplerInfo</a> in added samplers </td></tr>
+    <tr><td class="paramname">texInfo</td><td>- <a class="el" href="structTexInfo.html">TexInfo</a> with stored texture ID and associated texture unit </td></tr>
   </table>
   </dd>
 </dl>
@@ -596,7 +567,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 11 2013 14:23:38 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 21 2013 02:01:47 for Crystal-Water by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
