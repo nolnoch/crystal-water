@@ -23,16 +23,19 @@ void main() {
     vec3 diffuse;
     vec3 specular;
     vec4 texture;
-    vec4 pc;
     
     vec3 L = normalize(lightPos - v);
     vec3 R = normalize(reflect(-L, N));
     vec3 V = normalize(-v);
     
-    ambient = lightAmb * vec3(0.25, 0.25, 0.25);
+    ambient = lightAmb * vec3(0.15, 0.15, 0.15);
     
     diffuse = clamp(lightDiff * matDiff * max(dot(N, L), 0.0), 0.0, 1.0);
-    texture = texture2D(tex, vec2(texCoord.s, texCoord.t)); 
+    if (texCoord.s + texCoord.t > 0) {
+      texture = texture2D(tex, vec2(texCoord.s, texCoord.t));
+    } else {
+      texture = vec4(1.0);
+    }
     
     specular = clamp(lightSpec * matSpec * pow(max(dot(R, V), 0.0), shiny), 0.0, 1.0);
     

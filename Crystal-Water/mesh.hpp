@@ -42,6 +42,7 @@ typedef struct {
 typedef struct {
   GLint texUnit;            /**< Texture unit in which texture was bound */
   GLuint texID;             /**< Generated texture ID */
+  bool present;             /**< Whether this TexInfo should be considered */
 } TexInfo;
 
 
