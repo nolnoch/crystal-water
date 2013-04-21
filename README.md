@@ -3,6 +3,12 @@ crystal-water
 
 OpenGL Concept Exploration - Ray Tracing and Particle Systems
 
+**Premise**: The current, shader-based GPU pipeline in OpenGL makes ray tracing
+in real time prohibitively complex and inflexible, resulting in an industry
+avoidance of OpenGL for this kind of rendering.  By using OpenCL and its
+OpenGL interoperability to reconfigure this pipeline, we will achieve real-time
+ray tracing with an OpenGL program on a modest desktop computer.
+
 By completion, this project will ideally render a crystal cube or sphere
 suspended in a textured skybox and surrounded by or interacting with a
 particle system-based water feature.
@@ -11,7 +17,7 @@ particle system-based water feature.
 
 ___
 
-**Required libraries**: GLEW, Freeglut, GLM, SOIL, AssImp
+**Required libraries**: GLEW, Freeglut, GLM, SOIL, Assimp
 
 **Stage 1** (complete): Establish controls and render primitive object in a skybox.  
  - Challenge : *Which modern libraries are robust, supported, and commonly
