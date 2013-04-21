@@ -80,7 +80,7 @@ void RenderMesh() {
 
   // Load each IBO and draw elements. Loads one texture per IBO.
   for (int i = 0; i < nIBOs; i++) {
-    if (texIds.size()) {
+    if (texIds[i].present) {
       glEnable(GL_TEXTURE_2D);
       progSky.setTexture(0, texIds[i]);
     }

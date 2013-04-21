@@ -102,37 +102,50 @@ void Mesh::ProcessScene(const aiScene *s) {
     aiColor3D spec(0.5f, 0.1f, 0.2f);
     aiColor3D diff(0.5f, 0.1f, 0.2f);
     float shiny = 42;                                 // The answer to LTU&E.
-    int verts = 0;
+    int lastIdx;
+    bool tex;
 
     // Load texture.
+    int m = i + 1;
     if (s->HasMaterials() && s->mNumMaterials > 1) {
-      aiMaterial* mat = s->mMaterials[1];
+      aiMaterial* mat = s->mMaterials[m];
       aiString fileName;
       if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &fileName) == AI_SUCCESS) {
         string fullPath = this->filePath + fileName.data;
-        GLint texLoad = this->LoadTexture(fullPath, i);
+        GLint texLoad = this->LoadTexture(fullPath, m);
         if (texLoad) {
           TexInfo texInfo;
           texInfo.texID = texLoad;
-          texInfo.texUnit = i;
+          texInfo.texUnit = m;
+          texInfo.present = true;
 
           this->textures->push_back(texInfo);
+          tex = true;
           cout << "Loaded " << fileName.C_Str() << "." << endl;
         } else {
           cout << "SOIL: Error loading texture from " << fullPath << endl;
         }
       } else {
         cout << "AssImp: Error retrieving texture file name from material "
-             << i << "." << endl;
+             << m << "." << endl;
+        TexInfo texInfo;
+        texInfo.present = false;
+        this->textures->push_back(texInfo);
+        tex = false;
       }
 
       // Load material.
       if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, diff) != AI_SUCCESS)
-        cout << "No diffuse color found in material " << i << "." << endl;
+        cout << "No diffuse color found in material " << m << "." << endl;
       if (mat->Get(AI_MATKEY_COLOR_SPECULAR, spec) != AI_SUCCESS)
-        cout << "No specular color found in material " << i << "." << endl;
+        cout << "No specular color found in material " << m << "." << endl;
       if (mat->Get(AI_MATKEY_SHININESS, shiny) != AI_SUCCESS)
-        cout << "No shininess value found in material " << i << "." << endl;
+        cout << "No shininess value found in material " << m << "." << endl;
+    }
+
+    lastIdx = 0;
+    for (int n = 0; n < i; n++) {
+      lastIdx += (*iboArrays)[n].size();
     }
 
     // Add vertex indices to object-specific vectors.
@@ -151,8 +164,8 @@ void Mesh::ProcessScene(const aiScene *s) {
         vbo.normal[0] = mesh->mNormals[normIdx][0];
         vbo.normal[1] = mesh->mNormals[normIdx][1];
         vbo.normal[2] = mesh->mNormals[normIdx][2];
-        vbo.texture[0] = mesh->mTextureCoords[0][texCIdx].x;
-        vbo.texture[1] = mesh->mTextureCoords[0][texCIdx].y;
+        vbo.texture[0] = tex ? mesh->mTextureCoords[0][texCIdx].x : 0;
+        vbo.texture[1] = tex ? mesh->mTextureCoords[0][texCIdx].y : 0;
         vbo.diffuse[0] = diff.r;
         vbo.diffuse[1] = diff.g;
         vbo.diffuse[2] = diff.b;
@@ -163,7 +176,7 @@ void Mesh::ProcessScene(const aiScene *s) {
         vbo.align = 0;
 
         vboArray->push_back(vbo);
-        (*iboArrays)[i].push_back(face.mIndices[k]);
+        (*iboArrays)[i].push_back(face.mIndices[k] + lastIdx);
       }
     }
   }
