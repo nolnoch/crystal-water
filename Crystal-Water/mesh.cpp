@@ -35,6 +35,10 @@ void Mesh::Reset() {
   nIBOs = 0;
 }
 
+Mesh::~Mesh() {
+  textures->~vector();
+}
+
 bool Mesh::loadFile(const string& filename) {
   Assimp::Importer importer;
 
@@ -43,8 +47,8 @@ bool Mesh::loadFile(const string& filename) {
     loaded = false;
   }
 
-  const aiScene *scene = importer.ReadFile(filename,
-      aiProcessPreset_TargetRealtime_MaxQuality);
+  const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate |
+      aiProcess_GenNormals);
   if (!(loaded = scene))
     cout << importer.GetErrorString() << endl;
   else
@@ -54,18 +58,20 @@ bool Mesh::loadFile(const string& filename) {
 }
 
 void Mesh::ProcessScene(const aiScene *s) {
-  this->textures = new vector<TexInfo>(s->mNumMeshes);
   this->iboArrays = new vector<vector<GLuint> >(s->mNumMeshes);
   this->vboArray = new vector<VBOVertex>;
-
-  /*  Construct internal buffers for VBO and IBOs while loading textures  */
+  this->textures = new vector<TexInfo>;
 
   /**************************************************************************
    * According to doc, materials will correspond to meshes in a 1-to-1 mapping.
    *
-   * All vertices are stored in order with interleaved data. No IBO necessary,
-   * but we'll send one in for flexibility and possible performance gains(?).
+   * Not in the doc(!@#$%^&), but the correct material object is 1, not 0.
+   *
+   * Vertex data is being interleaved in-order, but let's continue to use the
+   * IBOs for forward flexibility.
    */
+
+  /*  Construct internal buffers for VBO and IBOs while loading textures  */
 
   for (int i = 0; i < s->mNumMeshes; i++) {
     aiMesh *mesh = s->mMeshes[i];
@@ -98,10 +104,10 @@ void Mesh::ProcessScene(const aiScene *s) {
       }
 
       // Load material.
-      if (mat->Get(AI_MATKEY_COLOR_SPECULAR, spec) != AI_SUCCESS)
-        cout << "No specular color found in material " << i << "." << endl;
       if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, diff) != AI_SUCCESS)
         cout << "No diffuse color found in material " << i << "." << endl;
+      if (mat->Get(AI_MATKEY_COLOR_SPECULAR, spec) != AI_SUCCESS)
+        cout << "No specular color found in material " << i << "." << endl;
       if (mat->Get(AI_MATKEY_SHININESS, shiny) != AI_SUCCESS)
         cout << "No shininess value found in material " << i << "." << endl;
     }
@@ -124,17 +130,17 @@ void Mesh::ProcessScene(const aiScene *s) {
         vbo.normal[2] = mesh->mNormals[normIdx][2];
         vbo.texture[0] = mesh->mTextureCoords[0][texCIdx].x;
         vbo.texture[1] = mesh->mTextureCoords[0][texCIdx].y;
-        vbo.specular[0] = spec.r;
-        vbo.specular[1] = spec.g;
-        vbo.specular[2] = spec.b;
         vbo.diffuse[0] = diff.r;
         vbo.diffuse[1] = diff.g;
         vbo.diffuse[2] = diff.b;
+        vbo.specular[0] = spec.r;
+        vbo.specular[1] = spec.g;
+        vbo.specular[2] = spec.b;
         vbo.shininess = shiny;
         vbo.align = 0;
 
         vboArray->push_back(vbo);
-        (*iboArrays)[i].push_back(verts++);
+        (*iboArrays)[i].push_back(face.mIndices[k]);
       }
     }
   }
@@ -174,7 +180,6 @@ void Mesh::setTexturePath(string path) {
 void Mesh::freeArrays() {
   vboArray->~vector();
   iboArrays->~vector();
-  textures->~vector();
 }
 
 int Mesh::vboSize() {

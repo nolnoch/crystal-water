@@ -24,17 +24,17 @@
 
 // Vertex attributes aligned to a 64-byte block.
 typedef struct {
+  GLfloat position[3];
   GLfloat normal[3];
   GLfloat texture[2];
-  GLfloat position[3];
-  GLfloat specular[3];
   GLfloat diffuse[3];
+  GLfloat specular[3];
   GLfloat shininess;
   GLfloat align;
 } VBOVertex;
 
 typedef struct {
-  GLuint texUnit;
+  GLint texUnit;
   GLuint texID;
 } TexInfo;
 
@@ -42,6 +42,7 @@ typedef struct {
 class Mesh {
  public:
   Mesh();
+  ~Mesh();
 
   bool loadFile(const std::string& filename);
 

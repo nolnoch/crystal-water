@@ -13,9 +13,9 @@ uniform mat4 projectionMatrix;
 out vec3 v;
 out vec3 N;
 out vec2 texCoord;
-out vec3 matDiffuse;
-out vec3 matSpecular;
-out float shininess;
+out vec3 matDiff;
+out vec3 matSpec;
+out float shiny;
 
 void main() {
     vec4 vLoc = vec4(vertexLocation, 1.0);
@@ -26,9 +26,9 @@ void main() {
     N = normalize(normalMatrix * newNormal);
     
     texCoord = vertexTexCoord;
-    matDiffuse = vertexMatDiffuse;
-    matSpecular = vertexMatSpecular;
-    shininess = vertexShininess;
+    matDiff = vertexMatDiffuse;
+    matSpec = vertexMatSpecular;
+    shiny = vertexShininess;
         
     gl_Position = projectionMatrix * modelviewMatrix * vLoc;
 }

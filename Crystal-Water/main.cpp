@@ -58,7 +58,8 @@ void RenderMesh() {
   progSky.setUniformMatrix(4, "projectionMatrix", glm::value_ptr(mProj));
 
   // Bind the (static) location/properties of the light.
-  locLight0 = glGetUniformBlockIndex(progSky.getProgramId(), "Light0");
+  glBindBuffer(GL_UNIFORM_BUFFER, uboID);
+  locLight0 = glGetUniformBlockIndex(progSky.getProgramId(), "Light");
   glUniformBlockBinding(progSky.getProgramId(), locLight0, blockBindingLight0);
   glBindBufferBase(GL_UNIFORM_BUFFER, blockBindingLight0, uboID);
 
@@ -71,8 +72,8 @@ void RenderMesh() {
   glEnableVertexAttribArray(4);
   glEnableVertexAttribArray(5);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(0));
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(12));
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(20));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(12));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(24));
   glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(32));
   glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(44));
   glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(56));
@@ -81,7 +82,7 @@ void RenderMesh() {
   for (int i = 0; i < nIBOs; i++) {
     if (texIds.size()) {
       glEnable(GL_TEXTURE_2D);
-      progSky.setTexture(0, texIds[i].texUnit, texIds[i].texID);
+      progSky.setTexture(0, texIds[i]);
     }
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *(iboIDs[i]));
@@ -96,8 +97,6 @@ void RenderMesh() {
   glDisableVertexAttribArray(5);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  glutSolidSphere(10, 24, 24);
 }
 
 
@@ -216,8 +215,6 @@ void BufferInit() {
   int nIBOs = iboArrays.size();
   GLfloat align = 0.0f;
 
-  cout << "VBO Size: " << nVBO << ", IBOs: " << nIBOs << endl;
-
   // Vertex Buffer Object
   glGenBuffers(1, &vboID);
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
@@ -225,8 +222,8 @@ void BufferInit() {
   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VBOVertex)*nVBO, &vboArray[0]);
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(0));
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(12));
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(20));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(12));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(24));
   glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(32));
   glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(44));
   glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(VBOVertex), OFFSET_PTR(56));
@@ -251,7 +248,7 @@ void BufferInit() {
         &iboArrays[i][0], GL_STATIC_DRAW);
   }
   // Data should now be in GPU memory (server-side), so free heap memory.
-  // TODO This data was not assigned to any buffer yet.
+  // TODO This data will not be assigned to any buffer yet when using OpenCL.
   mesh.freeArrays();
 }
 
@@ -261,9 +258,9 @@ void ShaderInit() {
   progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
   progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
   progSky.init();
-  progSky.bindAttribute(0, "vertexNormal");
-  progSky.bindAttribute(1, "vertexTexCoord");
-  progSky.bindAttribute(2, "vertexLocation");
+  progSky.bindAttribute(0, "vertexLocation");
+  progSky.bindAttribute(1, "vertexNormal");
+  progSky.bindAttribute(2, "vertexTexCoord");
   progSky.bindAttribute(3, "vertexMatDiffuse");
   progSky.bindAttribute(4, "vertexMatSpecular");
   progSky.bindAttribute(5, "vertexShininess");

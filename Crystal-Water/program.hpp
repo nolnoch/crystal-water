@@ -50,6 +50,7 @@
 #include <vector>
 
 #include "./shaderobj.hpp"
+#include "./mesh.hpp"
 
 
 typedef struct {
@@ -76,15 +77,15 @@ class Program {
   void setUniform(int type, std::string name, float n);
   void setUniformv(int count, int type, std::string name, const float *n);
   void setUniformMatrix(int size, std::string name, float *m);
-  void setTexture(int samplerIdx, GLuint texUnit, GLuint texID);
+  void setTexture(int samplerIdx, TexInfo& texInfo);
 
-  GLenum getProgramId();
+  GLuint getProgramId();
 
   void displayLogProgram();
   void displayLogShader(GLenum shader);
 
  private:
-  GLenum programId;
+  GLuint programId;
   std::vector<Shader> shaders;
   std::vector<SamplerInfo> *samplers;
   int stage;

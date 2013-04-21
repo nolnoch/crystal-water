@@ -55,7 +55,7 @@ Mesh mesh;
 bool useSkyBox;
 
 // Lighting
-glm::vec4 light_ambient(0.1f, 0.1f, 0.1f, 1.0f);
+glm::vec4 light_ambient(1.0f, 1.0f, 1.0f, 1.0f);
 glm::vec4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
 glm::vec4 light_specular(1.0f, 1.0f, 1.0f, 1.0f);
 glm::vec4 light_position(70.0f, 5.0f, 50.0f, 1.0f);
@@ -104,13 +104,6 @@ void OpenGLInit();
  * Helper Functions
  */
 
-void CollapseMatrices() {
-  mLook = glm::lookAt(vEye, vCenter, vUp);
-  mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
-
-  mModel = mLook * mTrans * mRot;
-}
-
 GLfloat FindRotationAngle(glm::vec3 startVec, glm::vec3 endVec) {
   GLfloat angle, zA, zB, xA, xB, dotProd;
   GLfloat width = WIN_WIDTH / 2.0f;
@@ -141,6 +134,13 @@ void SetAnchor(float x, float y) {
   zoomAnchor = glm::unProject(vWin, mModel, mProj, vView);
 
   cout << zoomAnchor.x << ", " << zoomAnchor.y << ", " << zoomAnchor.z << endl;
+}
+
+void CollapseMatrices() {
+  mLook = glm::lookAt(vEye, vCenter, vUp);
+  mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
+
+  mModel = mLook * mTrans * mRot;
 }
 
 void CameraInit() {

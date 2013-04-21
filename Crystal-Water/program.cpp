@@ -158,12 +158,15 @@ GLint Program::linkAndValidate() {
 
   GLint programValid;
   // Link the compiled and attached program to this code.
-  glLinkProgram(this->programId);
+  glLinkProgram(programId);
+  if (programId == GL_INVALID_VALUE)
+    exit(-1);
 
   // Verify program compilation and linkage.
-  glValidateProgram(this->programId);
-  glGetProgramiv(this->programId, GL_VALIDATE_STATUS, &programValid);
-  displayLogProgram();
+  glValidateProgram(programId);
+  glGetProgramiv(programId, GL_VALIDATE_STATUS, &programValid);
+  if (!programValid)
+    displayLogProgram();
 
   this->stage = programValid ? 5 : 4;
 
@@ -280,12 +283,14 @@ void Program::setUniformMatrix(int size, string name, float *m) {
  * @param texUnit - texture unit to be associated with this texture object
  * @param texID - the ID assigned at the generation of the texture
  */
-void Program::setTexture(int samplerIdx, GLuint texUnit, GLuint texID) {
+void Program::setTexture(int samplerIdx, TexInfo& texInfo) {
   if ((*this->samplers).empty() || (*this->samplers).size() < samplerIdx) {
     cout << "Cannot set texture: Sampler not added to program." << endl;
     return;
   }
 
+  GLint texUnit = texInfo.texUnit;
+  GLuint texID = texInfo.texID;
   GLint loc = glGetUniformLocation(this->programId,
       (*this->samplers)[samplerIdx].samplerName.c_str());
 
@@ -300,7 +305,7 @@ void Program::setTexture(int samplerIdx, GLuint texUnit, GLuint texID) {
  * Accessor function for the GLenum program ID.
  * @return the program ID
  */
-GLenum Program::getProgramId() {
+GLuint Program::getProgramId() {
   return this->programId;
 }
 
