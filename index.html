@@ -42,7 +42,9 @@
 in real time prohibitively complex and inflexible, resulting in an industry
 avoidance of OpenGL for this kind of rendering.  By using OpenCL and its
 OpenGL interoperability to reconfigure this pipeline, we will achieve real-time
-ray tracing with an OpenGL program on a modest desktop computer.</p>
+ray tracing with an OpenGL program on a modest desktop computer.  Further, we may
+approximate this functionality with greater ease and integration with the OpenGL
+pipeline by exploring the new compute shaders.</p>
 
 <p>By completion, this project will ideally render a crystal cube or sphere
 suspended in a textured skybox and surrounded by or interacting with a
@@ -89,7 +91,16 @@ particle system-based water feature.</p>
                     problems?  How can we accomplish this within the context of
                     an OpenGL application?</em><br>
 </li>
-</ul><p><strong>Stage 4</strong> (planned) : Add some simulation of water to this project.  </p>
+</ul><p><strong>Stage 4</strong> (planned) : Implement compute shaders to handle ray tracing in GPU kernels.  </p>
+
+<ul>
+<li>Challenge : <em>OpenCL made parallel computation with global data possible
+                    where it otherwise had not been. Khronos has now introduced
+                    compute shaders using GLSL semantics to approximate the usage
+                    of OpenCL with greater integration in the OpenGL program. This
+                    is still brand new and must be explored.</em><br>
+</li>
+</ul><p><strong>Stage 5</strong> (planned) : Add some simulation of water to this project.  </p>
 
 <ul>
 <li>Challenge : <em>Water can be mesh-based or particle-based. Let's learn the
@@ -102,6 +113,7 @@ particle system-based water feature.</p>
 <li>GLSL 4.20</li>
 <li>OpenGL 4.20</li>
 <li>OpenCL 1.2</li>
+<li>Compute Shaders**</li>
 <li>Freeglut Extended features</li>
 <li>Modern libraries</li>
 <li>Vertex/Uniform Buffers and Element Arrays</li>
