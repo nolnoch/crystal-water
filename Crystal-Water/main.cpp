@@ -255,8 +255,8 @@ void BufferInit() {
 void ShaderInit() {
   GLint texLoad;
 
-  progSky.addShader("shader.vert0", GL_VERTEX_SHADER);
-  progSky.addShader("shader.frag0", GL_FRAGMENT_SHADER);
+  progSky.addShader("shader0.vert", GL_VERTEX_SHADER);
+  progSky.addShader("shader0.frag", GL_FRAGMENT_SHADER);
   progSky.init();
   progSky.bindAttribute(0, "vertexLocation");
   progSky.bindAttribute(1, "vertexNormal");
