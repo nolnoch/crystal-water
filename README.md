@@ -9,7 +9,7 @@ avoidance of OpenGL for this kind of rendering.  By using OpenCL and its
 OpenGL interoperability to reconfigure this pipeline, we will achieve real-time
 ray tracing with an OpenGL program on a modest desktop computer.  Further, we may
 approximate this functionality with greater ease and integration with the OpenGL
-pipeline by exploring the new compute shaders.
+pipeline by exploring the new compute shaders when the OpenGL 4.3 standard is available.
 
 By completion, this project will ideally render a crystal cube or sphere
 suspended in a textured skybox and surrounded by or interacting with a
@@ -48,18 +48,25 @@ ___
  - Challenge : *How can we use the more ideal OpenCL API to solve our GLSL
                         problems?  How can we accomplish this within the context of
                         an OpenGL application?*  
-  
-**Stage 4** (planned) : Implement compute shaders to handle ray tracing in GPU kernels.  
+ - Solution : *Unfortunately, this solution will be somewhat tedious.  OpenCL
+                        can release its shared-memory buffers to OpenGL, but there seems
+                        no way to integrate smoothly with the GLSL shading pipeline. We
+                        must perform all transformations and fragment calculations and
+                        render the output to a frame buffer to be copied over and swapped
+                        out after the fragment shader step. We have no GLSL functions to
+                        call and must rely on crafting the math from C.*
+
+**Stage 4** (planned) : Add some simulation of water to this project.  
+ - Challenge : *Water can be mesh-based or particle-based. Let's learn the
+                        concept of particle systems and use that to simulate water
+                        in our ray-traced scene.*  
+
+**Stage 5** (planned) : Implement compute shaders to handle ray tracing in GPU kernels.  
  - Challenge : *OpenCL made parallel computation with global data possible
                         where it otherwise had not been. Khronos has now introduced
                         compute shaders using GLSL semantics to approximate the usage
                         of OpenCL with greater integration in the OpenGL program. This
-                        is still brand new and must be explored.*  
-
-**Stage 5** (planned) : Add some simulation of water to this project.  
- - Challenge : *Water can be mesh-based or particle-based. Let's learn the
-                        concept of particle systems and use that to simulate water
-                        in our ray-traced scene.*  
+                        is still brand new and must be explored.*
 
 ___
 
@@ -67,10 +74,9 @@ This project is an exploration of modern OpenGL concepts including:
   - GLSL 4.20
   - OpenGL 4.20
   - OpenCL 1.2
-  - Compute Shaders**
   - Freeglut Extended features
   - Modern libraries
-  - Vertex/Uniform Buffers and Element Arrays
+  - Vertex/Uniform/Index/Frame Buffers
   - Lighting models
   - Mesh loading
   - Arcball-like control
@@ -78,6 +84,7 @@ This project is an exploration of modern OpenGL concepts including:
   - Texture loading, mapping, and sampling
   - Ray tracing**
   - Particle Systems**
+  - Compute Shaders**
 
 (**) denotes concepts yet to be implemented.
 
