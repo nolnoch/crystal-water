@@ -102,7 +102,7 @@ void Mesh::ProcessScene(const aiScene *s) {
     aiColor3D spec(0.5f, 0.1f, 0.2f);
     aiColor3D diff(0.5f, 0.1f, 0.2f);
     float shiny = 42;                                 // The answer to LTU&E.
-    int lastIdx;
+    int lastIdx, skybox;
     bool tex;
 
     // Load texture.
@@ -143,6 +143,7 @@ void Mesh::ProcessScene(const aiScene *s) {
         cout << "No shininess value found in material " << m << "." << endl;
     }
 
+    skybox = !i;            // If 0th mesh (skybox), set align float to 1.
     lastIdx = 0;
     for (int n = 0; n < i; n++) {
       lastIdx += (*iboArrays)[n].size();
@@ -173,7 +174,7 @@ void Mesh::ProcessScene(const aiScene *s) {
         vbo.specular[1] = spec.g;
         vbo.specular[2] = spec.b;
         vbo.shininess = shiny;
-        vbo.align = 0;
+        vbo.align = skybox;
 
         vboArray->push_back(vbo);
         (*iboArrays)[i].push_back(face.mIndices[k] + lastIdx);

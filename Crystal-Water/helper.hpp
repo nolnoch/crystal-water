@@ -72,7 +72,7 @@ const GLint WIN_HEIGHT = 600;
 
 // View and Transformation
 GLfloat fovy, aspect, zNear, zFar;
-glm::vec3 vEye, vCenter, vUp;
+glm::vec3 vEye, vCenter, vUp, vCamera;
 glm::mat4 mModel, mProj, mRot, mTrans, mLook;
 Quaternion qTotalRotation;
 
@@ -141,6 +141,8 @@ void CollapseMatrices() {
   mRot = glm::make_mat4(&qTotalRotation.matrix()[0]);
 
   mModel = mLook * mTrans * mRot;
+
+  vCamera = (glm::inverse(mModel))[3];
 }
 
 void CameraInit() {
