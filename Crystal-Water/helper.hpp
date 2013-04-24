@@ -54,6 +54,17 @@ vector<GLuint *> iboIDs;
 Mesh mesh;
 bool useSkyBox;
 
+// View and Transformation
+GLfloat fovy, aspect, zNear, zFar;
+glm::vec3 vEye, vCenter, vUp, vCamera;
+glm::mat4 mModel, mProj, mRot, mTrans, mLook;
+Quaternion qTotalRotation;
+
+// Input
+glm::vec3 zoomAnchor;
+glm::vec3 orbitAnchor, orbitDest;
+bool stateOrbiting;
+
 // Lighting
 glm::vec4 light_ambient(1.0f, 1.0f, 1.0f, 1.0f);
 glm::vec4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
@@ -69,18 +80,6 @@ GLfloat material_shininess = 100;
 // Window
 const GLint WIN_WIDTH = 800;
 const GLint WIN_HEIGHT = 600;
-
-// View and Transformation
-GLfloat fovy, aspect, zNear, zFar;
-glm::vec3 vEye, vCenter, vUp, vCamera;
-glm::mat4 mModel, mProj, mRot, mTrans, mLook;
-Quaternion qTotalRotation;
-
-// Input
-glm::vec3 zoomAnchor;
-glm::vec3 orbitAnchor, orbitDest;
-bool stateOrbiting;
-
 
 
 /*********************************

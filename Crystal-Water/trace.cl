@@ -129,23 +129,61 @@ float test_intersect (float *v1, float *v2, float *v3, float *bar) {
   return t;
 }
 
+void get_texture (float *bar, int vboIdx, float *frag_color) {
+
+  // Fill me.
+}
+
 void reflect_ray (float *vNorm, float *vReflected) {
+  float[3] vTmp;
+  float nTmp = 2 * dot (vRay, vNorm);
   
+  vTmp[0] = nTmp * vNorm[0];
+  vTmp[1] = nTmp * vNorm[1];
+  vTmp[2] = nTmp * vNorm[2];
   
+  vReflected[0] = vRay[0] - vTmp[0];
+  vReflected[1] = vRay[1] - vTmp[1];
+  vReflected[2] = vRay[2] - vTmp[2];
 }
 
 void refract_ray (float *vNorm, float *vRefracted) {
 
-
+  // Fill me.
+  
+  // (n1 / n2) * sin(theta) = phi
+  
+  // -vNorm + phi = vRefracted
 }
 
-void process (float *bar, int vboIdx) {
-
-
+void process_frag (float *bar, int vboIdx, float *frag_color) {
+  float vReflected[3], vRefracted[3], vNorm[3];
+  
+  if (vbo_array[vboIdx].align) {
+    get_texture (bar, vboIdx, frag_color);
+    return;
+  }
+  
+  vNorm[0] = (bar[0] * vbo_array[vboIdx + 0].vNormal[0]) +
+             (bar[1] * vbo_array[vboIdx + 1].vNormal[0]) +
+             (bar[2] * vbo_array[vboIdx + 2].vNormal[0]);
+  vNorm[1] = (bar[0] * vbo_array[vboIdx + 0].vNormal[1]) +
+             (bar[1] * vbo_array[vboIdx + 1].vNormal[1]) +
+             (bar[2] * vbo_array[vboIdx + 2].vNormal[1]);
+  vNorm[2] = (bar[0] * vbo_array[vboIdx + 0].vNormal[2]) +
+             (bar[1] * vbo_array[vboIdx + 1].vNormal[2]) +
+             (bar[2] * vbo_array[vboIdx + 2].vNormal[2]);
+  
+  reflect_ray (vNorm, vReflected);
+  refract_ray (vNorm, vRefracted);
+  
+  // And?...
+  
 }
 
 __kernel void main (__global struct VBOVertex vbo_array[],
                     __global int **ibo_arrays, __global float eye[3]) {
+  float frag_color[3];
   float t;
   int i;
   
@@ -159,7 +197,7 @@ __kernel void main (__global struct VBOVertex vbo_array[],
     t = test_intersect (vbo_array[i].vPosition, vbo_array[i+1].vPosition,
                         vbo_array[i+2].vPosition, bar);
     if (t > 0) {
-      process (bar, i);
+      process_frag (bar, i, frag_color);
     }
   }
   
