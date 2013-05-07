@@ -44,7 +44,8 @@ avoidance of OpenGL for this kind of rendering.  By using OpenCL and its
 OpenGL interoperability to reconfigure this pipeline, we will achieve real-time
 ray tracing with an OpenGL program on a modest desktop computer.  Further, we may
 approximate this functionality with greater ease and integration with the OpenGL
-pipeline by exploring the new compute shaders when the OpenGL 4.3 standard is available.</p>
+pipeline by exploring the new compute shaders now that parts of the OpenGL 4.3
+standard are available.</p>
 
 <p>By completion, this project will ideally render a crystal cube or sphere
 suspended in a textured skybox and surrounded by or interacting with a
@@ -96,8 +97,7 @@ particle system-based water feature.</p>
                     no way to integrate smoothly with the GLSL shading pipeline. We
                     must perform all transformations and fragment calculations and
                     render the output to a frame buffer to be copied over and swapped
-                    out after the fragment shader step. We have no GLSL functions to
-                    call and must rely on crafting the math from C.</em>
+                    out after the fragment shader step.</em>
 </li>
 </ul><p><strong>Stage 4</strong> (planned) : Add some simulation of water to this project.  </p>
 
@@ -135,9 +135,12 @@ particle system-based water feature.</p>
 </ul><p>(**) denotes concepts yet to be implemented.</p>
 
 <hr><p>Design Hardware:   Athlon II X4 640, 8GB RAM, Sapphire Radeon HD 6870<br>
-Design Software:   Eclipse CDT Juno on Kubuntu 12.10 Quantal</p>
+Design Software:   Eclipse CDT Juno on Kubuntu 13.04 Raring</p>
 
 <hr><p><strong>Notes</strong>:</p>
+
+<p>OpenCL 1.2 supports built-in gentypes, vector manipulations, and even printfs!
+ This was unexpected.  </p>
 
 <p>Custom Program class</p>
 
