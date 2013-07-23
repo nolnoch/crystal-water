@@ -31,7 +31,7 @@ void getCuCv (float *cU, float *cV) {
   *cV = frustIdx[1] + 0.5 - (winHeight / 2.0);
 }
 
-void calculate_ray (const int id) {
+void calculate_ray () {
   float3 pFrust, U, V, W;
   float cU, cV;
   
@@ -42,7 +42,7 @@ void calculate_ray (const int id) {
   normalize (U);
   V = cross (W, U);
   
-  getCuCv (id, &cU, &cV);
+  getCuCv (&cU, &cV);
 
   pFrust = pA + (U * cU) + (V * cV);
   
@@ -146,9 +146,8 @@ __kernel void main (__global struct VBOVertex vbo_array[],
   float t;
   int i;
   
-  pEye = eye;  
-  id = get_global_id (0);
-  calculate_ray (id);
+  pEye = eye;
+  calculate_ray ();
   
   for (i = 0; i < vboSize; i += 3) {
     t = test_intersect (vbo_array[i].vPosition, vbo_array[i+1].vPosition,
