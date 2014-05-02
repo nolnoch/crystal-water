@@ -90,8 +90,8 @@ This project is an exploration of modern OpenGL concepts including:
 
 ___
 
-Design Hardware: &nbsp; Athlon II X4 640, 8GB RAM, Sapphire Radeon HD 6870  
-Design Software: &nbsp; Eclipse CDT Juno on Kubuntu 12.10 Quantal
+Design Hardware: &nbsp; AMD FX-8350 Black Ed., 8GB RAM, Sapphire Radeon HD 7950  
+Design Software: &nbsp; Eclipse CDT Kepler on Kubuntu 13.10 Saucy
 
 ___
 
